@@ -47,7 +47,7 @@ public class Member {
     private BenefitLevel benefitLevel;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private MemberRole memberRole;
 
     private LocalDate birthday;
 

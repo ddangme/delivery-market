@@ -1,10 +1,10 @@
-package com.ddangme.dm.dto;
+package com.ddangme.dm.dto.member;
 
 import com.ddangme.dm.model.Address;
 import com.ddangme.dm.model.member.BenefitLevel;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.model.member.MemberStatus;
-import com.ddangme.dm.model.member.Role;
+import com.ddangme.dm.model.member.MemberRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -31,7 +31,7 @@ public class MemberDTO {
 
     private BenefitLevel benefitLevel;
 
-    private Role role;
+    private MemberRole memberRole;
 
     private LocalDate birthday;
 
@@ -57,7 +57,7 @@ public class MemberDTO {
             entity.getPhone(),
             entity.getAddress(),
             entity.getBenefitLevel(),
-            entity.getRole(),
+            entity.getMemberRole(),
             entity.getBirthday(),
             entity.getPoint(),
             entity.getCash(),
