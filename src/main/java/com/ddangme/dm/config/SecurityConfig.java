@@ -3,6 +3,7 @@ package com.ddangme.dm.config;
 import com.ddangme.dm.dto.member.KakaoOAuth2Response;
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +31,7 @@ public class SecurityConfig {
             OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/", "/sign-up")
+                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/", "/sign-up", "/api/id-duplicate-check")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -48,7 +49,7 @@ public class SecurityConfig {
         return loginId -> memberService
                 .searchMember(loginId)
                 .map(MemberPrincipal::fromDTO)
-                .orElseThrow(DMException::new);
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_MEMBER));
     }
 
     @Bean

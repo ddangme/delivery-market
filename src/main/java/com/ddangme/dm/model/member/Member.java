@@ -7,10 +7,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE member SET deleted_at = NOW() WHERE id = ?")
-@Where(clause = "deleted_at IS NULL")
 public class Member {
 
     @Id
@@ -58,12 +57,27 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @CreatedDate
     private LocalDateTime createdAt;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime deletedAt;
 
+    public static Member signUp(String loginId, String password, String name) {
+        return new Member(loginId, password, name);
+    }
+
+    private Member(String loginId, String password, String name) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.memberStatus = MemberStatus.NORMAL;
+        this.memberRole = MemberRole.USER;
+        this.benefitLevel = BenefitLevel.BASIC;
+    }
 }
