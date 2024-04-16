@@ -30,7 +30,7 @@ public class SecurityConfig {
             OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/")
+                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/", "/sign-up")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -71,8 +71,6 @@ public class SecurityConfig {
             String providerId = String.valueOf(kakaoResponse.id());
             String loginId = registrationId + "_" + providerId;
             String dummyPassword = passwordEncoder.encode("{bcrypt}" + UUID.randomUUID());
-
-            log.info("memberService.searchMember(loginId)={}", memberService.searchMember(loginId));
 
             return memberService.searchMember(loginId)
                     .map(MemberPrincipal::fromDTO)
