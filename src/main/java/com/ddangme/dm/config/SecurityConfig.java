@@ -31,7 +31,8 @@ public class SecurityConfig {
             OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/", "/sign-up", "/api/id-duplicate-check", "/api/email/**")
+                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/", "/sign-up", "/api/id-duplicate-check", "/api/email/**",
+                                "/member/find/**", "/api/member/find/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
