@@ -69,14 +69,14 @@
                     <small class="field-error" th:errors="*{phone}">phone error</small>
                 </div>
                 <div class="col-12">
-                    <label for="address" class="form-label">주소</label>
+                    <label for="road" class="form-label">주소</label>
                     <div class="row">
                         <div class="col-10">
-                            <input type="text" class="form-control" id="address" th:errorclass="field-error" th:field="*{address}" placeholder="">
-                            <small class="field-error" th:errors="*{address}">address error</small>
+                            <input type="text" class="form-control" id="road" th:errorclass="field-error" th:field="*{road}" placeholder="">
+                            <small class="field-error" th:errors="*{road}">road error</small>
                         </div>
                         <div class="col-2">
-                            <input type="button" class="w-100 btn btn-success" id="find-address-button" onclick="member()" value="검색">
+                            <input type="button" class="w-100 btn btn-success" id="find-road-button" onclick="findAddress()" value="주소 찾기">
                         </div>
                     </div>
                 </div>
@@ -86,9 +86,9 @@
                     <small class="field-error" th:errors="*{detail}">detail error</small>
                 </div>
                 <div class="col-5">
-                    <label for="zipCode" class="form-label">우편번호</label>
-                    <input type="text" class="form-control" id="zipCode" th:errorclass="field-error" th:field="*{zipCode}" placeholder="">
-                    <small class="field-error" th:errors="*{zipCode}">zipCode error</small>
+                    <label for="zipcode" class="form-label">우편번호</label>
+                    <input type="text" class="form-control" id="zipcode" th:errorclass="field-error" th:field="*{zipcode}" placeholder="">
+                    <small class="field-error" th:errors="*{zipcode}">zipcode error</small>
                 </div>
                 <div class="col-12">
                     <label for="birthday" class="form-label">생일</label>

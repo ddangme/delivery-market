@@ -1,6 +1,6 @@
 let checkedEmail = null;
 
-function member() {
+function findAddress() {
     new daum.Postcode({
         oncomplete: function(data) {
             var addr = '';
@@ -10,8 +10,8 @@ function member() {
                 addr = data.jibunAddress;
             }
 
-            document.getElementById('zipCode').value = data.zonecode;
-            document.getElementById("address").value = addr;
+            document.getElementById('zipcode').value = data.zonecode;
+            document.getElementById("road").value = addr;
             document.getElementById("detail").focus();
 
         }

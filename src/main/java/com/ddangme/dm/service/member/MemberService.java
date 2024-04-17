@@ -2,8 +2,9 @@ package com.ddangme.dm.service.member;
 
 import com.ddangme.dm.controller.member.SignUpRequest;
 import com.ddangme.dm.dto.member.MemberDTO;
-import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.model.Address;
 import com.ddangme.dm.model.member.Member;
+import com.ddangme.dm.repository.AddressRepository;
 import com.ddangme.dm.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final AddressRepository addressRepository;
     private final PasswordEncoder encoder;
 
     public Optional<MemberDTO> searchMember(String loginId) {
@@ -37,20 +39,18 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDTO signUpMember(SignUpRequest request) {
-        return MemberDTO.fromEntity(
-                memberRepository.save(Member.signUp(
-                        request.getLoginId(),
-                        encoder.encode(request.getPassword()),
-                        request.getName(),
-                        request.getEmail(),
-                        request.getPhone(),
-                        request.getAddress(),
-                        request.getDetail(),
-                        request.getZipCode(),
-                        request.getBirthday()
-                ))
-        );
+    public void signUpMember(SignUpRequest request) {
+        Member savedMember = memberRepository.save(Member.signUp(
+                request.getLoginId(),
+                encoder.encode(request.getPassword()),
+                request.getName(),
+                request.getEmail(),
+                request.getPhone(),
+                request.getBirthday()
+        ));
+
+        addressRepository.save(new Address(savedMember, request.getRoad(), request.getDetail(), request.getZipcode(), true));
+
     }
 
 }

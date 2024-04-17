@@ -31,12 +31,12 @@ public class SignUpRequest {
     private String phone;
 
     @NotEmpty
-    private String address;
+    private String road;
 
     private String detail;
 
     @NotNull
-    private Integer zipCode;
+    private Integer zipcode;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthday;
