@@ -16,5 +16,6 @@ public class Address {
 
     private String detail;
 
-    private String zipCode;
+    private Integer zipCode;
+
 }

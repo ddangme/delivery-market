@@ -3,7 +3,8 @@ package com.ddangme.dm.config;
 import com.ddangme.dm.dto.member.KakaoOAuth2Response;
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.exception.DMException;
-import com.ddangme.dm.service.MemberService;
+import com.ddangme.dm.exception.ErrorCode;
+import com.ddangme.dm.service.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +31,7 @@ public class SecurityConfig {
             OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/")
+                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/", "/sign-up", "/api/id-duplicate-check", "/api/email/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -48,7 +49,7 @@ public class SecurityConfig {
         return loginId -> memberService
                 .searchMember(loginId)
                 .map(MemberPrincipal::fromDTO)
-                .orElseThrow(DMException::new);
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_MEMBER));
     }
 
     @Bean
@@ -71,8 +72,6 @@ public class SecurityConfig {
             String providerId = String.valueOf(kakaoResponse.id());
             String loginId = registrationId + "_" + providerId;
             String dummyPassword = passwordEncoder.encode("{bcrypt}" + UUID.randomUUID());
-
-            log.info("memberService.searchMember(loginId)={}", memberService.searchMember(loginId));
 
             return memberService.searchMember(loginId)
                     .map(MemberPrincipal::fromDTO)
