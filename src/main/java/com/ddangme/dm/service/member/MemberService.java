@@ -1,7 +1,10 @@
 package com.ddangme.dm.service.member;
 
+import com.ddangme.dm.controller.member.MemberFindRequest;
 import com.ddangme.dm.controller.member.SignUpRequest;
 import com.ddangme.dm.dto.member.MemberDTO;
+import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.Address;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.repository.AddressRepository;
@@ -51,6 +54,12 @@ public class MemberService {
 
         addressRepository.save(new Address(savedMember, request.getRoad(), request.getDetail(), request.getZipcode(), true));
 
+    }
+
+    public String findLoginId(MemberFindRequest request) {
+        return memberRepository.findByNameAndEmail(request.getName(), request.getEmail())
+                .map(Member::getLoginId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 
 }

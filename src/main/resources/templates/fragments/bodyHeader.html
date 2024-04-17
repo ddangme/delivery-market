@@ -17,6 +17,13 @@
         </ul>
 
         <div sec:authorize="isAnonymous()" class="col-md-3 text-end">
+            <a class="btn btn-outline-primary me-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                계정 찾기
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/member/find/id">아이디 찾기</a></li>
+                <li><a class="dropdown-item" href="/member/find/password">비밀번호 찾기</a></li>
+            </ul>
             <a href="/login" class="btn btn-outline-primary me-2">로그인</a>
             <a href="/sign-up" class="btn btn-primary">회원가입</a>
         </div>
