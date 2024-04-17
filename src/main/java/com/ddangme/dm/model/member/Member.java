@@ -15,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -22,11 +23,12 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE member SET deleted_at = NOW() WHERE id = ?")
+@SQLDelete(sql = "UPDATE member SET deleted_at = NOW() WHERE member_id = ?")
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
 
     private String loginId;
@@ -39,8 +41,8 @@ public class Member {
 
     private String phone;
 
-    @Embedded
-    private Address address;
+    @OneToMany(mappedBy = "member")
+    private List<Address> address;
 
     @Enumerated(EnumType.STRING)
     private BenefitLevel benefitLevel;
@@ -73,8 +75,8 @@ public class Member {
     }
 
     public static Member signUp(String loginId, String password, String name, String email
-            , String phone, String address, String detail, Integer zipCode, LocalDate birthday) {
-        return new Member(loginId, password, name, email, phone, new Address(address, detail, zipCode), birthday);
+            , String phone, LocalDate birthday) {
+        return new Member(loginId, password, name, email, phone, birthday);
     }
 
     private Member(String loginId, String password, String name) {
@@ -84,20 +86,23 @@ public class Member {
         this.memberStatus = MemberStatus.NORMAL;
         this.memberRole = MemberRole.USER;
         this.benefitLevel = BenefitLevel.BASIC;
+        this.point = 0L;
+        this.cash = 0L;
     }
 
     private Member(String loginId, String password, String name, String email
-            , String phone, Address address, LocalDate birthday) {
+            , String phone, LocalDate birthday) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.address = address;
         this.birthday = birthday;
         this.memberStatus = MemberStatus.NORMAL;
         this.memberRole = MemberRole.USER;
         this.benefitLevel = BenefitLevel.BASIC;
+        this.point = 0L;
+        this.cash = 0L;
     }
 
 }

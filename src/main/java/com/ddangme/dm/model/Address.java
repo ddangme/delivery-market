@@ -1,21 +1,35 @@
 package com.ddangme.dm.model;
 
-import lombok.AllArgsConstructor;
+import com.ddangme.dm.model.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
+@Entity
 @Getter
-@Embeddable
 @NoArgsConstructor
-@AllArgsConstructor
 public class Address {
 
-    private String address;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    private String road;
     private String detail;
+    private Integer zipcode;
 
-    private Integer zipCode;
+    private Boolean main;
 
+    public Address(Member member, String road, String detail, Integer zipcode, boolean main) {
+        this.member = member;
+        this.road = road;
+        this.detail = detail;
+        this.zipcode = zipcode;
+        this.main = main;
+    }
 }

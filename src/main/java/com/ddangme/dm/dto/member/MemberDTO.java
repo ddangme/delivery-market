@@ -3,13 +3,14 @@ package com.ddangme.dm.dto.member;
 import com.ddangme.dm.model.Address;
 import com.ddangme.dm.model.member.BenefitLevel;
 import com.ddangme.dm.model.member.Member;
-import com.ddangme.dm.model.member.MemberStatus;
 import com.ddangme.dm.model.member.MemberRole;
+import com.ddangme.dm.model.member.MemberStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class MemberDTO {
 
     private String phone;
 
-    private Address address;
+    private List<Address> address;
 
     private BenefitLevel benefitLevel;
 
