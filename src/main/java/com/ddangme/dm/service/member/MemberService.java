@@ -62,4 +62,13 @@ public class MemberService {
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 
+    @Transactional
+    public void setPassword(MemberFindRequest request, String newPassword) {
+        Member member = memberRepository.findByNameAndEmail(request.getName(), request.getEmail())
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+
+        member.setPassword(encoder.encode(newPassword));
+        memberRepository.save(member);
+    }
+
 }

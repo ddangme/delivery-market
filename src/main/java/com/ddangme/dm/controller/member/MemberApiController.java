@@ -30,7 +30,7 @@ public class MemberApiController {
         if (memberService.searchMember(loginId).isPresent()) {
             throw new DMException(ErrorCode.DUPLICATED_LOGIN_ID);
         }
-        return ResponseEntity.ok().body(Response.success());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/api/email")
@@ -40,7 +40,7 @@ public class MemberApiController {
         session.setMaxInactiveInterval(180);
 
         log.info("발급받은 authcode={}", authCode);
-        return ResponseEntity.ok(Response.success());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/api/email/auth-code")
@@ -53,7 +53,7 @@ public class MemberApiController {
 
         if (saveAuthCode.equals(authCode)) {
             session.removeAttribute("dm-auth-code");
-            return ResponseEntity.ok(Response.success());
+            return ResponseEntity.ok().build();
         }
 
         throw new DMException(ErrorCode.INVALID_VERIFICATION_CODE);
@@ -65,5 +65,17 @@ public class MemberApiController {
         String loginId = memberService.findLoginId(memberFindRequest);
 
         return ResponseEntity.ok(loginId);
+    }
+
+    @PostMapping("/api/member/find/password")
+    public ResponseEntity<Void> findPassword(@RequestBody MemberFindRequest memberFindRequest) throws MessagingException, UnsupportedEncodingException {
+        log.info("request={}", memberFindRequest);
+        memberService.findLoginId(memberFindRequest);
+
+        String newPassword = emailService.sendEmail(memberFindRequest.getEmail());
+        log.info("newPassword={}", newPassword);
+        memberService.setPassword(memberFindRequest, newPassword);
+
+        return ResponseEntity.ok().build();
     }
 }

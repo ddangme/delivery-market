@@ -22,7 +22,7 @@ public class EmailService {
         return UUID.randomUUID().toString().substring(0, 10);
     }
 
-    public MimeMessage createEmailForm(String email, String authCode) throws MessagingException, UnsupportedEncodingException {
+    private MimeMessage createEmailForm(String email, String authCode) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, email);
         message.setSubject("[Delivery Market] 인증 번호");

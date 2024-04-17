@@ -132,3 +132,30 @@ function findId() {
     xhr.send(JSON.stringify(data));
 
 }
+
+
+function findPassword() {
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/member/find/password', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    var data = {
+        "name" : name,
+        "email": email
+    }
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                document.getElementById('find-password-result-area').style.display = "block"
+                document.getElementById('find-password-area').style.display = "none";
+            } else if (xhr.status === 404) {
+                alert("가입 시 입력하신 회원 정보가 맞는지 다시 한번 확인해주세요.")
+            } else  {
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+            }
+        }
+    };
+    xhr.send(JSON.stringify(data));
+
+}
