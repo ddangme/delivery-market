@@ -25,7 +25,6 @@ public class SignUpRequest {
 
     @Email
     @NotEmpty
-    @Max(value = 50)
     private String email;
 
     @Pattern(regexp = "^\\d{10,11}$")

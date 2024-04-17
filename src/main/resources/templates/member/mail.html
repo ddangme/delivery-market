@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+
+<div class="container">
+    아래 코드를 회원가입 창에 입력해주세요.
+    <br>
+    <div style="font-size:130%" th:text="${code}"></div>
+
+</div>
+
+<div th:replace="~{/fragments/footer :: footer}"></div>
+</body>
+</html>

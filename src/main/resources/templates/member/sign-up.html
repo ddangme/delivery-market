@@ -7,7 +7,7 @@
 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
     <div class="col-md-4 offset-lg-4">
         <h4 class="mb-3 text-center">Delivery Market 회원가입</h4>
-        <form class="needs-validation" th:object="${member}" action="/sign-up" method="POST">
+        <form class="needs-validation" th:object="${member}" action="/sign-up" method="POST" id="sign-up-form">
             <div class="row g-3">
                 <div class="col-12">
                     <label for="loginId" class="form-label">아이디</label>
@@ -38,11 +38,31 @@
                     <input type="text" class="form-control" id="name" th:errorclass="field-error" th:field="*{name}" placeholder="">
                     <small class="field-error" th:errors="*{name}">name error</small>
                 </div>
+
+
                 <div class="col-12">
                     <label for="email" class="form-label">이메일</label>
-                    <input type="text" class="form-control" id="email" th:errorclass="field-error" th:field="*{email}" placeholder="">
-                    <small class="field-error" th:errors="*{email}">email error</small>
+                    <div class="row">
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="email" th:errorclass="field-error" th:field="*{email}" placeholder="">
+                            <small class="field-error" th:errors="*{email}">email error</small>
+                        </div>
+                        <div class="col-3">
+                            <input type="button" class="w-100 btn btn-success" onclick="sendEmail()" value="이메일 인증">
+                        </div>
+                    </div>
                 </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="auth-code" name="authCode" placeholder="인증 번호">
+                        </div>
+                        <div class="col-3">
+                            <input type="button" class="w-100 btn btn-success" onclick="checkAuthCode()" value="인증 확인">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-12">
                     <label for="phone" class="form-label">휴대전화</label>
                     <input type="text" class="form-control" id="phone" th:errorclass="field-error" th:field="*{phone}" placeholder="">
@@ -75,9 +95,12 @@
                     <input type="date" class="form-control" id="birthday" th:errorclass="field-error" th:field="*{birthday}" placeholder="">
                     <small class="field-error" th:errors="*{birthday}">birthday error</small>
                 </div>
+                <div class="col-12">
+                    <input type="button" class="w-100 btn btn-success" id="sign-up" onclick="signUp()" value="회원가입">
+                </div>
             </div>
 
-            <button class="w-100 btn btn-primary btn-lg mt-3" type="submit">회원가입</button>
+
         </form>
     </div>
 </div>

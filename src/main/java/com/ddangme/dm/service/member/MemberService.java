@@ -1,5 +1,6 @@
-package com.ddangme.dm.service;
+package com.ddangme.dm.service.member;
 
+import com.ddangme.dm.controller.member.SignUpRequest;
 import com.ddangme.dm.dto.member.MemberDTO;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.model.member.Member;
@@ -33,6 +34,23 @@ public class MemberService {
         return MemberDTO.fromEntity(
                 memberRepository.save(Member.signUp(loginId, password, nickname)
                 ));
+    }
+
+    @Transactional
+    public MemberDTO signUpMember(SignUpRequest request) {
+        return MemberDTO.fromEntity(
+                memberRepository.save(Member.signUp(
+                        request.getLoginId(),
+                        encoder.encode(request.getPassword()),
+                        request.getName(),
+                        request.getEmail(),
+                        request.getPhone(),
+                        request.getAddress(),
+                        request.getDetail(),
+                        request.getZipCode(),
+                        request.getBirthday()
+                ))
+        );
     }
 
 }

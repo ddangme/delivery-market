@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 @Slf4j
 @RestControllerAdvice
 public class ApiControllerAdvice {
@@ -27,5 +30,13 @@ public class ApiControllerAdvice {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Response.error(ErrorCode.INTERNAL_SERVER_ERROR.name()));
+    }
+
+    @ExceptionHandler({AddressException.class, MessagingException.class})
+    public ResponseEntity<?> addressExceptionHandler(Exception exception) {
+        log.error("address error occurs {}", exception.toString());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Response.error(ErrorCode.INVALID_EMAIL_FORMAT.name()));
     }
 }
