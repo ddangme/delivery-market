@@ -1,11 +1,13 @@
 package com.ddangme.dm.controller.member;
 
+import com.ddangme.dm.dto.Response;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,12 +48,11 @@ public class MemberController {
     }
 
     @PostMapping("/api/id-duplicate-check")
-    public ResponseEntity<Void> idDuplicateCheck(@RequestBody String loginId) {
+    public ResponseEntity<?> idDuplicateCheck(@RequestBody String loginId) {
         if (memberService.searchMember(loginId).isPresent()) {
             throw new DMException(ErrorCode.DUPLICATED_LOGIN_ID);
         }
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(Response.success());
     }
 
 }
