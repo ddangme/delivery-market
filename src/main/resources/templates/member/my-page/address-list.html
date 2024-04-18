@@ -3,6 +3,12 @@
 <div th:replace="~{/fragments/header :: header}"></div>
 <body>
 <div th:replace="~{/fragments/bodyHeader :: bodyHeader}"></div>
+<!-- Button trigger modal -->
+
+<!-- Modal start -->
+<div th:replace="~{/fragments/modal/add-address-modal :: modal}"></div>
+<div th:replace="~{/fragments/modal/edit-address-modal :: modal}"></div>
+<!-- Modal end -->
 <div class="container p-5">
     <div class="row mb-3">
         <div th:replace="~{/fragments/lnb :: lnb}"></div>
@@ -10,7 +16,8 @@
             <div class="card p-3">
                 <div class="d-flex justify-content-between border-bottom">
                     <h3>배송지 관리</h3>
-                    <h5><a class="nav-link active" aria-current="page" href="#">+ 새 배송지 추가</a></h5>
+                    <h5><a class="nav-link active" aria-current="page" type="button"
+                           data-bs-toggle="modal" data-bs-target="#staticBackdrop">+ 새 배송지 추가</a></h5>
                 </div>
 
                 <div th:block th:each="address : ${addresses}" class="row p-4 mb-4 mx-4 d-flex align-items-center border-bottom">
@@ -18,6 +25,7 @@
                         <img width="auto" height="30" src="/img/modify.png">
                     </div>
                     <div class="col-11">
+                        <p class="mb-0" id="address-id" th:text="${address.id}"></p>
                         <p class="mb-0" th:text="${address.road + ' ' + address.detail}"></p>
                         <p class="mb-0" th:text="${address.recipientName} + ' | ' + ${address.recipientPhone}"></p>
                     </div>
@@ -30,7 +38,7 @@
 
 <div th:replace="~{/fragments/footer :: footer}"></div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/js/member.js"></script>
+<script src="/js/address.js"></script>
 
 </body>
 </html>

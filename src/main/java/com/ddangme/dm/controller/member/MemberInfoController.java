@@ -2,6 +2,7 @@ package com.ddangme.dm.controller.member;
 
 
 import com.ddangme.dm.dto.address.AddressDTO;
+import com.ddangme.dm.dto.address.AddressRequest;
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.dto.member.ModifyMemberRequest;
 import com.ddangme.dm.exception.DMException;
@@ -32,7 +33,6 @@ public class MemberInfoController {
     private final MemberService memberService;
     private final AddressService addressService;
     private final PasswordEncoder encoder;
-
 
 
     @GetMapping({"", "/info/modify"})
@@ -66,7 +66,6 @@ public class MemberInfoController {
         }
 
 
-
         memberService.findByLoginId(request.getLoginId());
 
         if (bindingResult.hasErrors()) {
@@ -86,5 +85,13 @@ public class MemberInfoController {
 
         model.addAttribute("addresses", addresses);
         return "member/my-page/address-list";
+    }
+
+    @PostMapping("/address")
+    public String address(AddressRequest request, @AuthenticationPrincipal MemberPrincipal principal) {
+        log.info("request={}", request.toString());
+        addressService.addAddress(request, principal.getId());
+
+        return "redirect:/my-page/address";
     }
 }

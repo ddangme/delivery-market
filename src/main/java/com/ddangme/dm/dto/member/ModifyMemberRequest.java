@@ -37,8 +37,5 @@ public class ModifyMemberRequest {
         return !newPassword.equals(newPasswordCheck);
     }
 
-    public boolean notEqualsBeforePassword(String password) {
-        return !this.password.equals(password);
-    }
 
 }
