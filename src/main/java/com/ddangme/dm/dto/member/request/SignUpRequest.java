@@ -1,4 +1,4 @@
-package com.ddangme.dm.controller.member;
+package com.ddangme.dm.dto.member.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,5 +40,9 @@ public class SignUpRequest {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthday;
+
+    public boolean notEqualsPasswordCheck() {
+        return !password.equals(passwordCheck);
+    }
 
 }

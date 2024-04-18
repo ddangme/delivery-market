@@ -1,7 +1,9 @@
 package com.ddangme.dm.service.member;
 
-import com.ddangme.dm.controller.member.MemberFindRequest;
-import com.ddangme.dm.controller.member.SignUpRequest;
+import com.ddangme.dm.dto.member.MemberPrincipal;
+import com.ddangme.dm.dto.member.request.MemberFindRequest;
+import com.ddangme.dm.dto.member.request.ModifyMemberRequest;
+import com.ddangme.dm.dto.member.request.SignUpRequest;
 import com.ddangme.dm.dto.member.MemberDTO;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
@@ -27,7 +29,7 @@ public class MemberService {
     private final AddressRepository addressRepository;
     private final PasswordEncoder encoder;
 
-    public Optional<MemberDTO> searchMember(String loginId) {
+    public Optional<MemberDTO> findByLoginId(String loginId) {
         return memberRepository.findByLoginId(loginId)
                 .map(MemberDTO::fromEntity);
     }
@@ -67,6 +69,18 @@ public class MemberService {
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
 
         member.setPassword(encoder.encode(newPassword));
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public void modifyMember(ModifyMemberRequest request, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+
+        member.modify(encoder.encode(request.getNewPassword()),
+                request.getPhone(),
+                request.getBirthday());
+
         memberRepository.save(member);
     }
 

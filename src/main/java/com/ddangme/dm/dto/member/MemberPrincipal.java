@@ -1,6 +1,7 @@
 package com.ddangme.dm.dto.member;
 
 import com.ddangme.dm.model.member.BenefitLevel;
+import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.model.member.MemberRole;
 import com.ddangme.dm.model.member.MemberStatus;
 import lombok.AllArgsConstructor;
@@ -44,8 +45,6 @@ public class MemberPrincipal implements UserDetails, OAuth2User {
     public static MemberPrincipal fromDTO(MemberDTO dto) {
         return MemberPrincipal.of(dto.getId(), dto.getLoginId(), dto.getPassword(), dto.getName(), dto.getMemberStatus(), dto.getBenefitLevel());
     }
-
-
 
     @Override public String getUsername() { return name; }
     @Override public String getPassword() { return password; }
