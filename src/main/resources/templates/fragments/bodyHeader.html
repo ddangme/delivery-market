@@ -30,7 +30,7 @@
 
         <div sec:authorize="isAuthenticated()" class="col-md-3 text-end">
             <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill"
-                  th:text="${#authentication.principal.benefitLevel.level}  "></span>
+                  th:text="${#authentication.principal.benefitLevel.level}"></span>
             <a class="me-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
             th:text="${#authentication.principal.username} + 님">
             </a>

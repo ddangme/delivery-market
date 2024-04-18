@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div class="col-3" th:fragment="lnb">
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2">
+                    <h4 class="badge bg-warning-subtle text-warning-emphasis" th:text="${#authentication.principal.benefitLevel.level}"></h4>
+                </div>
+                <div class="col-10">
+                    <h4 class="card-title" th:text="${#authentication.principal.username} + 님"></h4>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card p-3">
+                                <p class="h5">적립금</p>
+                                0원
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card p-3">
+                                <p class="h5">DM 캐시</p>
+                                0원
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3 p-1">
+        <div class="card-body border-bottom">
+            <small class="mb-3" style="color: gray">내 정보관리</small>
+            <h5><a class="nav-link active mt-3 mb-3" aria-current="page" href="#">배송지 관리</a></h5>
+            <h5><a class="nav-link active mt-3 mb-3" aria-current="page" href="#">개인정보 수정</a></h5>
+        </div>
+        <div class="card-body border-bottom">
+            <small class="mb-3" style="color: gray">내 정보관리</small>
+            <h5><a class="nav-link active mt-3 mb-3" aria-current="page" href="#">test</a></h5>
+            <h5><a class="nav-link active mt-3 mb-3" aria-current="page" href="#">test</a></h5>
+        </div>
+        <div class="card-body">
+            <small class="mb-3" style="color: gray">내 정보관리</small>
+            <h5><a class="nav-link active mt-3 mb-3" aria-current="page" href="#">test</a></h5>
+            <h5><a class="nav-link active mt-3 mb-3" aria-current="page" href="#">test</a></h5>
+        </div>
+    </div>
+
+</div>
+</html>
