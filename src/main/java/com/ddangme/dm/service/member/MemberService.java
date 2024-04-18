@@ -1,7 +1,9 @@
 package com.ddangme.dm.service.member;
 
-import com.ddangme.dm.controller.member.MemberFindRequest;
-import com.ddangme.dm.controller.member.SignUpRequest;
+import com.ddangme.dm.dto.member.MemberPrincipal;
+import com.ddangme.dm.dto.member.request.MemberFindRequest;
+import com.ddangme.dm.dto.member.request.ModifyMemberRequest;
+import com.ddangme.dm.dto.member.request.SignUpRequest;
 import com.ddangme.dm.dto.member.MemberDTO;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
@@ -27,22 +29,20 @@ public class MemberService {
     private final AddressRepository addressRepository;
     private final PasswordEncoder encoder;
 
-    public Optional<MemberDTO> searchMember(String loginId) {
-        log.info("login id={}", loginId);
-        log.info("find loginId={}", memberRepository.findByLoginId(loginId));
+    public Optional<MemberDTO> findByLoginId(String loginId) {
         return memberRepository.findByLoginId(loginId)
                 .map(MemberDTO::fromEntity);
     }
 
     @Transactional
-    public MemberDTO saveMember(String loginId, String password, String nickname) {
+    public MemberDTO signUp(String loginId, String password, String nickname) {
         return MemberDTO.fromEntity(
                 memberRepository.save(Member.signUp(loginId, password, nickname)
                 ));
     }
 
     @Transactional
-    public void signUpMember(SignUpRequest request) {
+    public void signUp(SignUpRequest request) {
         Member savedMember = memberRepository.save(Member.signUp(
                 request.getLoginId(),
                 encoder.encode(request.getPassword()),
@@ -62,12 +62,25 @@ public class MemberService {
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 
+    // TODO: 비밀번호 찾기 시 회원 확인 쿼리문이 2번 실행되는 것 1번 실행되도록 수정 필요
     @Transactional
     public void setPassword(MemberFindRequest request, String newPassword) {
         Member member = memberRepository.findByNameAndEmail(request.getName(), request.getEmail())
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
 
         member.setPassword(encoder.encode(newPassword));
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public void modifyMember(ModifyMemberRequest request, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+
+        member.modify(encoder.encode(request.getNewPassword()),
+                request.getPhone(),
+                request.getBirthday());
+
         memberRepository.save(member);
     }
 

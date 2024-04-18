@@ -48,7 +48,7 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(MemberService memberService) {
         return loginId -> memberService
-                .searchMember(loginId)
+                .findByLoginId(loginId)
                 .map(MemberPrincipal::fromDTO)
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_MEMBER));
     }
@@ -74,11 +74,11 @@ public class SecurityConfig {
             String loginId = registrationId + "_" + providerId;
             String dummyPassword = passwordEncoder.encode("{bcrypt}" + UUID.randomUUID());
 
-            return memberService.searchMember(loginId)
+            return memberService.findByLoginId(loginId)
                     .map(MemberPrincipal::fromDTO)
                     .orElseGet(() ->
                             MemberPrincipal.fromDTO(
-                                    memberService.saveMember(loginId, dummyPassword, kakaoResponse.nickname())
+                                    memberService.signUp(loginId, dummyPassword, kakaoResponse.nickname())
                             ));
         };
     }

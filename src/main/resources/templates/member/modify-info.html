@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+<div th:replace="~{/fragments/bodyHeader :: bodyHeader}"></div>
+<div class="container">
+    <div class="row mb-3">
+        <div th:replace="~{/fragments/lnb :: lnb}"></div>
+        <div class="col-5 offset-md-2">
+            <h4 class="mb-3 text-center">Delivery Market 개인정보 수정</h4>
+            <form class="needs-validation" th:object="${member}" action="/my-page/info/modify" method="POST" id="sign-up-form">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label for="loginId" class="form-label">아이디</label>
+                        <input type="text" class="form-control" id="loginId" th:field="*{loginId}" disabled>
+                        <input type="text" class="form-control" th:field="*{loginId}" hidden="hidden">
+                    </div>
+                    <div class="col-12">
+                        <label for="password" class="form-label">비밀번호</label>
+                        <input type="password" class="form-control" id="password" th:errorclass="field-error" th:field="*{password}" placeholder="현재 비밀번호를 입력해주세요.">
+                        <small class="text-body-warning field-error" th:errors="*{password}">password error</small>
+                    </div>
+                    <div class="col-12">
+                        <label for="newPassword" class="form-label">새 비밀번호 </label>
+                        <input type="password" class="form-control" id="newPassword" th:errorclass="field-error" th:field="*{newPassword}" placeholder="새 비밀번호를 입력해주세요.">
+                        <small class="text-body-warning field-error" th:errors="*{newPassword}">newPassword error</small>
+                    </div>
+                    <div class="col-12">
+                        <label for="newPasswordCheck" class="form-label">새 비밀번호 확인</label>
+                        <input type="password" class="form-control" id="newPasswordCheck" th:errorclass="field-error" th:field="*{newPasswordCheck}" placeholder="새 비밀번호를 다시 입력해주세요.">
+                        <small class="field-error" th:errors="*{newPasswordCheck}">newPasswordCheck check error</small>
+                    </div>
+                    <div class="col-12">
+                        <label for="name" class="form-label">이름</label>
+                        <input type="text" class="form-control" id="name" th:errorclass="field-error" th:field="*{name}" placeholder="">
+                        <small class="field-error" th:errors="*{name}">name error</small>
+                    </div>
+                    <div class="col-12">
+                        <label for="phone" class="form-label">휴대전화</label>
+                        <input type="text" class="form-control" id="phone" th:errorclass="field-error" th:field="*{phone}" placeholder="">
+                        <small class="field-error" th:errors="*{phone}">phone error</small>
+                    </div>
+                    <div class="col-12">
+                        <label for="birthday" class="form-label">생일</label>
+                        <input type="date" class="form-control" id="birthday" th:errorclass="field-error"
+                               th:field="*{birthday}" placeholder="">
+                        <small class="field-error" th:errors="*{birthday}">birthday error</small>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="w-100 btn btn-outline-primary me-2">개인정보 수정</button>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="~{/fragments/footer :: footer}"></div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/member.js"></script>
+
+</body>
+</html>

@@ -104,4 +104,10 @@ public class Member {
         this.cash = 0L;
     }
 
+    public void modify(String newPassword, String phone, LocalDate birthday) {
+        this.password = newPassword;
+        this.phone = phone;
+        this.birthday = birthday;
+    }
+
 }

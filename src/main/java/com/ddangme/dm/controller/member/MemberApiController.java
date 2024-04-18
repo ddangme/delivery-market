@@ -1,6 +1,6 @@
 package com.ddangme.dm.controller.member;
 
-import com.ddangme.dm.dto.Response;
+import com.ddangme.dm.dto.member.request.MemberFindRequest;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.service.member.EmailService;
@@ -27,7 +27,7 @@ public class MemberApiController {
 
     @PostMapping("/api/id-duplicate-check")
     public ResponseEntity<?> idDuplicateCheck(@RequestBody String loginId) {
-        if (memberService.searchMember(loginId).isPresent()) {
+        if (memberService.findByLoginId(loginId).isPresent()) {
             throw new DMException(ErrorCode.DUPLICATED_LOGIN_ID);
         }
         return ResponseEntity.ok().build();
@@ -78,4 +78,5 @@ public class MemberApiController {
 
         return ResponseEntity.ok().build();
     }
+
 }
