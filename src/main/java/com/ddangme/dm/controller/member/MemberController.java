@@ -1,9 +1,12 @@
 package com.ddangme.dm.controller.member;
 
-import com.ddangme.dm.dto.member.MemberDTO;
+import com.ddangme.dm.dto.member.MemberPrincipal;
+import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -45,7 +47,7 @@ public class MemberController {
             return "/member/sign-up";
         }
 
-        memberService.signUpMember(signUpRequest);
+        memberService.signUp(signUpRequest);
         return "main";
     }
 
@@ -61,6 +63,16 @@ public class MemberController {
         model.addAttribute("member", new MemberFindRequest());
 
         return "member/find-pw";
+    }
+
+    @GetMapping("/member/info/modify")
+    public String modifyInfo(Model model, @AuthenticationPrincipal MemberPrincipal principal) {
+        log.info("principal={}", principal);
+        ModifyMemberRequest modifyMemberRequest = memberService.searchMember(principal.getLoginId())
+                .map(ModifyMemberRequest::fromDTO)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_MEMBER));
+        model.addAttribute("member", modifyMemberRequest);
+        return "member/modify-info";
     }
 
 }

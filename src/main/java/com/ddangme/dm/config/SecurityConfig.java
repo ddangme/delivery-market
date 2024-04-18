@@ -78,7 +78,7 @@ public class SecurityConfig {
                     .map(MemberPrincipal::fromDTO)
                     .orElseGet(() ->
                             MemberPrincipal.fromDTO(
-                                    memberService.saveMember(loginId, dummyPassword, kakaoResponse.nickname())
+                                    memberService.signUp(loginId, dummyPassword, kakaoResponse.nickname())
                             ));
         };
     }

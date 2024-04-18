@@ -28,21 +28,19 @@ public class MemberService {
     private final PasswordEncoder encoder;
 
     public Optional<MemberDTO> searchMember(String loginId) {
-        log.info("login id={}", loginId);
-        log.info("find loginId={}", memberRepository.findByLoginId(loginId));
         return memberRepository.findByLoginId(loginId)
                 .map(MemberDTO::fromEntity);
     }
 
     @Transactional
-    public MemberDTO saveMember(String loginId, String password, String nickname) {
+    public MemberDTO signUp(String loginId, String password, String nickname) {
         return MemberDTO.fromEntity(
                 memberRepository.save(Member.signUp(loginId, password, nickname)
                 ));
     }
 
     @Transactional
-    public void signUpMember(SignUpRequest request) {
+    public void signUp(SignUpRequest request) {
         Member savedMember = memberRepository.save(Member.signUp(
                 request.getLoginId(),
                 encoder.encode(request.getPassword()),
@@ -62,6 +60,7 @@ public class MemberService {
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 
+    // TODO: 비밀번호 찾기 시 회원 확인 쿼리문이 2번 실행되는 것 1번 실행되도록 수정 필요
     @Transactional
     public void setPassword(MemberFindRequest request, String newPassword) {
         Member member = memberRepository.findByNameAndEmail(request.getName(), request.getEmail())

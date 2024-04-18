@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div class="container" th:fragment="bodyHeader">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-md-3">
@@ -29,6 +29,14 @@
         </div>
 
         <div sec:authorize="isAuthenticated()" class="col-md-3 text-end">
+            <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill"
+                  th:text="${#authentication.principal.benefitLevel.level}  "></span>
+            <a class="me-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+            th:text="${#authentication.principal.username} + 님">
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/member/info/modify">개인정보 수정</a></li>
+            </ul>
             <a href="/logout" class="btn btn-outline-primary me-2">로그아웃</a>
         </div>
     </header>
