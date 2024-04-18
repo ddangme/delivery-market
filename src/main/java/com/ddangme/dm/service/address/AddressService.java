@@ -53,6 +53,39 @@ public class AddressService {
         addressRepository.save(address);
     }
 
+    @Transactional
+    public void editAddress(AddressRequest request, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+
+        Address address = addressRepository.findById(request.getId())
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ADDRESS));
+
+        if (address.isNotOwner(memberId)) {
+            throw new DMException(ErrorCode.IS_NOT_ADDRESS_OWNER);
+        }
+
+        if (!address.getMain() && request.getMain()) {
+            Optional<Address> findAddress = addressRepository.findByMemberAndMain(member, true);
+
+            findAddress.ifPresent(addr -> {
+                addr.setMainToFalse();
+                addressRepository.save(addr);
+            });
+        }
+
+        address.editAddress(
+                request.getRoad(),
+                request.getDetail(),
+                request.getZipcode(),
+                request.getMain(),
+                request.getRecipientName(),
+                request.getRecipientPhone()
+        );
+        addressRepository.save(address);
+
+    }
+
     private void setMainAddress(Member member, Address address) {
         Optional<Address> findAddress = addressRepository.findByMemberAndMain(member, true);
 

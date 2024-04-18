@@ -17,17 +17,26 @@
                 <div class="d-flex justify-content-between border-bottom">
                     <h3>배송지 관리</h3>
                     <h5><a class="nav-link active" aria-current="page" type="button"
-                           data-bs-toggle="modal" data-bs-target="#staticBackdrop">+ 새 배송지 추가</a></h5>
+                           data-bs-toggle="modal" data-bs-target="#add-address-modal">+ 새 배송지 추가</a></h5>
                 </div>
 
-                <div th:block th:each="address : ${addresses}" class="row p-4 mb-4 mx-4 d-flex align-items-center border-bottom">
+                <div th:block th:each="address : ${addresses}" class="row p-4 mx-4 d-flex align-items-center border-bottom">
                     <div class="col-1">
-                        <img width="auto" height="30" src="/img/modify.png">
+                        <a class="nav-link active" aria-current="page" type="button"
+                           data-bs-toggle="modal" data-bs-target="#edit-address-modal" onclick="openEditAddressModal(this)">
+                            <img width="auto" height="30" src="/img/modify.png">
+                        </a>
                     </div>
                     <div class="col-11">
-                        <p class="mb-0" id="address-id" th:text="${address.id}"></p>
-                        <p class="mb-0" th:text="${address.road + ' ' + address.detail}"></p>
-                        <p class="mb-0" th:text="${address.recipientName} + ' | ' + ${address.recipientPhone}"></p>
+                        <p th:text="${address.id}" hidden="hidden"></p>
+                        <p class="mb-0" th:text="${address.road}"></p>
+                        <p class="mb-0" th:text="${address.detail}"></p>
+                        <p class="mb-1" th:text="${address.zipcode}"></p>
+                        <small class="mb-0" th:text="${address.recipientName}"></small>
+                        <small class="mb-0" th:text="${address.recipientPhone}"></small>
+                        <br>
+                        <p th:text="${address.main}" hidden="hidden"></p>
+                        <small class="mb-0 badge text-bg-secondary" th:if="${address.main}">기본 배송지</small>
                     </div>
                 </div>
             </div>

@@ -79,18 +79,26 @@ public class MemberInfoController {
     }
 
     @GetMapping("/address")
-    public String address(Model model, @AuthenticationPrincipal MemberPrincipal principal) {
+    public String addressList(Model model, @AuthenticationPrincipal MemberPrincipal principal) {
         List<AddressDTO> addresses = addressService.findAllByMemberId(principal.getId());
-        log.info("addresses={}", addresses);
 
         model.addAttribute("addresses", addresses);
         return "member/my-page/address-list";
     }
 
     @PostMapping("/address")
-    public String address(AddressRequest request, @AuthenticationPrincipal MemberPrincipal principal) {
+    public String addAddress(AddressRequest request, @AuthenticationPrincipal MemberPrincipal principal) {
         log.info("request={}", request.toString());
         addressService.addAddress(request, principal.getId());
+
+        return "redirect:/my-page/address";
+    }
+
+    @PostMapping("/address/edit")
+    public String EditAddress(AddressRequest request, @AuthenticationPrincipal MemberPrincipal principal) {
+        log.info("request={}", request.toString());
+
+        addressService.editAddress(request, principal.getId());
 
         return "redirect:/my-page/address";
     }

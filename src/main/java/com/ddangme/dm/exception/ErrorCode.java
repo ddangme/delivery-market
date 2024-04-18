@@ -13,7 +13,9 @@ public enum ErrorCode {
     DUPLICATED_LOGIN_ID(HttpStatus.CONFLICT, "Login ID is duplicated."),
     INVALID_VERIFICATION_CODE(HttpStatus.UNAUTHORIZED, "The auth code is not valid."),
     AUTH_CODE_EXPIRED(HttpStatus.FORBIDDEN, "Authentication timed out."),
-    INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "Invalid email.")
+    INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "Invalid email."),
+    NOT_FOUND_ADDRESS(HttpStatus.NOT_FOUND, "This Address does not exist."),
+    IS_NOT_ADDRESS_OWNER(HttpStatus.UNAUTHORIZED, "Is not address owner."),
     ;
 
 

@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class AddressRequest {
-
+    private Long id;
     private String road;
     private String detail;
     private Integer zipcode;
@@ -14,11 +14,11 @@ public class AddressRequest {
     private String recipientName;
     private String recipientPhone;
 
-
     @Override
     public String toString() {
         return "AddressRequest{" +
-                "road='" + road + '\'' +
+                "id=" + id +
+                ", road='" + road + '\'' +
                 ", detail='" + detail + '\'' +
                 ", zipcode=" + zipcode +
                 ", main=" + main +

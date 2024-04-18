@@ -68,4 +68,18 @@ public class Address {
     public void setMainToTrue() {
         main = true;
     }
+
+    public boolean isNotOwner(Long memberId) {
+        return !member.getId().equals(memberId);
+    }
+
+    public void editAddress(String road, String detail, Integer zipcode, boolean main,
+                            String recipientName, String recipientPhone) {
+        this.road = road;
+        this.detail = detail;
+        this.zipcode = zipcode;
+        this.main = main;
+        this.recipientName = recipientName;
+        this.recipientPhone = recipientPhone;
+    }
 }
