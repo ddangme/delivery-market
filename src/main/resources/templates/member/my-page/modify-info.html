@@ -3,10 +3,10 @@
 <div th:replace="~{/fragments/header :: header}"></div>
 <body>
 <div th:replace="~{/fragments/bodyHeader :: bodyHeader}"></div>
-<div class="container">
-    <div class="row mb-3">
+<div class="container p-5">
+        <div class="row mb-3">
         <div th:replace="~{/fragments/lnb :: lnb}"></div>
-        <div class="col-5 offset-md-2">
+            <div class="col-5 offset-md-2">
             <h4 class="mb-3 text-center">Delivery Market 개인정보 수정</h4>
             <form class="needs-validation" th:object="${member}" action="/my-page/info/modify" method="POST" id="sign-up-form">
                 <div class="row g-3">
@@ -50,8 +50,6 @@
                         <button type="submit" class="w-100 btn btn-outline-primary me-2">개인정보 수정</button>
                     </div>
                 </div>
-
-
             </form>
         </div>
     </div>
@@ -59,7 +57,6 @@
 
 
 <div th:replace="~{/fragments/footer :: footer}"></div>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/js/member.js"></script>
 
 </body>

@@ -25,11 +25,16 @@ public class Address {
 
     private Boolean main;
 
+    private String recipientName;
+    private String recipientPhone;
+
     public Address(Member member, String road, String detail, Integer zipcode, boolean main) {
         this.member = member;
         this.road = road;
         this.detail = detail;
         this.zipcode = zipcode;
         this.main = main;
+        this.recipientName = member.getName();
+        this.recipientPhone = member.getPhone();
     }
 }

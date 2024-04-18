@@ -1,6 +1,6 @@
 package com.ddangme.dm.controller.member;
 
-import com.ddangme.dm.dto.member.request.MemberFindRequest;
+import com.ddangme.dm.dto.member.MemberFindRequest;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.service.member.EmailService;

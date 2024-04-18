@@ -1,4 +1,4 @@
-package com.ddangme.dm.dto.member.request;
+package com.ddangme.dm.dto.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
