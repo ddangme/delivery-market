@@ -21,8 +21,17 @@ function addAddress() {
     if (document.getElementById('recipientName').value === "") {
         return alert("받으실 분의 이름을 입력해주세요.");
     }
-    if (document.getElementById('recipientPhone').value === "") {
+
+    let recipientPhone = document.getElementById('recipientPhone').value;
+    if (recipientPhone === "") {
         return alert("휴대전화를 입력해주세요.");
+    }
+    var isNumeric = /^\d+$/.test(recipientPhone);
+    if (!isNumeric) {
+        return alert("휴대전화 번호는 - 없이 입력해주세요.");
+    }
+    if (recipientPhone.length < 10 || recipientPhone.length > 11) {
+        return alert("휴대전화 번호를 확인해주세요.");
     }
 
     document.getElementById('add-address-from').submit();
@@ -72,8 +81,17 @@ function editAddress() {
     if (document.getElementById('edit-recipientName').value === "") {
         return alert("받으실 분의 이름을 입력해주세요.");
     }
-    if (document.getElementById('edit-recipientPhone').value === "") {
+
+    let recipientPhone = document.getElementById('edit-recipientPhone').value;
+    if (recipientPhone === "") {
         return alert("휴대전화를 입력해주세요.");
+    }
+    var isNumeric = /^\d+$/.test(recipientPhone);
+    if (!isNumeric) {
+        return alert("휴대전화 번호는 - 없이 입력해주세요.");
+    }
+    if (recipientPhone.length < 10 || recipientPhone.length > 11) {
+        return alert("휴대전화 번호를 확인해주세요.");
     }
 
     document.getElementById('edit-address-from').submit();

@@ -65,6 +65,8 @@ public class AddressService {
             throw new DMException(ErrorCode.IS_NOT_ADDRESS_OWNER);
         }
 
+        log.info(address.toString());
+        log.info(request.toString());
         if (!address.getMain() && request.getMain()) {
             Optional<Address> findAddress = addressRepository.findByMemberAndMain(member, true);
 
