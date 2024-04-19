@@ -73,13 +73,27 @@ public class Address {
         return !member.getId().equals(memberId);
     }
 
-    public void editAddress(String road, String detail, Integer zipcode, boolean main,
+    public void editAddress(String road, String detail, Integer zipcode, Boolean main,
                             String recipientName, String recipientPhone) {
         this.road = road;
         this.detail = detail;
         this.zipcode = zipcode;
-        this.main = main;
+        this.main = Objects.requireNonNullElse(main, false);
         this.recipientName = recipientName;
         this.recipientPhone = recipientPhone;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", member=" + member +
+                ", road='" + road + '\'' +
+                ", detail='" + detail + '\'' +
+                ", zipcode=" + zipcode +
+                ", main=" + main +
+                ", recipientName='" + recipientName + '\'' +
+                ", recipientPhone='" + recipientPhone + '\'' +
+                '}';
     }
 }

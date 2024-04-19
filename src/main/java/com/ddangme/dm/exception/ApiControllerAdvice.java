@@ -26,7 +26,7 @@ public class ApiControllerAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> exceptionHandler(RuntimeException exception) {
-        log.error("Error occurs {}", exception.toString());
+        log.error("Error occurs", exception);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Response.error(ErrorCode.INTERNAL_SERVER_ERROR.name()));
@@ -34,7 +34,7 @@ public class ApiControllerAdvice {
 
     @ExceptionHandler({AddressException.class, MessagingException.class})
     public ResponseEntity<?> addressExceptionHandler(Exception exception) {
-        log.error("address error occurs {}", exception.toString());
+        log.error("address error occurs", exception);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.error(ErrorCode.INVALID_EMAIL_FORMAT.name()));
