@@ -79,5 +79,26 @@ function editAddress() {
     document.getElementById('edit-address-from').submit();
 }
 function delAddress() {
+    if (!confirm("배송지를 삭제하시겠습니까?")) {
+        return;
+    }
+    let url = '/api/my-page/address/' + document.getElementById('edit-id').value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('DELETE', url, true);
 
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                location.reload();
+            } else if (xhr.status === 401) {
+                alert("삭제 권한이 없는 주소입니다.")
+            } else if (xhr.status === 403) {
+                alert("기본 배송지는 삭제할 수 없습니다. 기본 배송지를 변경한 후 시도해주세요.");
+            } else {
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+            }
+        }
+    };
+
+    xhr.send();
 }

@@ -101,4 +101,20 @@ public class AddressService {
             });
         }
     }
+
+    @Transactional
+    public void deleteAddress(Long addressId, Long memberId) {
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ADDRESS));
+
+        if (address.isNotOwner(memberId)) {
+            throw new DMException(ErrorCode.IS_NOT_ADDRESS_OWNER);
+        }
+
+        if (address.getMain()) {
+            throw new DMException(ErrorCode.CANNOT_DELETE_DEFAULT_ADDRESS);
+        }
+
+        addressRepository.delete(address);
+    }
 }
