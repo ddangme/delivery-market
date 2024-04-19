@@ -56,4 +56,4 @@ spring:
             enable: true
           auth: true
           ssl:
-            enable: true #반드시 필요 -> SSL 필요로 되어있으면
+            enable: true
