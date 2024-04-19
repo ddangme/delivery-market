@@ -1,6 +1,5 @@
-package com.ddangme.dm.dto.member.request;
+package com.ddangme.dm.dto.member;
 
-import com.ddangme.dm.dto.member.MemberDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,8 +37,5 @@ public class ModifyMemberRequest {
         return !newPassword.equals(newPasswordCheck);
     }
 
-    public boolean notEqualsBeforePassword(String password) {
-        return !this.password.equals(password);
-    }
 
 }

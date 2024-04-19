@@ -1,9 +1,8 @@
 package com.ddangme.dm.service.member;
 
-import com.ddangme.dm.dto.member.MemberPrincipal;
-import com.ddangme.dm.dto.member.request.MemberFindRequest;
-import com.ddangme.dm.dto.member.request.ModifyMemberRequest;
-import com.ddangme.dm.dto.member.request.SignUpRequest;
+import com.ddangme.dm.dto.member.MemberFindRequest;
+import com.ddangme.dm.dto.member.ModifyMemberRequest;
+import com.ddangme.dm.dto.member.SignUpRequest;
 import com.ddangme.dm.dto.member.MemberDTO;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;

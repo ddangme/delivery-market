@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+<div th:replace="~{/fragments/bodyHeader :: bodyHeader}"></div>
+<!-- Button trigger modal -->
+
+<!-- Modal start -->
+<div th:replace="~{/fragments/modal/add-address-modal :: modal}"></div>
+<div th:replace="~{/fragments/modal/edit-address-modal :: modal}"></div>
+<!-- Modal end -->
+<div class="container p-5">
+    <div class="row mb-3">
+        <div th:replace="~{/fragments/lnb :: lnb}"></div>
+        <div class="col-9">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between border-bottom">
+                    <h3>배송지 관리</h3>
+                    <h5><a class="nav-link active" aria-current="page" type="button"
+                           data-bs-toggle="modal" data-bs-target="#add-address-modal">+ 새 배송지 추가</a></h5>
+                </div>
+
+                <div th:block th:each="address : ${addresses}" class="row p-4 mx-4 d-flex align-items-center border-bottom">
+                    <div class="col-1">
+                        <a class="nav-link active" aria-current="page" type="button"
+                           data-bs-toggle="modal" data-bs-target="#edit-address-modal" onclick="openEditAddressModal(this)">
+                            <img width="auto" height="30" src="/img/modify.png">
+                        </a>
+                    </div>
+                    <div class="col-11">
+                        <p th:text="${address.id}" hidden="hidden"></p>
+                        <p class="mb-0" th:text="${address.road}"></p>
+                        <p class="mb-0" th:text="${address.detail}"></p>
+                        <p class="mb-1" th:text="${address.zipcode}"></p>
+                        <small class="mb-0" th:text="${address.recipientName}"></small>
+                        <small class="mb-0" th:text="${address.recipientPhone}"></small>
+                        <br>
+                        <p th:text="${address.main}" hidden="hidden"></p>
+                        <small class="mb-0 badge text-bg-secondary" th:if="${address.main}">기본 배송지</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="~{/fragments/footer :: footer}"></div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/address.js"></script>
+
+</body>
+</html>
