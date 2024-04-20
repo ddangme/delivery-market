@@ -1,13 +1,13 @@
-package com.ddangme.deliverymarketadmin;
+package com.ddangme.dmadmin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DeliveryMarketAdminApplication {
+public class DMAdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DeliveryMarketAdminApplication.class, args);
+        SpringApplication.run(DMAdminApplication.class, args);
     }
 
 }

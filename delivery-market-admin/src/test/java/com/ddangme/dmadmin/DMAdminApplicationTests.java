@@ -1,10 +1,10 @@
-package com.ddangme.deliverymarketadmin;
+package com.ddangme.dmadmin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DeliveryMarketAdminApplicationTests {
+class DMAdminApplicationTests {
 
     @Test
     void contextLoads() {
