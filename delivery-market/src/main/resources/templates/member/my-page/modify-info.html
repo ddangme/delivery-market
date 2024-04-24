@@ -3,10 +3,10 @@
 <div th:replace="~{/fragments/header :: header}"></div>
 <body>
 <div th:replace="~{/fragments/navbars :: navbars}"></div>
-<div class="content-area">
-        <div class="row mb-3">
-        <div th:replace="~{/fragments/lnb :: lnb}"></div>
-            <div class="col-5 offset-md-2">
+<div th:replace="~{/fragments/sidebar :: sidebar}"></div>
+<div class="my-page-content-area">
+    <div class="row">
+        <div class="col-4 offset-4">
             <h4 class="mb-3 text-center">Delivery Market 개인정보 수정</h4>
             <form class="needs-validation" th:object="${member}" action="/my-page/info/modify" method="POST" id="sign-up-form">
                 <div class="row g-3">
@@ -53,6 +53,7 @@
             </form>
         </div>
     </div>
+
 </div>
 <script src="/js/member.js"></script>
 
