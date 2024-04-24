@@ -2,8 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{/fragments/header :: header}"></div>
 <body>
-<div th:replace="~{/fragments/bodyHeader :: bodyHeader}"></div>
-<div class="container p-5">
+<div th:replace="~{/fragments/navbars :: navbars}"></div>
+<div class="content-area">
         <div class="row mb-3">
         <div th:replace="~{/fragments/lnb :: lnb}"></div>
             <div class="col-5 offset-md-2">
@@ -54,9 +54,6 @@
         </div>
     </div>
 </div>
-
-
-<div th:replace="~{/fragments/footer :: footer}"></div>
 <script src="/js/member.js"></script>
 
 </body>

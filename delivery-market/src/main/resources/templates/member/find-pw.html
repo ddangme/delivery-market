@@ -2,41 +2,41 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{/fragments/header :: header}"></div>
 <body>
-<div th:replace="~{/fragments/bodyHeader :: bodyHeader}"></div>
-
-<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
-    <div class="col-md-4 offset-lg-4">
-        <h4 class="mb-3 text-center">Delivery Market 비밀번호 찾기</h4>
-        <form class="needs-validation" th:object="${member}" action="/api/member/find/password" method="POST" id="find-id-form">
-            <div class="row g-3" id="find-password-area">
-                <div class="col-12">
-                    <label for="name" class="form-label">이름</label>
-                    <input type="text" class="form-control" id="name" th:errorclass="field-error" th:field="*{name}" placeholder="">
-                    <small class="field-error" th:errors="*{name}">name error</small>
+<div th:replace="~{/fragments/navbars :: navbars}"></div>
+<div class="content-area">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+        <div class="col-md-4 offset-lg-4">
+            <h4 class="mb-3 text-center">Delivery Market 비밀번호 찾기</h4>
+            <form class="needs-validation" th:object="${member}" action="/api/member/find/password" method="POST" id="find-id-form">
+                <div class="row g-3" id="find-password-area">
+                    <div class="col-12">
+                        <label for="name" class="form-label">이름</label>
+                        <input type="text" class="form-control" id="name" th:errorclass="field-error" th:field="*{name}" placeholder="">
+                        <small class="field-error" th:errors="*{name}">name error</small>
+                    </div>
+                    <div class="col-12">
+                        <label for="email" class="form-label">이메일</label>
+                        <input type="text" class="form-control" id="email" th:errorclass="field-error" th:field="*{email}" placeholder="">
+                        <small class="field-error" th:errors="*{email}">email error</small>
+                    </div>
+                    <div class="col">
+                        <input type="button" class="w-100 btn btn-success" onclick="findPassword()" value="비밀번호 찾기">
+                    </div>
                 </div>
-                <div class="col-12">
-                    <label for="email" class="form-label">이메일</label>
-                    <input type="text" class="form-control" id="email" th:errorclass="field-error" th:field="*{email}" placeholder="">
-                    <small class="field-error" th:errors="*{email}">email error</small>
+            </form>
+            <div class="row g-3" id="find-password-result-area" style="display: none">
+                <div class="col">
+                    <p>고객님의 이메일로 새로운 비밀번호가 발급되었습니다.</p><br>
+                    <p>해당 아이디로 로그인 후 비밀번호를 변경해주세요.</p>
                 </div>
                 <div class="col">
-                    <input type="button" class="w-100 btn btn-success" onclick="findPassword()" value="비밀번호 찾기">
+                    <a type="button" class="w-100 btn btn-success" href="/login">로그인 하러가기</a>
                 </div>
-            </div>
-        </form>
-        <div class="row g-3" id="find-password-result-area" style="display: none">
-            <div class="col">
-                <p>고객님의 이메일로 새로운 비밀번호가 발급되었습니다.</p><br>
-                <p>해당 아이디로 로그인 후 비밀번호를 변경해주세요.</p>
-            </div>
-            <div class="col">
-                <a type="button" class="w-100 btn btn-success" href="/login">로그인 하러가기</a>
             </div>
         </div>
     </div>
 </div>
 
-<div th:replace="~{/fragments/footer :: footer}"></div>
 <script src="/js/member.js"></script>
 </body>
 </html>

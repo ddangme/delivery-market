@@ -2,14 +2,14 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{/fragments/header :: header}"></div>
 <body>
-<div th:replace="~{/fragments/bodyHeader :: bodyHeader}"></div>
+<div th:replace="~{/fragments/navbars :: navbars}"></div>
 <!-- Button trigger modal -->
 
 <!-- Modal start -->
 <div th:replace="~{/fragments/modal/add-address-modal :: modal}"></div>
 <div th:replace="~{/fragments/modal/edit-address-modal :: modal}"></div>
 <!-- Modal end -->
-<div class="container p-5">
+<div class="content-area">
     <div class="row mb-3">
         <div th:replace="~{/fragments/lnb :: lnb}"></div>
         <div class="col-9">
@@ -43,9 +43,6 @@
         </div>
     </div>
 </div>
-
-
-<div th:replace="~{/fragments/footer :: footer}"></div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/js/address.js"></script>
 
