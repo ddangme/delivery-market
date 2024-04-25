@@ -5,7 +5,6 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

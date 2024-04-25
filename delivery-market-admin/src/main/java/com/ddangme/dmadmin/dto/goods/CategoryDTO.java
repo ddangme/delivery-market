@@ -32,4 +32,9 @@ public class CategoryDTO {
         this.name = name;
         this.parentId = parentId;
     }
+
+    public void trim() {
+        name = name.trim();
+        System.out.println(name);
+    }
 }

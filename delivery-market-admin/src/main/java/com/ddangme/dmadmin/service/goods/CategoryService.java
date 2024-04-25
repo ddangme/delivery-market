@@ -27,7 +27,12 @@ public class CategoryService {
     }
 
     private void validate(CategoryDTO dto) {
-        if (dto.getName() == null || dto.getName().isEmpty() || dto.getName().length() < 2 || dto.getName().length() > 15) {
+        if (dto.getName() == null || dto.getName().isEmpty()) {
+            throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
+        }
+        dto.trim();
+
+        if (dto.getName().length() < 2 || dto.getName().length() > 15) {
             throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
         }
 
@@ -38,7 +43,7 @@ public class CategoryService {
 
         categoryRepository.findByName(dto.getName())
                 .ifPresent(existCategory -> {
-                    throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME, existCategory.getName());
+                    throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);
                 });
     }
 
