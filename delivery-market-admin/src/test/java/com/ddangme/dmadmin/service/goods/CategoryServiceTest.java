@@ -11,12 +11,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.never;
 
 @DisplayName("[카테고리] 비즈니스 로직")
 @ExtendWith(MockitoExtension.class)
@@ -31,23 +33,28 @@ class CategoryServiceTest {
     @Test
     void 부모가_있는_카테고리_등록() {
         // Given
-        CategoryDTO dto = createdCategoryDTO();
-        given(categoryRepository.save(any(Category.class)))
-                .willReturn(createdCategory());
+        Long parentId = 1L;
+
+        Category parentCategory = createdCategory(parentId, null);
+        CategoryDTO dto = createdCategoryDTO(2L, parentId);
+
+        given(categoryRepository.findById(parentId)).willReturn(Optional.of(parentCategory));
 
         // When
         categoryService.save(dto);
 
         // Then
+        then(categoryRepository).should().findById(parentId);
         then(categoryRepository).should().save(any(Category.class));
+
     }
 
     @Test
     void 부모가_없는_카테고리_등록() {
         // Given
-        CategoryDTO dto = createdNoParentCategoryDTO();
+        CategoryDTO dto = createdCategoryDTO(1L, null);
         given(categoryRepository.save(any(Category.class)))
-                .willReturn(createdNoParentCategory());
+                .willReturn(createdCategory(1L, null));
 
         // When
         categoryService.save(dto);
@@ -56,10 +63,11 @@ class CategoryServiceTest {
         then(categoryRepository).should().save(any(Category.class));
     }
 
-    private CategoryDTO createdNoParentCategoryDTO() {
-        return new CategoryDTO(1L,
+
+    private CategoryDTO createdCategoryDTO(Long id, Long parentId) {
+        return new CategoryDTO(id,
                 "category_name",
-                null,
+                parentId,
                 LocalDateTime.now(),
                 1L,
                 LocalDateTime.now(),
@@ -68,31 +76,10 @@ class CategoryServiceTest {
                 null);
     }
 
-
-    private CategoryDTO createdCategoryDTO() {
-        return new CategoryDTO(2L,
+    private Category createdCategory(Long id, Long parentId) {
+        return new Category(id,
                 "category_name",
-                1L,
-                LocalDateTime.now(),
-                1L,
-                LocalDateTime.now(),
-                1L,
-                null,
-                null);
-    }
-
-    private Category createdNoParentCategory() {
-        return new Category(1L,
-                "category_name",
-                null,
-                Set.of());
-    }
-
-
-    private Category createdCategory() {
-        return new Category(2L,
-                "category_name",
-                1L,
+                parentId,
                 Set.of());
     }
 }
