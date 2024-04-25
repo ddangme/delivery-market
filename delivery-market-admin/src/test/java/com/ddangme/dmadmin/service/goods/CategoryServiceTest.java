@@ -1,6 +1,8 @@
 package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.goods.CategoryDTO;
+import com.ddangme.dmadmin.exception.DMAdminException;
+import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.goods.Category;
 import com.ddangme.dmadmin.repository.goods.CategoryRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -14,11 +16,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.never;
 
 @DisplayName("[카테고리] 비즈니스 로직")
 @ExtendWith(MockitoExtension.class)
@@ -61,6 +63,82 @@ class CategoryServiceTest {
 
         // Then
         then(categoryRepository).should().save(any(Category.class));
+    }
+
+    @Test
+    void 이미_있는_카테고리_이름으로_등록_시도_시_에러() {
+        // Given
+        CategoryDTO dto = new CategoryDTO("이미 있는 이름", null);
+        given(categoryRepository.findByName("이미 있는 이름")).willReturn(Optional.of(createdCategory(1L, null)));
+
+        DMAdminException exception = assertThrows(DMAdminException.class, () -> {
+            categoryService.save(dto);
+        });
+
+        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.DUPLICATE_CATEGORY_NAME);
+    }
+
+    @Test
+    void 존재하지_않는_부모_아이디로_등록_시도_시_에러() {
+        CategoryDTO dto = new CategoryDTO("가나다라", 1L);
+        given(categoryRepository.findById(dto.getParentId())).willReturn(Optional.empty());
+
+        DMAdminException exception = assertThrows(DMAdminException.class, () -> {
+            categoryService.save(dto);
+        });
+
+        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.NOT_EXIST_PARENT_CATEGORY);
+
+    }
+
+    @Test
+    void 이름을_16자_이상으로_등록_시도_시_에러() {
+        CategoryDTO dto = new CategoryDTO("가나다라마바사아자차카타파하가나", null);
+        DMAdminException exception = assertThrows(DMAdminException.class, () -> {
+            categoryService.save(dto);
+        });
+
+        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
+    }
+
+    @Test
+    void 이름을_null로_등록_시도_시_에러() {
+        CategoryDTO dto = new CategoryDTO(null, null);
+        DMAdminException exception = assertThrows(DMAdminException.class, () -> {
+            categoryService.save(dto);
+        });
+
+        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
+    }
+
+
+    @Test
+    void 이름을_공백으로_등록_시도_시_에러() {
+        CategoryDTO dto = new CategoryDTO(" ", null);
+        DMAdminException exception = assertThrows(DMAdminException.class, () -> {
+            categoryService.save(dto);
+        });
+
+        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
+    }
+
+    @Test
+    void 이름을_입력하지_않고_등록_시도_시_에러() {
+        CategoryDTO dto = new CategoryDTO("", null);
+        DMAdminException exception = assertThrows(DMAdminException.class, () -> {
+            categoryService.save(dto);
+        });
+
+        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
+    }
+    @Test
+    void 이름을_1글자로_등록_시도_시_에러() {
+        CategoryDTO dto = new CategoryDTO("가", null);
+        DMAdminException exception = assertThrows(DMAdminException.class, () -> {
+            categoryService.save(dto);
+        });
+
+        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
     }
 
 

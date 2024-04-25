@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -35,13 +35,5 @@ public class Category extends AuditingFields {
         this.name = name;
         this.parentId = parentId;
     }
-
-    public void addChildCategory(Category child) {
-        child.setParentId(this.getId());
-        this.getChildCategories().add(child);
-    }
-
-
-
 
 }

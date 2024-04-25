@@ -20,7 +20,16 @@ public class CategoryService {
 
     @Transactional
     public void save(CategoryDTO dto) {
+        validate(dto);
         Category category = dto.toEntity();
+
+        categoryRepository.save(category);
+    }
+
+    private void validate(CategoryDTO dto) {
+        if (dto.getName() == null || dto.getName().isEmpty() || dto.getName().length() < 2 || dto.getName().length() > 15) {
+            throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
+        }
 
         if (dto.getParentId() != null) {
             categoryRepository.findById(dto.getParentId())
@@ -31,8 +40,6 @@ public class CategoryService {
                 .ifPresent(existCategory -> {
                     throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME, existCategory.getName());
                 });
-
-        categoryRepository.save(category);
     }
 
 }
