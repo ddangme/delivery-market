@@ -1,6 +1,8 @@
 package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.goods.CategoryDTO;
+import com.ddangme.dmadmin.exception.DMAdminException;
+import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.goods.Category;
 import com.ddangme.dmadmin.repository.goods.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +24,13 @@ public class CategoryService {
 
         if (dto.getParentId() != null) {
             categoryRepository.findById(dto.getParentId())
-                    .orElseThrow();
+                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_PARENT_CATEGORY));
         }
+
+        categoryRepository.findByName(dto.getName())
+                .ifPresent(existCategory -> {
+                    throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME, existCategory.getName());
+                });
 
         categoryRepository.save(category);
     }
