@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,6 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+
+    public List<CategoryDTO> search() {
+        return categoryRepository.searchParents().stream()
+                .map(CategoryDTO::fromEntity)
+                .toList();
+    }
 
     @Transactional
     public void save(CategoryDTO dto) {
