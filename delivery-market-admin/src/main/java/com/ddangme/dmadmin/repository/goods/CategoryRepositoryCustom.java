@@ -1,10 +1,12 @@
 package com.ddangme.dmadmin.repository.goods;
 
 import com.ddangme.dmadmin.model.goods.Category;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface CategoryRepositoryCustom {
 
-    List<Category> searchParents();
+    Page<Category> searchParents(Pageable pageable);
 }

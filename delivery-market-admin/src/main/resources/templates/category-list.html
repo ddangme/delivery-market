@@ -99,6 +99,29 @@
                 </table>
             </div>
         </div>
+        <div class="col-12">
+            <nav id="pagination" aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" th:text="'previous'"
+                           th:href="@{/categories(page=${categories.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+                           th:class="'page-link' + (${categories.number} <= 0 ? ' disabled' : '')"></a>
+                    </li>
+                    <li class="page-item" th:class="page-item" th:each="pageNumber : ${pages}">
+                        <a th:class="'page-link' + (${pageNumber} == ${categories.number} ? ' disabled' : '')"
+                           th:text="${pageNumber + 1}"
+                           th:href="@{/categories(page=${pageNumber}, searchType=${param.searchType}, searchValue=${param.searchValue})}"></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:text="'next'"
+                           th:href="@{/categories(page=${categories.number + 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+                           th:class="'page-link' + (${categories.number} >= ${categories.totalPages - 1} ? ' disabled' : '')"></a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
     </div>
 </div>
 </body>

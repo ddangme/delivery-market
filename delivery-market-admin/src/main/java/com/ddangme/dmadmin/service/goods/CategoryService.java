@@ -7,6 +7,8 @@ import com.ddangme.dmadmin.model.goods.Category;
 import com.ddangme.dmadmin.repository.goods.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +22,9 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public List<CategoryDTO> search() {
-        return categoryRepository.searchParents().stream()
-                .map(CategoryDTO::fromEntity)
-                .toList();
+    public Page<CategoryDTO> search(Pageable pageable) {
+        return categoryRepository.searchParents(pageable)
+                .map(CategoryDTO::fromEntity);
     }
 
     @Transactional
