@@ -42,8 +42,13 @@ public class CategoryService {
 
     @Transactional
     public void delete(List<Long> categoryIds, AdminDTO dto) {
+        if (categoryIds.isEmpty()) {
+            throw new DMAdminException(ErrorCode.NOT_CHOICE_CATEGORY);
+        }
+
         Admin admin = adminRepository.findById(dto.getId())
                 .orElseThrow(() -> new DMAdminException(ErrorCode.ADMIN_NOT_FOUND));
+
         for (Long categoryId : categoryIds) {
             Category category = categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
