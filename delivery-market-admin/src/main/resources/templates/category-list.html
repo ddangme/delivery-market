@@ -11,19 +11,25 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="add-category-modalLabel">카테고리 추가</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" id="modal-close-btn2" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12 pb-3">
-                            <label for="name" class="form-label">이름</label>
+                            <label for="name" class="form-label">새 카테고리 이름</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력해주세요.">
+                        </div>
+                        <div class="col-12 pb-3">
+                            <label for="parent-list" class="form-label">상위 카테고리</label>
+                            <select class="form-select form-select" name="parentId" id="parent-list">
+                                <option value="">---상위 카테고리---</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="addParentCategory()">추가</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="add-category-btn">추가</button>
+                    <button type="button" class="btn btn-secondary" id="modal-close-btn1" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
