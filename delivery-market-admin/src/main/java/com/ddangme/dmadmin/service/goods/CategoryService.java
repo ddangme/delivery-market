@@ -2,6 +2,7 @@ package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.AdminDTO;
 import com.ddangme.dmadmin.dto.goods.CategoryDTO;
+import com.ddangme.dmadmin.dto.goods.ParentCategoryResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.Admin;
@@ -30,6 +31,10 @@ public class CategoryService {
     public Page<CategoryDTO> search(Pageable pageable) {
         return categoryRepository.searchParents(pageable)
                 .map(CategoryDTO::fromEntity);
+    }
+
+    public List<ParentCategoryResponse> searchParents() {
+        return categoryRepository.searchParents();
     }
 
     @Transactional

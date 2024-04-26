@@ -3,6 +3,7 @@ package com.ddangme.dmadmin.controller.goods;
 import com.ddangme.dmadmin.dto.AdminPrincipal;
 import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.goods.CategoryRequest;
+import com.ddangme.dmadmin.dto.goods.ParentCategoryResponse;
 import com.ddangme.dmadmin.service.goods.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,11 @@ public class CategoryApiController {
         categoryService.delete(categoryIds, principal.toDTO());
 
         return Response.success();
+    }
+
+    @GetMapping("/parents")
+    public Response<List<ParentCategoryResponse>> parentsCategoryList() {
+        return Response.success(categoryService.searchParents());
     }
 
 }
