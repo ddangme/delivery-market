@@ -40,7 +40,7 @@ function delCategory() {
     });
 
     if (data.length === 0) {
-        return alert("삭제할 카테고리가 없습니다.");
+        return alert("선택된 카테고리가 없습니다.");
     }
 
     if (data.length === 1) {
