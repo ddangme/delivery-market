@@ -10,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.EntityListeners;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
@@ -24,18 +26,25 @@ public abstract class AuditingFields {
     protected LocalDateTime createdAt;
 
     @CreatedBy
-    protected Long createdBy;
+    @JoinColumn(name = "created_by")
+    @ManyToOne
+    protected Admin createdBy;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 
+
     @LastModifiedBy
-    protected Long updatedBy;
+    @JoinColumn(name = "updated_by")
+    @ManyToOne
+    protected Admin updatedBy;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     protected LocalDateTime deletedAt;
 
-    protected Long deletedBy;
+    @JoinColumn(name = "deleted_by")
+    @ManyToOne
+    protected Admin deletedBy;
 
 }
