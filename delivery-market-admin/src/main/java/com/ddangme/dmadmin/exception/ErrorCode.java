@@ -11,6 +11,10 @@ public enum ErrorCode {
     DUPLICATE_CATEGORY_NAME(HttpStatus.CONFLICT, "이미 존재하는 이름입니다."),
     UNABLE_LENGTH_CATEGORY_NAME(HttpStatus.BAD_REQUEST, "카테고리 이름은 2자 ~ 15자로 입력해주세요."),
     NOT_EXIST_PARENT_CATEGORY(HttpStatus.NOT_FOUND, "상위 카테고리가 존재하지 않습니다."),
+    EXIST_CHILD_CATEGORY(HttpStatus.NOT_FOUND, "상위 카테고리가 존재하지 않습니다."),
+    NOT_EXIST_CATEGORY(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다."),
+    NOT_EXIST_ADMIN_ACCOUNT(HttpStatus.UNAUTHORIZED, "존재하지 않는 관리자입니다."),
+    ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 계정입니다."),
 
     ;
 

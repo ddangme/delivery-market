@@ -63,6 +63,5 @@ public class CategoryDTO {
 
     public void trim() {
         name = name.trim();
-        System.out.println(name);
     }
 }

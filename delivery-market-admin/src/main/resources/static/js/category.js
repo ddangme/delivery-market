@@ -31,12 +31,28 @@ function addParentCategory() {
 }
 
 function delCategory() {
+
     var data = [];
     $('[id^="category-"]:checkbox:checked').each(function() {
         var id = $(this).attr('id');
         var number = id.replace('category-', '');
         data.push(parseInt(number));
     });
+
+    if (data.length === 0) {
+        return alert("삭제할 카테고리가 없습니다.");
+    }
+
+    if (data.length === 1) {
+        if (!confirm("카테고리를 삭제하시겠습니까?")) {
+            return;
+        }
+    } else {
+        if (!confirm("선택하신 " + data.length + "개의 카테고리를 삭제하시겠습니까?")) {
+            return;
+        }
+    }
+
     console.log(data);
     $.ajax({
         type: 'DELETE',
@@ -44,10 +60,19 @@ function delCategory() {
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function(response) {
+            if (data.length === 1) {
+                alert("카테고리가 삭제되었습니다.");
+            } else {
+                alert("선택하신 " + data.length + "개의 카테고리가 삭제되었습니다.");
+            }
             location.reload();
         },
         error: function(xhr, status, error) {
-            alert(xhr.responseText);
+            if (data.length === 1) {
+                alert(xhr.responseText);
+            } else {
+                alert("삭제할 수 없는 카테고리가 존재합니다.");
+            }
         }
     });
 
