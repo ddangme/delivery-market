@@ -1,6 +1,7 @@
 package com.ddangme.dmadmin.config;
 
 import com.ddangme.dmadmin.dto.AdminPrincipal;
+import com.ddangme.dmadmin.model.Admin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -14,12 +15,12 @@ import java.util.Optional;
 public class JpaConfig {
 
     @Bean
-    public AuditorAware<Long> auditorAware() {
+    public AuditorAware<Admin> auditorAware() {
         return () -> Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
                 .map(Authentication::getPrincipal)
                 .map(AdminPrincipal.class::cast)
-                .map(AdminPrincipal::getId);
+                .map(AdminPrincipal::toEntity);
     }
 }

@@ -1,5 +1,6 @@
 package com.ddangme.dmadmin.dto;
 
+import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.constants.AdminRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,6 +47,16 @@ public class AdminPrincipal implements UserDetails {
         );
     }
 
+    public AdminDTO toDTO() {
+        return new AdminDTO(
+                id,
+                email,
+                password,
+                name,
+                nickname
+        );
+    }
+
 
     @Override public String getUsername() { return nickname; }
     @Override public String getPassword() { return password; }
@@ -65,4 +77,7 @@ public class AdminPrincipal implements UserDetails {
     }
     @Override public boolean isEnabled() { return true; }
 
+    public Admin toEntity() {
+        return new Admin(id, email, password, name, nickname, deletedAt);
+    }
 }

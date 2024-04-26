@@ -1,10 +1,12 @@
 package com.ddangme.dmadmin.model.goods;
 
+import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.AuditingFields;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -33,6 +35,11 @@ public class Category extends AuditingFields {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
+    }
+
+    public void delete(Admin admin) {
+        this.deletedAt = LocalDateTime.now();
+        this.deletedBy = admin;
     }
 
 }

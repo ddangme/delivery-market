@@ -42,4 +42,26 @@ public class AdminDTO {
                 entity.getDeletedAt()
         );
     }
+
+    public AdminDTO(Long id, String email, String password, String name, String nickname) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.nickname = nickname;
+    }
+
+    public Admin toEntity() {
+        return new Admin(
+                id,
+                email,
+                password,
+                name,
+                nickname,
+                roles,
+                createdAt,
+                updatedAt,
+                deletedAt
+        );
+    }
 }

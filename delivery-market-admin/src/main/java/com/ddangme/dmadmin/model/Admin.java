@@ -53,4 +53,12 @@ public class Admin {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime deletedAt;
 
+    public Admin(Long id, String email, String password, String name, String nickname, LocalDateTime deletedAt) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.nickname = nickname;
+        this.deletedAt = deletedAt;
+    }
 }
