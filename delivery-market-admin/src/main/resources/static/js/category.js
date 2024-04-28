@@ -1,4 +1,43 @@
 $(document).ready(function() {
+    $('#all').change(function() {
+        var checkboxes = $('[id^="category-"]');
+        $('.checkbox').prop('checked', $(this).prop('checked'));
+        if ($(this).prop('checked')) {
+            checkboxes.prop('checked', true);
+        } else {
+            checkboxes.prop('checked', false);
+        }
+    });
+});
+
+
+
+$(document).ready(function() {
+    $('[id^="category-"]').change(function() {
+        if (!$(this).prop('checked')) {
+            $('#all').prop('checked', false);
+        }
+        var checkboxes = $('[id^="category-"]');
+
+        if (allChecked()) {
+            $('#all').prop('checked', true);
+        }
+
+        function allChecked() {
+            var allChecked = true;
+            checkboxes.each(function() {
+                if (!$(this).prop('checked')) {
+                    allChecked = false;
+                    return false; // each()를 종료하기 위해 false를 반환
+                }
+            });
+            return allChecked;
+        }
+    });
+});
+
+
+$(document).ready(function() {
     $('#add-category-btn').click(function() {
         if (!confirm("카테고리를 추가하시겠습니까?")) {
             return;
