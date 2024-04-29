@@ -1,6 +1,7 @@
 package com.ddangme.dmadmin.controller.goods;
 
 import com.ddangme.dmadmin.dto.goods.CategoryDTO;
+import com.ddangme.dmadmin.model.goods.Category;
 import com.ddangme.dmadmin.service.PaginationService;
 import com.ddangme.dmadmin.service.goods.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -38,5 +41,14 @@ public class CategoryController {
     @GetMapping("/categories/add")
     public String addCategory() {
         return "goods/category-add";
+    }
+
+    @GetMapping("/categories/{categoryId}")
+    public String editCategory(@PathVariable Long categoryId, Model model) {
+        CategoryDTO category = categoryService.getParentCategory(categoryId);
+
+        model.addAttribute("category", category);
+        model.addAttribute("childCategories", category.getChildCategories());
+        return "goods/category-edit";
     }
 }

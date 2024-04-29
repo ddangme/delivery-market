@@ -2,8 +2,9 @@ package com.ddangme.dmadmin.controller.goods;
 
 import com.ddangme.dmadmin.dto.AdminPrincipal;
 import com.ddangme.dmadmin.dto.Response;
+import com.ddangme.dmadmin.dto.goods.CategoryDTO;
+import com.ddangme.dmadmin.dto.goods.CategoryEditRequest;
 import com.ddangme.dmadmin.dto.goods.CategoryRequest;
-import com.ddangme.dmadmin.dto.goods.ParentCategoryResponse;
 import com.ddangme.dmadmin.service.goods.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +38,18 @@ public class CategoryApiController {
         return Response.success();
     }
 
-    @GetMapping("/parents")
-    public Response<List<ParentCategoryResponse>> parentsCategoryList() {
-        return Response.success(categoryService.searchParents());
+    @PostMapping("/edit/{categoryId}")
+    public Response<Void> editCategory(@AuthenticationPrincipal AdminPrincipal principal,
+                                       @PathVariable Long categoryId,
+                                       CategoryEditRequest categoryEditRequest) {
+        log.info("categoryId={}", categoryId);
+        log.info("categoryEditRequest={}", categoryEditRequest);
+
+        categoryService.saveChild(categoryEditRequest.newChildToDTO(categoryId), categoryId);
+        categoryService.edit(categoryEditRequest.toDTO(categoryId));
+        categoryService.delete(categoryEditRequest.getDelCategoryIds(), principal.toDTO());
+
+        return Response.success();
     }
 
 }

@@ -73,7 +73,9 @@
                                 <input class="form-check-input" type="checkbox" th:id="'category-' + ${category.id}">
                             </td>
                             <td th:text="${category.id}"></td>
-                            <td th:text="${category.name}"></td>
+                            <td>
+                                <a th:href="@{/categories/{categoryId}(categoryId=${category.id})}" th:text="${category.name}"></a>
+                            </td>
                             <td></td>
                             <td th:text="${#temporals.format(category.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                             <td th:text="${category.createdBy.name}"></td>

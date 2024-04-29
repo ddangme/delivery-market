@@ -2,7 +2,6 @@ package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.AdminDTO;
 import com.ddangme.dmadmin.dto.goods.CategoryDTO;
-import com.ddangme.dmadmin.dto.goods.ParentCategoryResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.Admin;
@@ -32,15 +31,17 @@ public class CategoryService {
                 .map(CategoryDTO::fromEntity);
     }
 
-    public List<ParentCategoryResponse> searchParents() {
-        return categoryRepository.searchParents();
+    public CategoryDTO getParentCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .map(CategoryDTO::fromEntity)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
     }
 
     @Transactional
     public void save(CategoryDTO dto) {
         saveValidate(dto);
 
-        Category parent = categoryRepository.save(dto.parentToEntity());
+        Category parent = categoryRepository.save(dto.toEntity());
 
         if (!dto.getChildCategories().isEmpty()) {
             Set<Category> childCategories = dto.childToEntity(parent.getId());
@@ -49,11 +50,59 @@ public class CategoryService {
     }
 
     @Transactional
-    public void delete(List<Long> categoryIds, AdminDTO dto) {
-        if (categoryIds.isEmpty()) {
-            throw new DMAdminException(ErrorCode.NOT_CHOICE_CATEGORY);
+    public void saveChild(List<CategoryDTO> dtos, Long parentId) {
+        Category category = categoryRepository.findById(parentId)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_PARENT_CATEGORY));
+
+        if (!dtos.isEmpty()) {
+            for (CategoryDTO dto : dtos) {
+                saveValidate(dto);
+                category.addChildCategories(List.of(dto.toEntity()));
+            }
+        }
+    }
+
+    @Transactional
+    public void edit(CategoryDTO dto) {
+        Category category = categoryRepository.findById(dto.getId())
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+        editValidate(dto);
+        category.edit(dto.getName());
+
+        for (CategoryDTO childCategoryDTO : dto.getChildCategories()) {
+            editValidate(childCategoryDTO);
+
+            Category childCategory = categoryRepository.findById(childCategoryDTO.getId())
+                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+
+            childCategory.edit(childCategoryDTO.getName());
+        }
+    }
+
+    private void editValidate(CategoryDTO dto) {
+        if (dto.getName() == null || dto.getName().isEmpty()) {
+            throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
         }
 
+        dto.nameTrim();
+
+        if (dto.getName().length() < 2 || dto.getName().length() > 15) {
+            throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
+        }
+        categoryRepository.findByName(dto.getName())
+                .ifPresent(category -> {
+                    if (!category.getId().equals(dto.getId())) {
+                        throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);
+                    }
+                });
+
+    }
+
+    @Transactional
+    public void delete(List<Long> categoryIds, AdminDTO dto) {
+        if (categoryIds == null) {
+            return;
+        }
         Admin admin = adminRepository.findById(dto.getId())
                 .orElseThrow(() -> new DMAdminException(ErrorCode.ADMIN_NOT_FOUND));
 
