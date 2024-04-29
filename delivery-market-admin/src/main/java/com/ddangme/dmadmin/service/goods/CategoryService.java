@@ -16,8 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -40,9 +39,12 @@ public class CategoryService {
     @Transactional
     public void save(CategoryDTO dto) {
         saveValidate(dto);
-        Category category = dto.toEntity();
 
-        categoryRepository.save(category);
+        Category parent = categoryRepository.save(new Category(dto.getName()));
+
+        for (CategoryDTO childCategory : dto.getChildCategories()) {
+            categoryRepository.save(new Category(childCategory.getName(), parent.getId()));
+        }
     }
 
     @Transactional
@@ -67,24 +69,31 @@ public class CategoryService {
     }
 
     private void saveValidate(CategoryDTO dto) {
-        if (dto.getName() == null || dto.getName().isEmpty()) {
+        if (dto.getChildCategories() != null) {
+            for (CategoryDTO childCategory : dto.getChildCategories()) {
+                nameValidate(childCategory.getName());
+                if (dto.getName().equals(childCategory.getName())) {
+                    throw new DMAdminException(ErrorCode.DUPLICATE_PARENT_CATEGORY_NAME);
+                }
+            }
+        }
+
+        nameValidate(dto.getName());
+    }
+
+    private void nameValidate(String name) {
+        if (name == null || name.isEmpty()) {
             throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
         }
-        dto.trim();
 
-        if (dto.getName().length() < 2 || dto.getName().length() > 15) {
+        name = name.trim();
+
+        if (name.length() < 2 || name.length() > 15) {
             throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
         }
 
-        if (dto.getParentId() != null) {
-            categoryRepository.findById(dto.getParentId())
-                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_PARENT_CATEGORY));
-        }
-
-        categoryRepository.findByName(dto.getName())
-                .ifPresent(existCategory -> {
-                    throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);
-                });
+        categoryRepository.findByName(name)
+                .ifPresent(category -> {throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);});
     }
 
 

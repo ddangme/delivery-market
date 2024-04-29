@@ -4,9 +4,11 @@ import com.ddangme.dmadmin.dto.AdminDTO;
 import com.ddangme.dmadmin.model.goods.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,10 +28,6 @@ public class CategoryDTO {
     private AdminDTO deletedBy;
 
     private Set<CategoryDTO> childCategories = new LinkedHashSet<>();
-
-    public Category toEntity() {
-        return new Category(id, name, parentId);
-    }
 
     public CategoryDTO(Long id, String name, Long parentId, LocalDateTime createdAt, AdminDTO createdBy, LocalDateTime updatedAt, AdminDTO updatedBy, Set<CategoryDTO> childCategories) {
         this.id = id;
@@ -55,10 +53,18 @@ public class CategoryDTO {
         );
     }
 
+    public Category toEntity() {
+        return new Category(name, parentId);
+    }
 
-    public CategoryDTO(String name, Long parentId) {
+
+    public CategoryDTO(String name) {
         this.name = name;
-        this.parentId = parentId;
+    }
+
+    public CategoryDTO(String name, Set<CategoryDTO> childCategories) {
+        this.name = name;
+        this.childCategories = childCategories;
     }
 
     public void trim() {
