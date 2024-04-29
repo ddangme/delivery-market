@@ -25,13 +25,18 @@ public class CategoryController {
 
     @GetMapping("/categories")
     public String categoriesList(Model model,
-                                 @PageableDefault(size = 3, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+                                 @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<CategoryDTO> categories = categoryService.search(pageable);
         List<Integer> pages = paginationService.getPaginationLength(pageable.getPageNumber(), categories.getTotalPages());
 
         model.addAttribute("categories", categories);
         model.addAttribute("pages", pages);
 
-        return "category-list";
+        return "goods/category-list";
+    }
+
+    @GetMapping("/categories/add")
+    public String addCategory() {
+        return "goods/category-add";
     }
 }

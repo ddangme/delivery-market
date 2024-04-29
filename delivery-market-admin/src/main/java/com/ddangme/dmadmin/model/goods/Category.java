@@ -7,13 +7,13 @@ import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @SQLDelete(sql = "UPDATE category SET deleted_at = NOW() WHERE category_id = ?")
 public class Category extends AuditingFields {
 
@@ -31,8 +31,18 @@ public class Category extends AuditingFields {
     @OneToMany(mappedBy = "parentId", cascade = CascadeType.ALL)
     private Set<Category> childCategories = new LinkedHashSet<>();
 
-    public Category(Long id, String name, Long parentId) {
+    public Category(Long id, String name, Long parentId, Set<Category> childCategories) {
         this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+        this.childCategories = childCategories;
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public Category(String name, Long parentId) {
         this.name = name;
         this.parentId = parentId;
     }
@@ -40,6 +50,10 @@ public class Category extends AuditingFields {
     public void delete(Admin admin) {
         this.deletedAt = LocalDateTime.now();
         this.deletedBy = admin;
+    }
+
+    public void addChildCategories(Collection<Category> childCategories) {
+        this.childCategories.addAll(childCategories);
     }
 
 }

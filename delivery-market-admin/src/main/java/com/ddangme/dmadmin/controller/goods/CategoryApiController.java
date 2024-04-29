@@ -21,7 +21,7 @@ public class CategoryApiController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public Response<Void> addCategory(@RequestBody CategoryRequest request) {
+    public Response<Void> addCategory(CategoryRequest request) {
         log.info("request={}", request);
 
         categoryService.save(request.toDTO());

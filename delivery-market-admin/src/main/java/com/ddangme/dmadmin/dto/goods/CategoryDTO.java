@@ -27,10 +27,6 @@ public class CategoryDTO {
 
     private Set<CategoryDTO> childCategories = new LinkedHashSet<>();
 
-    public Category toEntity() {
-        return new Category(id, name, parentId);
-    }
-
     public CategoryDTO(Long id, String name, Long parentId, LocalDateTime createdAt, AdminDTO createdBy, LocalDateTime updatedAt, AdminDTO updatedBy, Set<CategoryDTO> childCategories) {
         this.id = id;
         this.name = name;
@@ -55,10 +51,28 @@ public class CategoryDTO {
         );
     }
 
+    public Category parentToEntity() {
+        return new Category(name);
+    }
 
-    public CategoryDTO(String name, Long parentId) {
+    public Set<Category> childToEntity(Long parentId) {
+        Set<Category> categories = new LinkedHashSet<>();
+
+        for (CategoryDTO childCategory : childCategories) {
+            categories.add(new Category(childCategory.getName(), parentId));
+        }
+
+        return categories;
+    }
+
+
+    public CategoryDTO(String name) {
         this.name = name;
-        this.parentId = parentId;
+    }
+
+    public CategoryDTO(String name, Set<CategoryDTO> childCategories) {
+        this.name = name;
+        this.childCategories = childCategories;
     }
 
     public void trim() {

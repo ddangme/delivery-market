@@ -8,11 +8,7 @@ $(document).ready(function() {
             checkboxes.prop('checked', false);
         }
     });
-});
 
-
-
-$(document).ready(function() {
     $('[id^="category-"]').change(function() {
         if (!$(this).prop('checked')) {
             $('#all').prop('checked', false);
@@ -36,40 +32,6 @@ $(document).ready(function() {
     });
 });
 
-
-$(document).ready(function() {
-    $('#add-category-btn').click(function() {
-        if (!confirm("카테고리를 추가하시겠습니까?")) {
-            return;
-        }
-
-        let name = $('#name').val();
-        let parentId = $('#parent-list').val();
-
-        let url = '/api/categories';
-
-        $.ajax({
-            type: 'POST',
-            url: '/api/categories',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({
-                name: name,
-                parentId: parentId
-            }),
-            dataType: 'json',
-            success: function(status, xhr) {
-                location.reload();
-            },
-            error: function(xhr, status) {
-                if (xhr.status === 200) {
-                    location.reload();
-                } else {
-                    alert(xhr.responseText);
-                }
-            }
-        });
-    });
-});
 
 function delCategory() {
 
@@ -118,43 +80,3 @@ function delCategory() {
     });
 
 }
-
-$(document).ready(function() {
-    $('#modal-close-btn1').click(function() {
-        $('#name').val('');
-        $('#parent-list').val('');
-    });
-});
-
-$(document).ready(function() {
-    $('#modal-close-btn2').click(function() {
-        $('#name').val('');
-        $('#parent-list').val('');
-    });
-});
-
-$(document).ready(function() {
-    $('#add-category-modal').on('shown.bs.modal', function () {
-        $.ajax({
-            url: '/api/categories/parents',
-            type: 'GET',
-            success: function(response) {
-                var result = response.result;
-
-                var parentList = $('#parent-list');
-
-                result.forEach(function(data) {
-                    var option = $('<option>', {
-                        value: data.id,
-                        text: data.name
-                    });
-                    parentList.append(option);
-                });
-
-            },
-            error: function(xhr, status, error) {
-                alert('서버 오류가 발생했습니다. 계속 발생할 경우 관리자에게 문의해 주세요.');
-            }
-        });
-    });
-});
