@@ -40,10 +40,11 @@ public class CategoryService {
     public void save(CategoryDTO dto) {
         saveValidate(dto);
 
-        Category parent = categoryRepository.save(new Category(dto.getName()));
+        Category parent = categoryRepository.save(dto.parentToEntity());
 
-        for (CategoryDTO childCategory : dto.getChildCategories()) {
-            categoryRepository.save(new Category(childCategory.getName(), parent.getId()));
+        if (!dto.getChildCategories().isEmpty()) {
+            Set<Category> childCategories = dto.childToEntity(parent.getId());
+            parent.addChildCategories(childCategories);
         }
     }
 
@@ -72,6 +73,7 @@ public class CategoryService {
         if (dto.getChildCategories() != null) {
             for (CategoryDTO childCategory : dto.getChildCategories()) {
                 nameValidate(childCategory.getName());
+
                 if (dto.getName().equals(childCategory.getName())) {
                     throw new DMAdminException(ErrorCode.DUPLICATE_PARENT_CATEGORY_NAME);
                 }

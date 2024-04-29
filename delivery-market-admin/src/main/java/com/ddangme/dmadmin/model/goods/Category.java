@@ -52,4 +52,8 @@ public class Category extends AuditingFields {
         this.deletedBy = admin;
     }
 
+    public void addChildCategories(Collection<Category> childCategories) {
+        this.childCategories.addAll(childCategories);
+    }
+
 }

@@ -4,11 +4,9 @@ import com.ddangme.dmadmin.dto.AdminDTO;
 import com.ddangme.dmadmin.model.goods.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -53,8 +51,18 @@ public class CategoryDTO {
         );
     }
 
-    public Category toEntity() {
-        return new Category(name, parentId);
+    public Category parentToEntity() {
+        return new Category(name);
+    }
+
+    public Set<Category> childToEntity(Long parentId) {
+        Set<Category> categories = new LinkedHashSet<>();
+
+        for (CategoryDTO childCategory : childCategories) {
+            categories.add(new Category(childCategory.getName(), parentId));
+        }
+
+        return categories;
     }
 
 
