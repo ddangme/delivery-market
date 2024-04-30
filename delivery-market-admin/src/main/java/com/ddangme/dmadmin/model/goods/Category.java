@@ -4,6 +4,7 @@ import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.AuditingFields;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE category SET deleted_at = NOW() WHERE category_id = ?")
+@Where(clause = "DELETED_AT IS NULL")
 public class Category extends AuditingFields {
 
     @Id
@@ -27,6 +28,7 @@ public class Category extends AuditingFields {
     @Setter
     private Long parentId;
 
+    @OrderBy("id DESC")
     @ToString.Exclude
     @OneToMany(mappedBy = "parentId", cascade = CascadeType.ALL)
     private Set<Category> childCategories = new LinkedHashSet<>();
@@ -54,6 +56,10 @@ public class Category extends AuditingFields {
 
     public void addChildCategories(Collection<Category> childCategories) {
         this.childCategories.addAll(childCategories);
+    }
+
+    public void edit(String name) {
+        this.name = name;
     }
 
 }

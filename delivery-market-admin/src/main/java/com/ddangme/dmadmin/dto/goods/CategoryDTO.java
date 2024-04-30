@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -51,8 +50,8 @@ public class CategoryDTO {
         );
     }
 
-    public Category parentToEntity() {
-        return new Category(name);
+    public Category toEntity() {
+        return new Category(name, parentId);
     }
 
     public Set<Category> childToEntity(Long parentId) {
@@ -75,7 +74,24 @@ public class CategoryDTO {
         this.childCategories = childCategories;
     }
 
-    public void trim() {
-        name = name.trim();
+    public CategoryDTO(Long id, String name, Set<CategoryDTO> childCategories) {
+        this.id = id;
+        this.name = name;
+        this.childCategories = childCategories;
+    }
+
+    public CategoryDTO(Long id, String name, Long parentId) {
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+    }
+
+    public CategoryDTO(String name, Long parentId) {
+        this.name = name;
+        this.parentId = parentId;
+    }
+
+    public void nameTrim() {
+        this.name = name.trim();
     }
 }
