@@ -94,10 +94,13 @@
                                 <td th:text="${childCategory.name}"></td>
                                 <td th:text="${#temporals.format(childCategory.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${childCategory.createdBy.name}"></td>
+
+
                                 <td th:if="${childCategory.createdAt == childCategory.updatedAt}"></td>
-                                <td th:unless="${childCategory.createdAt == childCategory.updatedAt}" th:text="${#temporals.format(childCategory.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                                <td th:unless="${childCategory.createdBy == childCategory.createdBy}" th:text="${childCategory.createdBy.name}"></td>
-                                <td th:if="${childCategory.createdBy == childCategory.createdBy}"></td>
+                                <td th:if="${childCategory.createdAt != childCategory.updatedAt}" th:text="${#temporals.format(childCategory.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+
+                                <td th:if="${childCategory.createdAt == childCategory.updatedAt}"></td>
+                                <td th:if="${childCategory.createdAt != childCategory.updatedAt}" th:text="${childCategory.updatedBy.name}"></td>
                             </tr>
                         </div>
                     </div>
