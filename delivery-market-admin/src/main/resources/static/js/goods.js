@@ -33,6 +33,7 @@ $(document).ready(function() {
         var optionField = $('.option-field').first().clone();
         optionField.find('input, select').val('');
         $('#option-fields').append(optionField);
+        optionField.find('.delOption').removeAttr('hidden'); // 버튼을 숨기지 않음
     });
 
 
@@ -95,6 +96,11 @@ $(document).ready(function() {
             }
         });
     });
+
+    $(document).on('click', '.delOption', function() {
+        $(this).closest('.option-field').remove();
+    });
+
 
 });
 $('#summernote').summernote({
