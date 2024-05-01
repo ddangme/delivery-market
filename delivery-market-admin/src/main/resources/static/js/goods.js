@@ -55,6 +55,7 @@ $(document).ready(function() {
         formData.append('saleStatus', $('#saleStatus').val());
         formData.append('price', $('#price').val());
         formData.append('discountPrice', $('#discountPrice').val());
+        formData.append('discountPercent', $('#discountPercent').val());
         formData.append('discountStatus', $('#discountStatus').val());
         formData.append('goodsDetail.origin', $('#origin').val());
         formData.append('goodsDetail.allergyInfo', $('#allergyInfo').val());
@@ -84,7 +85,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/api/categories/add',
+            url: '/api/goods/add',
             data: formData,
             processData: false,
             contentType: false,

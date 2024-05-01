@@ -5,6 +5,7 @@ import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.category.CategoryEditRequest;
 import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.category.CategoryRequest;
+import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
 import com.ddangme.dmadmin.service.goods.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

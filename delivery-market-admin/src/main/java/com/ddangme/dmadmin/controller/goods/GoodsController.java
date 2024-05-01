@@ -50,13 +50,4 @@ public class GoodsController {
         return "goods/goods-add";
     }
 
-    @PostMapping("/add")
-    public String add(GoodsSaveRequest request) {
-        log.info("request={}", request);
-        log.info("request.getGoodsDetail={}", request.getGoodsDetail());
-        log.info("request.getGoodsOptions={}", request.getGoodsOptions());
-
-        return "/goods/goods-list";
-    }
-
 }
