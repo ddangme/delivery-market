@@ -21,8 +21,8 @@ public class GoodsDTO {
     private String name;
     private String summary;
     private Long price;
-    private Long salePrice;
-    private Integer salePercent;
+    private Long discountPrice;
+    private Integer discountPercent;
     private SaleStatus saleStatus;
     private GoodsDetailDTO goodsDetailDTO;
     private Set<GoodsOptionDTO> goodsOptionDTO;
@@ -41,8 +41,8 @@ public class GoodsDTO {
                 entity.getName(),
                 entity.getSummary(),
                 entity.getPrice(),
-                entity.getSalePrice(),
-                entity.getSalePercent(),
+                entity.getDiscountPrice(),
+                entity.getDiscountPercent(),
                 entity.getSaleStatus(),
                 GoodsDetailDTO.fromEntity(entity.getGoodsDetail()),
                 entity.getGoodsOption()

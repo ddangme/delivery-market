@@ -23,10 +23,10 @@ public class GoodsOption extends AuditingFields {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_id")
     private Goods goods;
-
+    private String name;
     private Long price;
-    private Long salePrice;
-    private Integer salePercent;
+    private Long discountPrice;
+    private Integer discountPercent;
     private Long amount;
 
     @Enumerated(EnumType.STRING)

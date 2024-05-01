@@ -14,9 +14,10 @@ public class GoodsOptionDTO {
 
     private Long id;
     private GoodsDTO goodsDTO;
+    private String name;
     private Long price;
-    private Long salePrice;
-    private Integer salePercent;
+    private Long discountPrice;
+    private Integer discountPercent;
     private Long amount;
     private SaleStatus saleStatus;
     private LocalDateTime createdAt;
@@ -30,9 +31,10 @@ public class GoodsOptionDTO {
         return new GoodsOptionDTO(
             entity.getId(),
             GoodsDTO.fromEntity(entity.getGoods()),
+            entity.getName(),
             entity.getPrice(),
-            entity.getSalePrice(),
-            entity.getSalePercent(),
+            entity.getDiscountPrice(),
+            entity.getDiscountPercent(),
             entity.getAmount(),
             entity.getSaleStatus(),
             entity.getCreatedAt(),

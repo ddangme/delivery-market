@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -32,9 +31,9 @@ public class Goods extends AuditingFields {
 
     private Long price;
 
-    private Long salePrice;
+    private Long discountPrice;
 
-    private Integer salePercent;
+    private Integer discountPercent;
 
     @Enumerated(EnumType.STRING)
     private SaleStatus saleStatus;

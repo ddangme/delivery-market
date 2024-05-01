@@ -16,7 +16,8 @@ public class GoodsSaveRequest {
     private String summary;
     private Long categoryId;
     private Long price;
-    private Long salePrice;
+    private Long discountPrice;
+    private Integer discountPercent;
     private SaleStatus saleStatus;
     private MultipartFile photo;
 

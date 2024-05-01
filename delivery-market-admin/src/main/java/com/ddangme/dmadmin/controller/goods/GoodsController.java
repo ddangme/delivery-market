@@ -2,6 +2,7 @@ package com.ddangme.dmadmin.controller.goods;
 
 import com.ddangme.dmadmin.dto.goods.GoodsListResponse;
 import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
+import com.ddangme.dmadmin.model.constants.PackagingType;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.service.PaginationService;
 import com.ddangme.dmadmin.service.goods.CategoryService;
@@ -44,6 +45,7 @@ public class GoodsController {
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("saleStatus", SaleStatus.values());
+        model.addAttribute("packagingType", PackagingType.values());
         model.addAttribute("categories",categoryService.findParent());
         return "goods/goods-add";
     }
@@ -51,6 +53,8 @@ public class GoodsController {
     @PostMapping("/add")
     public String add(GoodsSaveRequest request) {
         log.info("request={}", request);
+        log.info("request.getGoodsDetail={}", request.getGoodsDetail());
+        log.info("request.getGoodsOptions={}", request.getGoodsOptions());
 
         return "/goods/goods-list";
     }
