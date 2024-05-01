@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -38,12 +37,12 @@ public class CategoryController {
         model.addAttribute("categories", categories);
         model.addAttribute("pages", pages);
 
-        return "goods/category-list";
+        return "category/category-list";
     }
 
     @GetMapping("/categories/add")
     public String addCategory() {
-        return "goods/category-add";
+        return "category/category-add";
     }
 
     @GetMapping("/categories/{categoryId}")
@@ -52,6 +51,6 @@ public class CategoryController {
 
         model.addAttribute("category", category);
         model.addAttribute("childCategories", category.getChildCategories());
-        return "goods/category-edit";
+        return "category/category-edit";
     }
 }
