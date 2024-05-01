@@ -1,4 +1,4 @@
-package com.ddangme.dmadmin.controller.goods;
+package com.ddangme.dmadmin.controller.category;
 
 import com.ddangme.dmadmin.dto.AdminPrincipal;
 import com.ddangme.dmadmin.dto.Response;
