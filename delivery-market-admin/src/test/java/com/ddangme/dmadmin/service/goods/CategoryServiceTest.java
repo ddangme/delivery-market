@@ -1,13 +1,13 @@
 package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.AdminDTO;
-import com.ddangme.dmadmin.dto.goods.CategoryDTO;
-import com.ddangme.dmadmin.dto.goods.CategoryRequest;
+import com.ddangme.dmadmin.dto.category.CategoryDTO;
+import com.ddangme.dmadmin.dto.category.CategoryRequest;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.goods.Category;
 import com.ddangme.dmadmin.repository.AdminRepository;
-import com.ddangme.dmadmin.repository.goods.CategoryRepository;
+import com.ddangme.dmadmin.repository.category.CategoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,7 +62,7 @@ class CategoryServiceTest {
         request.setName("parent");
         request.setChildName(List.of("child1", "child2"));
         CategoryDTO dto = request.toDTO();
-        Category category = dto.parentToEntity();
+        Category category = dto.toEntity();
 
         when(categoryRepository.save(any(Category.class))).thenReturn(category);
 
@@ -79,7 +79,7 @@ class CategoryServiceTest {
 
     @Test
     void 상위_카테고리에_이미_있는_카테고리명_입력_시_오류() {
-        CategoryDTO dto = new CategoryDTO("이미 있는 이름", null);
+        CategoryDTO dto = new CategoryDTO("이미 있는 이름", (Set<CategoryDTO>) null);
         given(categoryRepository.findByName("이미 있는 이름")).willReturn(Optional.of(new Category("이미 있는 이름")));
 
         DMAdminException exception = assertThrows(DMAdminException.class, () -> {
@@ -125,7 +125,7 @@ class CategoryServiceTest {
 
     @Test
     void 상위_카테고리을_16자_이상으로_입력_시_오류() {
-        CategoryDTO dto = new CategoryDTO("가나다라마바사아자차카타파하가나", null);
+        CategoryDTO dto = new CategoryDTO("가나다라마바사아자차카타파하가나", (Set<CategoryDTO>) null);
 
         DMAdminException exception = assertThrows(DMAdminException.class, () -> {
             categoryService.save(dto);
@@ -151,7 +151,7 @@ class CategoryServiceTest {
 
     @Test
     void 상위_카테고리를_null로_입력_시_오류() {
-        CategoryDTO dto = new CategoryDTO(null, null);
+        CategoryDTO dto = new CategoryDTO(null, (Set<CategoryDTO>) null);
         DMAdminException exception = assertThrows(DMAdminException.class, () -> {
             categoryService.save(dto);
         });
@@ -162,7 +162,7 @@ class CategoryServiceTest {
 
     @Test
     void 상위_카테고리를_공백으로_등록_시도_시_에러() {
-        CategoryDTO dto = new CategoryDTO(" ", null);
+        CategoryDTO dto = new CategoryDTO(" ", (Set<CategoryDTO>) null);
         DMAdminException exception = assertThrows(DMAdminException.class, () -> {
             categoryService.save(dto);
         });
@@ -172,7 +172,7 @@ class CategoryServiceTest {
 
     @Test
     void 상위_카테고리를_입력하지_않고_등록_시도_시_에러() {
-        CategoryDTO dto = new CategoryDTO("", null);
+        CategoryDTO dto = new CategoryDTO("", (Set<CategoryDTO>) null);
         DMAdminException exception = assertThrows(DMAdminException.class, () -> {
             categoryService.save(dto);
         });
@@ -181,7 +181,7 @@ class CategoryServiceTest {
     }
     @Test
     void 상위_카테고리를_1글자로_등록_시도_시_에러() {
-        CategoryDTO dto = new CategoryDTO("가", null);
+        CategoryDTO dto = new CategoryDTO("가", (Set<CategoryDTO>) null);
         DMAdminException exception = assertThrows(DMAdminException.class, () -> {
             categoryService.save(dto);
         });
@@ -260,7 +260,6 @@ class CategoryServiceTest {
     private static AdminDTO newAdminDTO() {
         return new AdminDTO(1L, "email@test.com", "password", "name", "nickname");
     }
-
 
 
 }

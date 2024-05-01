@@ -1,13 +1,14 @@
 package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.AdminDTO;
-import com.ddangme.dmadmin.dto.goods.CategoryDTO;
+import com.ddangme.dmadmin.dto.category.CategoryDTO;
+import com.ddangme.dmadmin.dto.category.CategoryListResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.goods.Category;
 import com.ddangme.dmadmin.repository.AdminRepository;
-import com.ddangme.dmadmin.repository.goods.CategoryRepository;
+import com.ddangme.dmadmin.repository.category.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -26,9 +28,9 @@ public class CategoryService {
     private final AdminRepository adminRepository;
     private final CategoryRepository categoryRepository;
 
-    public Page<CategoryDTO> search(Pageable pageable) {
+    public Page<CategoryListResponse> search(Pageable pageable) {
         return categoryRepository.searchParents(pageable)
-                .map(CategoryDTO::fromEntity);
+                .map(CategoryListResponse::fromEntity);
     }
 
     public CategoryDTO getParentCategory(Long categoryId) {
