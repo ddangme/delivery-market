@@ -26,7 +26,7 @@ public class GoodsOption extends AuditingFields {
 
     private Long price;
     private Long salePrice;
-    private Long salePercent;
+    private Integer salePercent;
     private Long amount;
 
     @Enumerated(EnumType.STRING)

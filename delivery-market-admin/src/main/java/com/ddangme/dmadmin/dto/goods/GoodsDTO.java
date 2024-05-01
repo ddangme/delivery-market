@@ -1,6 +1,7 @@
 package com.ddangme.dmadmin.dto.goods;
 
 import com.ddangme.dmadmin.dto.AdminDTO;
+import com.ddangme.dmadmin.dto.category.CategoryDTO;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.constants.UploadFile;
 import com.ddangme.dmadmin.model.goods.Goods;
@@ -21,7 +22,7 @@ public class GoodsDTO {
     private String summary;
     private Long price;
     private Long salePrice;
-    private Long salePercent;
+    private Integer salePercent;
     private SaleStatus saleStatus;
     private GoodsDetailDTO goodsDetailDTO;
     private Set<GoodsOptionDTO> goodsOptionDTO;

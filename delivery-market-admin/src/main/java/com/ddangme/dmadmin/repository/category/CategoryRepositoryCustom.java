@@ -6,6 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface CategoryRepositoryCustom {
 
-    Page<Category> searchParents(Pageable pageable);
-
+    Page<Category> search(Pageable pageable);
 }

@@ -2,6 +2,7 @@ package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.AdminDTO;
 import com.ddangme.dmadmin.dto.category.CategoryDTO;
+import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.category.CategoryListResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
@@ -29,9 +30,18 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public Page<CategoryListResponse> search(Pageable pageable) {
-        return categoryRepository.searchParents(pageable)
+        return categoryRepository.search(pageable)
                 .map(CategoryListResponse::fromEntity);
     }
+
+    public List<CategoryIdNameResponse> findParent() {
+        return categoryRepository.findByParentIdIsNullOrderByName();
+    }
+
+    public List<CategoryIdNameResponse> findChild(Long parentId) {
+        return categoryRepository.findByParentIdOrderByName(parentId);
+    }
+
 
     public CategoryDTO getParentCategory(Long categoryId) {
         return categoryRepository.findById(categoryId)

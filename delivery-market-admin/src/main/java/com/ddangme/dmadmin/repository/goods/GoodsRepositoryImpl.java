@@ -11,7 +11,6 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
 
-import static com.ddangme.dmadmin.model.QAdmin.admin;
 import static com.ddangme.dmadmin.model.goods.QCategory.category;
 import static com.ddangme.dmadmin.model.goods.QGoods.goods;
 
@@ -27,7 +26,6 @@ public class GoodsRepositoryImpl implements GoodsRepositoryCustom {
     public Page<GoodsListResponse> search(Pageable pageable) {
         QAdmin admin1 = new QAdmin("admin1");
         QAdmin admin2 = new QAdmin("admin2");
-        QAdmin admin3 = new QAdmin("admin3");
         JPAQuery<GoodsListResponse> query = queryFactory
                 .select(new QGoodsListResponse(
                         goods.id.as("id"),
@@ -40,14 +38,11 @@ public class GoodsRepositoryImpl implements GoodsRepositoryCustom {
                         goods.createdAt,
                         admin1.name.as("createdBy"),
                         goods.updatedAt,
-                        admin2.name.as("updatedBy"), // 수정된 부분
-                        goods.deletedAt,
-                        admin3.name.as("deletedBy"))) // 수정된 부분
+                        admin2.name.as("updatedBy")))
                 .from(goods)
                 .leftJoin(category).on(goods.category.id.eq(category.id))
-                .leftJoin(admin1).on(goods.createdBy.id.eq(admin1.id)) // 수정된 부분
-                .leftJoin(admin2).on(goods.updatedBy.id.eq(admin2.id)) // 수정된 부분
-                .leftJoin(admin3).on(goods.deletedBy.id.eq(admin3.id)); // 수정된 부분
+                .leftJoin(admin1).on(goods.createdBy.id.eq(admin1.id))
+                .leftJoin(admin2).on(goods.updatedBy.id.eq(admin2.id));
 
         return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
     }

@@ -34,7 +34,7 @@ public class Goods extends AuditingFields {
 
     private Long salePrice;
 
-    private Long salePercent;
+    private Integer salePercent;
 
     @Enumerated(EnumType.STRING)
     private SaleStatus saleStatus;

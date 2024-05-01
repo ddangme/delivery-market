@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+<div th:replace="~{/fragments/sidebar :: sidebar}"></div>
+<div class="content-area">
+    <div class="row">
+        <div class="col-12 border-bottom mb-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <p class="fs-5 fw-bold mb-0">상품 추가</p>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-12">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#goods-basic-input-area" aria-expanded="true" aria-controls="goods-basic-input-area" style="background:white">
+                                    기본 정보
+                                </button>
+                            </h2>
+                            <div id="goods-basic-input-area" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+                                    <div class="row py-4 px-3">
+                                        <div class="col-6 pb-3">
+                                            <label for="name" class="form-label">상품명</label>
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="상품 이름을 입력해주세요.">
+                                        </div>
+                                        <div class="col-3 pb-3">
+                                            <label for="parentCategoryId" class="form-label">상위 카테고리</label>
+                                            <select id="parentCategoryId" class="form-select" name="categoryId" >
+                                                <option value="">==카테고리==</option>
+                                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3 pb-3">
+                                            <label for="categoryId" class="form-label">하위 카테고리</label>
+                                            <select id="categoryId" name="categoryId" class="form-select" disabled>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 pb-3">
+                                            <label for="summary" class="form-label">상품 요약 설명</label>
+                                            <textarea id="summary" name="summary" class="form-control" aria-label="With textarea"></textarea>
+                                        </div>
+                                        <div class="col-3 pb-3">
+                                            <label for="saleStatus" class="form-label">판매 상태</label>
+                                            <select id="saleStatus" name="saleStatus" class="form-select">
+                                                <option value="">==판매 상태==</option>
+                                                <option th:each="status : ${saleStatus}" th:value="${status.name}" th:text="${status.status}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3 pb-3">
+                                            <label for="price" class="form-label">상품 대표 가격</label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" id="price" name="price" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                                <span class="input-group-text">원</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 pb-3">
+                                            <label for="photo" class="form-label">상품 대표 이미지</label>
+                                            <input class="form-control" type="file" id="photo" name="photo">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#goods-discount-input-area" aria-expanded="false" aria-controls="goods-discount-input-area" style="background:white">
+                                    할인 정보
+                                </button>
+                            </h2>
+                            <div id="goods-discount-input-area" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+
+                                    원산지
+                                    포장타입
+                                    중량/용량
+                                    알레르기 정보
+                                    안내사항
+                                    소비기한
+                                    상품 설명
+                                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#goods-detail-input-area" aria-expanded="false" aria-controls="goods-detail-input-area" style="background:white">
+                                    상세 정보
+                                </button>
+                            </h2>
+                            <div id="goods-detail-input-area" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+
+                                    원산지
+                                    포장타입
+                                    중량/용량
+                                    알레르기 정보
+                                    안내사항
+                                    소비기한
+                                    상품 설명
+                                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#goods-option-input-area" aria-expanded="false" aria-controls="goods-option-input-area" style="background:white">
+                                    옵션 정보
+                                </button>
+                            </h2>
+                            <div id="goods-option-input-area" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+
+
+                                    옵션 정보
+                                    - 금액
+                                    - 할인 금액
+                                    - 할인율
+                                    - 재고
+                                    - 판매 상태
+                                    <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="d-flex justify-content-center mt-5">
+                <button type="submit" class="btn btn-outline-success" id="add-category-btn">추가</button>
+                <a type="button" class="btn btn-outline-secondary ms-3" href="/categories">취소</a>
+            </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script src="/js/goods.js"></script>

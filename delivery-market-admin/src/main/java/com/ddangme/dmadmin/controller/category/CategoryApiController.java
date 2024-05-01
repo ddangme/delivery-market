@@ -3,6 +3,7 @@ package com.ddangme.dmadmin.controller.category;
 import com.ddangme.dmadmin.dto.AdminPrincipal;
 import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.category.CategoryEditRequest;
+import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.category.CategoryRequest;
 import com.ddangme.dmadmin.service.goods.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,13 @@ public class CategoryApiController {
 
         categoryService.save(request.toDTO());
         return Response.success();
+    }
+
+    @GetMapping("/{parentId}")
+    public Response<List<CategoryIdNameResponse>> findChildCategory(@PathVariable Long parentId) {
+        log.info("parentId={}", parentId);
+
+        return Response.success(categoryService.findChild(parentId));
     }
 
     @DeleteMapping

@@ -35,5 +35,9 @@ public class CategoryListResponse {
         );
     }
 
+    public CategoryListResponse(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
 }
