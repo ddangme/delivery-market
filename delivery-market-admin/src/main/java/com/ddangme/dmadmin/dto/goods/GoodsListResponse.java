@@ -22,11 +22,9 @@ public class GoodsListResponse {
     private String createdBy;
     private LocalDateTime updatedAt;
     private String updatedBy;
-    private LocalDateTime deletedAt;
-    private String deletedBy;
 
     @QueryProjection
-    public GoodsListResponse(Long id, String categoryName, String name, Long price, SaleStatus saleStatus, String uploadFileName, String storeFileName, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy, LocalDateTime deletedAt, String deletedBy) {
+    public GoodsListResponse(Long id, String categoryName, String name, Long price, SaleStatus saleStatus, String uploadFileName, String storeFileName, LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy) {
         this.id = id;
         this.categoryName = categoryName;
         this.name = name;
@@ -38,7 +36,5 @@ public class GoodsListResponse {
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
         this.updatedBy = updatedBy;
-        this.deletedAt = deletedAt;
-        this.deletedBy = deletedBy;
     }
 }

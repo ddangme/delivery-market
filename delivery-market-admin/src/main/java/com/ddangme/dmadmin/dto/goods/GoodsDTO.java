@@ -1,6 +1,7 @@
 package com.ddangme.dmadmin.dto.goods;
 
 import com.ddangme.dmadmin.dto.AdminDTO;
+import com.ddangme.dmadmin.dto.category.CategoryDTO;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.constants.UploadFile;
 import com.ddangme.dmadmin.model.goods.Goods;
@@ -20,8 +21,8 @@ public class GoodsDTO {
     private String name;
     private String summary;
     private Long price;
-    private Long salePrice;
-    private Long salePercent;
+    private Long discountPrice;
+    private Integer discountPercent;
     private SaleStatus saleStatus;
     private GoodsDetailDTO goodsDetailDTO;
     private Set<GoodsOptionDTO> goodsOptionDTO;
@@ -40,8 +41,8 @@ public class GoodsDTO {
                 entity.getName(),
                 entity.getSummary(),
                 entity.getPrice(),
-                entity.getSalePrice(),
-                entity.getSalePercent(),
+                entity.getDiscountPrice(),
+                entity.getDiscountPercent(),
                 entity.getSaleStatus(),
                 GoodsDetailDTO.fromEntity(entity.getGoodsDetail()),
                 entity.getGoodsOption()

@@ -20,7 +20,7 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
     }
 
     @Override
-    public Page<Category> searchParents(Pageable pageable) {
+    public Page<Category> search(Pageable pageable) {
         JPAQuery<Category> query = queryFactory
                 .selectFrom(category)
                 .where(category.parentId.isNull())
