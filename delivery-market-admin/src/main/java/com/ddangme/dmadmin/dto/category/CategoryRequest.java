@@ -1,4 +1,4 @@
-package com.ddangme.dmadmin.dto.goods;
+package com.ddangme.dmadmin.dto.category;
 
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;

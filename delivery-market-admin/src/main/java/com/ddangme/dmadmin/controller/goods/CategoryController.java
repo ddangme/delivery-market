@@ -1,7 +1,7 @@
 package com.ddangme.dmadmin.controller.goods;
 
-import com.ddangme.dmadmin.dto.goods.CategoryDTO;
-import com.ddangme.dmadmin.model.goods.Category;
+import com.ddangme.dmadmin.dto.category.CategoryDTO;
+import com.ddangme.dmadmin.dto.category.CategoryListResponse;
 import com.ddangme.dmadmin.service.PaginationService;
 import com.ddangme.dmadmin.service.goods.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -29,7 +29,10 @@ public class CategoryController {
     @GetMapping("/categories")
     public String categoriesList(Model model,
                                  @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<CategoryDTO> categories = categoryService.search(pageable);
+        Page<CategoryListResponse> categories = categoryService.search(pageable);
+        for (CategoryListResponse category : categories) {
+            log.info(category.getChildCategories().toString());
+        }
         List<Integer> pages = paginationService.getPaginationLength(pageable.getPageNumber(), categories.getTotalPages());
 
         model.addAttribute("categories", categories);

@@ -1,4 +1,4 @@
-package com.ddangme.dmadmin.dto.goods;
+package com.ddangme.dmadmin.dto.category;
 
 import lombok.Data;
 import lombok.ToString;
