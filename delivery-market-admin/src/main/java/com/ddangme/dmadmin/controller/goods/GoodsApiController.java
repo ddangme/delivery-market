@@ -21,13 +21,11 @@ import java.io.IOException;
 public class GoodsApiController {
 
     private final GoodsService goodsService;
-    private final FileUploadService fileUploadService;
 
     @PostMapping("/add")
     public String add(GoodsSaveRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
         log.info("request={}", request);
-        UploadFile file = fileUploadService.storeFile(photo);
-        goodsService.save(request.toDTO(file));
+        goodsService.save(request.toDTO(), photo);
 
         return "/goods/goods-list";
     }

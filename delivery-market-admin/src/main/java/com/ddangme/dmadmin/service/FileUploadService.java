@@ -19,17 +19,21 @@ public class FileUploadService {
         return fileDir + filename;
     }
 
-    public UploadFile storeFile(MultipartFile file) throws IOException {
+    public UploadFile getUploadFile(MultipartFile file) {
         if (file.isEmpty()) {
             return null;
         }
 
         String originalFileName = file.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFileName);
-        file.transferTo(new File(getFullPath(storeFileName)));
 
         return new UploadFile(originalFileName, storeFileName);
     }
+
+    public void transferTo(MultipartFile file, UploadFile uploadFile) throws IOException {
+        file.transferTo(new File(getFullPath(uploadFile.getStoreFileName())));
+    }
+
 
     private String createStoreFileName(String originalFileName) {
         String ext = extractExt(originalFileName);

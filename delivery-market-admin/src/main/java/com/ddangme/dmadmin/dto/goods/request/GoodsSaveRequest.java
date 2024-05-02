@@ -27,7 +27,8 @@ public class GoodsSaveRequest {
     private GoodsDetailRequest goodsDetail;
     private List<GoodsOptionRequest> goodsOptions;
 
-    public GoodsDTO toDTO(UploadFile photo) {
+    public GoodsDTO toDTO() {
+        validate();
         return new GoodsDTO(
                 new CategoryDTO(categoryId),
                 name,
@@ -37,9 +38,14 @@ public class GoodsSaveRequest {
                 discountPercent,
                 saleStatus,
                 goodsDetail.toDTO(),
-                goodsOptions.stream().map(GoodsOptionRequest::toDTO).toList(),
-                photo
+                goodsOptions.stream().map(GoodsOptionRequest::toDTO).toList()
         );
+    }
+
+    public void validate() {
+        if (name == null) {
+            throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "상품명을 입력해주세요.");
+        }
     }
 }
 

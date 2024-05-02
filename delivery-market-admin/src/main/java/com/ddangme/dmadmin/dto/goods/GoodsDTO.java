@@ -41,7 +41,7 @@ public class GoodsDTO {
     private LocalDateTime deletedAt;
     private AdminDTO deletedBy;
 
-    public GoodsDTO(CategoryDTO categoryDTO, String name, String summary, Long price, Long discountPrice, Integer discountPercent, SaleStatus saleStatus, GoodsDetailDTO goodsDetailDTO, List<GoodsOptionDTO> goodsOptionDTO, UploadFile photo) {
+    public GoodsDTO(CategoryDTO categoryDTO, String name, String summary, Long price, Long discountPrice, Integer discountPercent, SaleStatus saleStatus, GoodsDetailDTO goodsDetailDTO, List<GoodsOptionDTO> goodsOptionDTO) {
         this.categoryDTO = categoryDTO;
         this.name = name;
         this.summary = summary;
@@ -51,7 +51,6 @@ public class GoodsDTO {
         this.saleStatus = saleStatus;
         this.goodsDetailDTO = goodsDetailDTO;
         this.goodsOptionDTO = goodsOptionDTO;
-        this.photo = photo;
     }
 
     public static GoodsDTO fromEntity(Goods entity) {
@@ -78,7 +77,7 @@ public class GoodsDTO {
         );
     }
 
-    public Goods toGoodsEntity() {
+    public Goods toGoodsEntity(UploadFile photo) {
         return new Goods(
                 id,
                 new Category(categoryDTO.getId()),
