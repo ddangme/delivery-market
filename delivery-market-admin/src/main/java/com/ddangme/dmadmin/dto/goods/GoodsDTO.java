@@ -77,10 +77,10 @@ public class GoodsDTO {
         );
     }
 
-    public Goods toGoodsEntity(UploadFile photo) {
+    public Goods toGoodsEntity(Category category, UploadFile photo) {
         return new Goods(
                 id,
-                new Category(categoryDTO.getId()),
+                category,
                 name,
                 summary,
                 price,

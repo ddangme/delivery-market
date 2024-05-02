@@ -33,10 +33,10 @@ public class GoodsDetailRequest {
         if (packagingType == null) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "포장 타입을 선택해주세요.");
         }
-        if (weightVolume.isEmpty()) {
+        if (weightVolume == null || weightVolume.isEmpty()) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "중량/용량을 입력해주세요.");
         }
-        if (description.isEmpty()) {
+        if (description == null || description.isEmpty()) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "상품 상세 설명을 입력해주세요.");
         }
     }

@@ -2,10 +2,14 @@ package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.goods.GoodsDTO;
 import com.ddangme.dmadmin.dto.goods.GoodsListResponse;
+import com.ddangme.dmadmin.exception.DMAdminException;
+import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.constants.UploadFile;
+import com.ddangme.dmadmin.model.goods.Category;
 import com.ddangme.dmadmin.model.goods.Goods;
 import com.ddangme.dmadmin.model.goods.GoodsDetail;
 import com.ddangme.dmadmin.model.goods.GoodsOption;
+import com.ddangme.dmadmin.repository.category.CategoryRepository;
 import com.ddangme.dmadmin.repository.goods.GoodsDetailRepository;
 import com.ddangme.dmadmin.repository.goods.GoodsOptionRepository;
 import com.ddangme.dmadmin.repository.goods.GoodsRepository;
@@ -29,6 +33,7 @@ public class GoodsService {
 
     private final FileUploadService fileUploadService;
     private final GoodsRepository goodsRepository;
+    private final CategoryRepository categoryRepository;
     private final GoodsDetailRepository goodsDetailRepository;
     private final GoodsOptionRepository goodsOptionRepository;
 
@@ -37,10 +42,13 @@ public class GoodsService {
     }
 
     @Transactional
-    public void save(GoodsDTO dto, MultipartFile photo) throws IOException {
-        UploadFile uploadFile = fileUploadService.getUploadFile(photo);
+    public void save(GoodsDTO dto, MultipartFile uploadFile) throws IOException {
+        UploadFile file = fileUploadService.getUploadFile(uploadFile);
 
-        Goods goods = dto.toGoodsEntity(uploadFile);
+        Category category = categoryRepository.findById(dto.getCategoryDTO().getId())
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+
+        Goods goods = dto.toGoodsEntity(category, file);
         goodsRepository.save(goods);
 
         GoodsDetail detail = dto.toGoodsDetailEntity(goods);
@@ -49,6 +57,9 @@ public class GoodsService {
         goods.saveDetail(detail);
         goods.saveOptions(options);
 
-        fileUploadService.transferTo(photo, uploadFile);
+        fileUploadService.transferTo(uploadFile, file);
+    }
+
+    private void saveValidate(GoodsDTO dto) {
     }
 }

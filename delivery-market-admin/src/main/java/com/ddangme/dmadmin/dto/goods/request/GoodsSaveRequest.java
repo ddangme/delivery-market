@@ -43,13 +43,13 @@ public class GoodsSaveRequest {
     }
 
     public void validate() {
-        if (name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "상품명을 입력해주세요.");
         }
         if (categoryId == null) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "카테고리를 선택해주세요.");
         }
-        if (summary.isEmpty()) {
+        if (summary == null || summary.isEmpty()) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "상품 요약 설명을 입력해주세요.");
         }
         if (saleStatus == null) {

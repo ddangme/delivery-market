@@ -28,7 +28,7 @@ public class GoodsOptionRequest {
     }
 
     private void validate() {
-        if (name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "옵션의 이름을 입력해주세요.");
         }
         if (saleStatus == null) {
