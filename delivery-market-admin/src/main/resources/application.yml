@@ -19,3 +19,5 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+file:
+  dir: /Users/ddang_me/Project/delivery-market-and-admin/upload-imgs/
