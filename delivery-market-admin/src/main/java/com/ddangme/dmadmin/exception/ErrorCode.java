@@ -18,6 +18,8 @@ public enum ErrorCode {
     NOT_EXIST_ADMIN_ACCOUNT(HttpStatus.UNAUTHORIZED, "존재하지 않는 관리자입니다."),
     ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 계정입니다."),
 
+
+    FIELD_IS_NULL(HttpStatus.BAD_REQUEST, "필수 값을 입력해 주세요."),
     ;
 
 

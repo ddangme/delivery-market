@@ -1,18 +1,22 @@
 package com.ddangme.dmadmin.model.goods;
 
+import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.AuditingFields;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "DELETED_AT IS NULL")
+@AllArgsConstructor
 public class GoodsOption extends AuditingFields {
 
     @Id
@@ -32,4 +36,13 @@ public class GoodsOption extends AuditingFields {
     @Enumerated(EnumType.STRING)
     private SaleStatus saleStatus;
 
+    public GoodsOption(Goods goods, String name, Long price, Long discountPrice, Integer discountPercent, Long amount, SaleStatus saleStatus) {
+        this.goods = goods;
+        this.name = name;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+        this.amount = amount;
+        this.saleStatus = saleStatus;
+    }
 }

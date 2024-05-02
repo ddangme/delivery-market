@@ -27,6 +27,15 @@ public class GoodsOptionDTO {
     private LocalDateTime deletedAt;
     private AdminDTO deletedBy;
 
+    public GoodsOptionDTO(String name, Long price, Long discountPrice, Integer discountPercent, Long amount, SaleStatus saleStatus) {
+        this.name = name;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+        this.amount = amount;
+        this.saleStatus = saleStatus;
+    }
+
     public static GoodsOptionDTO fromEntity(GoodsOption entity) {
         return new GoodsOptionDTO(
             entity.getId(),
@@ -45,4 +54,5 @@ public class GoodsOptionDTO {
             AdminDTO.fromEntity(entity.getDeletedBy())
         );
     }
+
 }

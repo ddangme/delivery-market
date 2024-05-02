@@ -23,6 +23,7 @@ $(document).ready(function() {
                 } else {
                     $('#childCategoryId').prop('disabled', true);
                 }
+
             },
             error: function(xhr, textStatus, errorThrown) {
                 alert("서버 오류가 발생했습니다. 상위 카테고리를 다시 선택해 주세요.");
@@ -90,10 +91,13 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(response) {
-                console.log(response);
+                if (response.resultCode === "SUCCESS") {
+                    window.location.href = '/goods';
+                    alert("상품이 추가되었습니다.");
+                }
             },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+            error: function(xhr, status) {
+                alert(xhr.responseText);
             }
         });
     });

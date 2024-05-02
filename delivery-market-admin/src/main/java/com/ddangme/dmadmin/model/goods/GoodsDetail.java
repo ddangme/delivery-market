@@ -1,8 +1,8 @@
 package com.ddangme.dmadmin.model.goods;
 
-import com.ddangme.dmadmin.model.AuditingFields;
 import com.ddangme.dmadmin.model.constants.PackagingType;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "DELETED_AT IS NULL")
+@AllArgsConstructor
 public class GoodsDetail {
 
     @Id
@@ -38,5 +39,16 @@ public class GoodsDetail {
     private String expiryDate;
 
     private String description;
+
+    public GoodsDetail(Goods goods, String origin, PackagingType packagingType, String weightVolume, String allergyInfo, String guidelines, String expiryDate, String description) {
+        this.goods = goods;
+        this.origin = origin;
+        this.packagingType = packagingType;
+        this.weightVolume = weightVolume;
+        this.allergyInfo = allergyInfo;
+        this.guidelines = guidelines;
+        this.expiryDate = expiryDate;
+        this.description = description;
+    }
 
 }

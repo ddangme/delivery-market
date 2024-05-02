@@ -18,6 +18,16 @@ public class GoodsDetailDTO {
     private String expiryDate;
     private String description;
 
+    public GoodsDetailDTO(String origin, PackagingType packagingType, String weightVolume, String allergyInfo, String guidelines, String expiryDate, String description) {
+        this.origin = origin;
+        this.packagingType = packagingType;
+        this.weightVolume = weightVolume;
+        this.allergyInfo = allergyInfo;
+        this.guidelines = guidelines;
+        this.expiryDate = expiryDate;
+        this.description = description;
+    }
+
     public static GoodsDetailDTO fromEntity(GoodsDetail entity) {
         return new GoodsDetailDTO(
                 entity.getId(),
