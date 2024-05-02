@@ -26,6 +26,10 @@ public class CategoryDTO {
 
     private Set<CategoryDTO> childCategories = new LinkedHashSet<>();
 
+    public CategoryDTO(Long id) {
+        this.id = id;
+    }
+
     public CategoryDTO(Long id, String name, Long parentId, LocalDateTime createdAt, AdminDTO createdBy, LocalDateTime updatedAt, AdminDTO updatedBy, Set<CategoryDTO> childCategories) {
         this.id = id;
         this.name = name;

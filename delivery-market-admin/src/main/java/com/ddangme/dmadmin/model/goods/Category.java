@@ -33,6 +33,10 @@ public class Category extends AuditingFields {
     @OneToMany(mappedBy = "parentId", cascade = CascadeType.ALL)
     private Set<Category> childCategories = new LinkedHashSet<>();
 
+    public Category(Long id) {
+        this.id = id;
+    }
+
     public Category(Long id, String name, Long parentId, Set<Category> childCategories) {
         this.id = id;
         this.name = name;

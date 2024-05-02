@@ -1,5 +1,6 @@
 package com.ddangme.dmadmin.model.goods;
 
+import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.AuditingFields;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.constants.UploadFile;
@@ -9,6 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -45,8 +49,7 @@ public class Goods extends AuditingFields {
     })
     private UploadFile photo;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @Transient
+    @OneToOne(mappedBy = "goods", cascade = CascadeType.ALL)
     private GoodsDetail goodsDetail;
 
     @ToString.Exclude
@@ -54,4 +57,23 @@ public class Goods extends AuditingFields {
     @OneToMany(mappedBy = "goods", cascade = CascadeType.ALL)
     private Set<GoodsOption> goodsOption;
 
+    public Goods(Long id, Category category, String name, String summary, Long price, Long discountPrice, Integer discountPercent, SaleStatus saleStatus, UploadFile photo) {
+        this.id = id;
+        this.category = category;
+        this.name = name;
+        this.summary = summary;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+        this.saleStatus = saleStatus;
+        this.photo = photo;
+    }
+
+    public void saveDetail(GoodsDetail detail) {
+        this.goodsDetail = detail;
+    }
+
+    public void saveOptions(List<GoodsOption> options) {
+        this.goodsOption = new LinkedHashSet<>(options);
+    }
 }
