@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -22,10 +24,10 @@ public class GoodsApiController {
     private final FileUploadService fileUploadService;
 
     @PostMapping("/add")
-    public String add( GoodsSaveRequest request) throws IOException {
+    public String add(GoodsSaveRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
         log.info("request={}", request);
-        UploadFile photo = fileUploadService.storeFile(request.getPhoto());
-        goodsService.save(request.toDTO(photo));
+        UploadFile file = fileUploadService.storeFile(photo);
+        goodsService.save(request.toDTO(file));
 
         return "/goods/goods-list";
     }

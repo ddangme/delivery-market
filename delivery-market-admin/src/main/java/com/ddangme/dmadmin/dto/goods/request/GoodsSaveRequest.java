@@ -3,12 +3,12 @@ package com.ddangme.dmadmin.dto.goods.request;
 
 import com.ddangme.dmadmin.dto.category.CategoryDTO;
 import com.ddangme.dmadmin.dto.goods.GoodsDTO;
-import com.ddangme.dmadmin.dto.goods.GoodsDetailDTO;
+import com.ddangme.dmadmin.exception.DMAdminException;
+import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.constants.UploadFile;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,7 +23,6 @@ public class GoodsSaveRequest {
     private Long discountPrice;
     private Integer discountPercent;
     private SaleStatus saleStatus;
-    private MultipartFile photo;
 
     private GoodsDetailRequest goodsDetail;
     private List<GoodsOptionRequest> goodsOptions;
