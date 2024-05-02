@@ -1,5 +1,7 @@
 package com.ddangme.dmadmin.service;
 
+import com.ddangme.dmadmin.exception.DMAdminException;
+import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.constants.UploadFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,8 +22,8 @@ public class FileUploadService {
     }
 
     public UploadFile getUploadFile(MultipartFile file) {
-        if (file.isEmpty()) {
-            return null;
+        if (file == null || file.isEmpty()) {
+            throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "상품 대표 이미지를 선택해주세요.");
         }
 
         String originalFileName = file.getOriginalFilename();

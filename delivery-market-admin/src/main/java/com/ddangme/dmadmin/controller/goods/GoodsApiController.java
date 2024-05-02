@@ -1,5 +1,6 @@
 package com.ddangme.dmadmin.controller.goods;
 
+import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
 import com.ddangme.dmadmin.model.constants.UploadFile;
 import com.ddangme.dmadmin.service.FileUploadService;
@@ -23,10 +24,10 @@ public class GoodsApiController {
     private final GoodsService goodsService;
 
     @PostMapping("/add")
-    public String add(GoodsSaveRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
+    public Response<Void> add(GoodsSaveRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
         log.info("request={}", request);
         goodsService.save(request.toDTO(), photo);
 
-        return "/goods/goods-list";
+        return Response.success();
     }
 }

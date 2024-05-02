@@ -74,8 +74,8 @@
                             <td th:text="${good.createdBy}"></td>
                             <td th:if="${good.createdAt == good.updatedAt}"></td>
                             <td th:if="${good.createdAt != good.updatedAt}" th:text="${#temporals.format(good.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:if="${good.createdBy == good.updatedBy}"></td>
-                            <td th:if="${good.createdBy != good.updatedBy}" th:text="${good.updatedBy}"></td>
+                            <td th:if="${good.createdAt == good.updatedAt}"></td>
+                            <td th:if="${good.createdAt != good.updatedAt}" th:text="${good.updatedBy}"></td>
                         </tr>
                     </tbody>
                 </table>

@@ -43,8 +43,23 @@ public class GoodsSaveRequest {
     }
 
     public void validate() {
-        if (name == null) {
+        if (name.isEmpty()) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "상품명을 입력해주세요.");
+        }
+        if (categoryId == null) {
+            throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "카테고리를 선택해주세요.");
+        }
+        if (summary.isEmpty()) {
+            throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "상품 요약 설명을 입력해주세요.");
+        }
+        if (saleStatus == null) {
+            throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "판매 상태를 선택해주세요.");
+        }
+        if (price == null) {
+            throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "상품 대표 가격을 입력해주세요.");
+        }
+        if (goodsOptions == null) {
+            throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "옵션은 최소 1개가 필요합니다.");
         }
     }
 }
