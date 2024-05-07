@@ -25,32 +25,32 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final PaginationService paginationService;
 
-    @GetMapping("/categories")
-    public String categoriesList(Model model,
-                                 @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<CategoryListResponse> categories = categoryService.search(pageable);
-        for (CategoryListResponse category : categories) {
-            log.info(category.getChildCategories().toString());
-        }
-        List<Integer> pages = paginationService.getPaginationLength(pageable.getPageNumber(), categories.getTotalPages());
-
-        model.addAttribute("categories", categories);
-        model.addAttribute("pages", pages);
-
-        return "category/category-list";
-    }
+//    @GetMapping("/categories")
+//    public String categoriesList(Model model,
+//                                 @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+//        Page<CategoryListResponse> categories = categoryService.search(pageable);
+//        for (CategoryListResponse category : categories) {
+//            log.info(category.getChildCategories().toString());
+//        }
+//        List<Integer> pages = paginationService.getPaginationLength(pageable.getPageNumber(), categories.getTotalPages());
+//
+//        model.addAttribute("categories", categories);
+//        model.addAttribute("pages", pages);
+//
+//        return "category/category-list";
+//    }
 
     @GetMapping("/categories/add")
     public String addCategory() {
         return "category/category-add";
     }
 
-    @GetMapping("/categories/{categoryId}")
-    public String editCategory(@PathVariable Long categoryId, Model model) {
-        CategoryDTO category = categoryService.getParentCategory(categoryId);
-
-        model.addAttribute("category", category);
-        model.addAttribute("childCategories", category.getChildCategories());
-        return "category/category-edit";
-    }
+//    @GetMapping("/categories/{categoryId}")
+//    public String editCategory(@PathVariable Long categoryId, Model model) {
+//        CategoryDTO category = categoryService.getParentCategory(categoryId);
+//
+//        model.addAttribute("category", category);
+//        model.addAttribute("childCategories", category.getChildCategories());
+//        return "category/category-edit";
+//    }
 }

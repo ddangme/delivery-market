@@ -34,8 +34,6 @@ public class GoodsService {
     private final FileUploadService fileUploadService;
     private final GoodsRepository goodsRepository;
     private final CategoryRepository categoryRepository;
-    private final GoodsDetailRepository goodsDetailRepository;
-    private final GoodsOptionRepository goodsOptionRepository;
 
     public Page<GoodsListResponse> search(Pageable pageable) {
         return goodsRepository.search(pageable);

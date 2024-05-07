@@ -3,16 +3,16 @@
 
 **테이블 명세:**
 
-| 컬럼명         | 데이터 타입       | 설명            | 제약 조건    |
-|---------------|--------------|---------------|----------|
-| id            | Long         | 주소 식별자        | PK       |
-| member_id     | Long (외래 키)  | 회원 식별자 (외래 키) |          |
-| road          | VARCHAR(255) | 도로명           | NOT NULL |
-| detail        | VARCHAR(255) | 상세 주소         |          |
-| zipcode       | INTEGER      | 우편번호          | NOT NULL |
-| main          | BOOLEAN      | 기본 배송지 여부     |          |
-| recipientName | VARCHAR(255) | 수취인 이름        |  NOT NULL        |
-| recipientPhone| VARCHAR(255) | 수취인 전화번호      |   NOT NULL       |
+| 컬럼명            | 데이터 타입       | 설명            | 제약 조건    |
+|----------------|--------------|---------------|----------|
+| id             | Long         | 주소 식별자        | PK       |
+| member_id      | Long (외래 키)  | 회원 식별자 (외래 키) |          |
+| road           | VARCHAR(255) | 도로명           | NOT NULL |
+| detail         | VARCHAR(255) | 상세 주소         |          |
+| zipcode        | INTEGER      | 우편번호          | NOT NULL |
+| main           | BOOLEAN      | 기본 배송지 여부     |          |
+| recipientName  | VARCHAR(255) | 수취인 이름        | NOT NULL |
+| recipientPhone | VARCHAR(255) | 수취인 전화번호      | NOT NULL |
 
 
 ## 기능

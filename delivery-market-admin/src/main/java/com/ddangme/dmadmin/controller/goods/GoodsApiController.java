@@ -26,7 +26,8 @@ public class GoodsApiController {
     @PostMapping("/add")
     public Response<Void> add(GoodsSaveRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
         log.info("request={}", request);
-        goodsService.save(request.toDTO(), photo);
+
+//        goodsService.save(request.toDTO(), photo);
 
         return Response.success();
     }

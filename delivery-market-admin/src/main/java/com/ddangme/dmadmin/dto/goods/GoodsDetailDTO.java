@@ -28,17 +28,17 @@ public class GoodsDetailDTO {
         this.description = description;
     }
 
-    public static GoodsDetailDTO fromEntity(GoodsDetail entity) {
-        return new GoodsDetailDTO(
-                entity.getId(),
-                GoodsDTO.fromEntity(entity.getGoods()),
-                entity.getOrigin(),
-                entity.getPackagingType(),
-                entity.getWeightVolume(),
-                entity.getAllergyInfo(),
-                entity.getGuidelines(),
-                entity.getExpiryDate(),
-                entity.getDescription()
-        );
-    }
+//    public static GoodsDetailDTO fromEntity(GoodsDetail entity) {
+//        return new GoodsDetailDTO(
+//                entity.getId(),
+//                GoodsDTO.fromEntity(entity.getGoods()),
+//                entity.getOrigin(),
+//                entity.getPackagingType(),
+//                entity.getWeightVolume(),
+//                entity.getAllergyInfo(),
+//                entity.getGuidelines(),
+//                entity.getExpiryDate(),
+//                entity.getDescription()
+//        );
+//    }
 }
