@@ -5,7 +5,6 @@ import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.category.CategoryEditRequest;
 import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.category.CategoryRequest;
-import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
 import com.ddangme.dmadmin.service.goods.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,39 +25,38 @@ public class CategoryApiController {
     public Response<Void> addCategory(CategoryRequest request) {
         log.info("request={}", request);
 
-        categoryService.save(request.toEntity());
+        categoryService.save(request.toDTO());
         return Response.success();
     }
 
-//
-//    @GetMapping("/{parentId}")
-//    public Response<List<CategoryIdNameResponse>> findChildCategory(@PathVariable Long parentId) {
-//        log.info("parentId={}", parentId);
-//
-//        return Response.success(categoryService.findChild(parentId));
-//    }
-//
-//    @DeleteMapping
-//    public Response<Void> delCategory(@AuthenticationPrincipal AdminPrincipal principal,
-//                                      @RequestBody List<Long> categoryIds) {
-//        log.info("ids={}", categoryIds);
-//        categoryService.delete(categoryIds, principal.toDTO());
-//
-//        return Response.success();
-//    }
-//
-//    @PostMapping("/edit/{categoryId}")
-//    public Response<Void> editCategory(@AuthenticationPrincipal AdminPrincipal principal,
-//                                       @PathVariable Long categoryId,
-//                                       CategoryEditRequest categoryEditRequest) {
-//        log.info("categoryId={}", categoryId);
-//        log.info("categoryEditRequest={}", categoryEditRequest);
-//
-//        categoryService.saveChild(categoryEditRequest.newChildToDTO(categoryId), categoryId);
-//        categoryService.edit(categoryEditRequest.toDTO(categoryId));
-//        categoryService.delete(categoryEditRequest.getDelCategoryIds(), principal.toDTO());
-//
-//        return Response.success();
-//    }
+    @DeleteMapping
+    public Response<Void> delCategory(@AuthenticationPrincipal AdminPrincipal principal,
+                                      @RequestBody List<Long> categoryIds) {
+        log.info("ids={}", categoryIds);
+        categoryService.delete(categoryIds, principal.toDTO());
+
+        return Response.success();
+    }
+
+    @PostMapping("/edit/{parentId}")
+    public Response<Void> editCategory(@AuthenticationPrincipal AdminPrincipal principal,
+                                       @PathVariable Long parentId,
+                                       CategoryEditRequest request) {
+        log.info("categoryId={}", parentId);
+        log.info("request={}", request);
+
+        categoryService.delete(request.getDelCategoryIds(), principal.toDTO());
+        categoryService.edit(request.toDTO(parentId));
+        categoryService.saveChildCategory(request.toNewDTO(), parentId);
+
+        return Response.success();
+    }
+
+    @GetMapping("/{parentId}")
+    public Response<List<CategoryIdNameResponse>> findChildCategory(@PathVariable Long parentId) {
+        log.info("parentId={}", parentId);
+
+        return Response.success(categoryService.findChild(parentId));
+    }
 
 }

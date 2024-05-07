@@ -61,7 +61,6 @@ $(document).ready(function() {
 
 
     $('[id^="del-category-"]').click(function() {
-        // 클릭된 버튼의 id에서 "del-category-" 다음에 오는 숫자 부분 추출
         var id = $(this).attr('id').split('del-category-')[1];
 
         var delCategory = $('<input hidden name="delCategoryIds" class="form-control"/>');

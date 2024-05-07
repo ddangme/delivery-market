@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,113 +31,127 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
 
-
-
-
     @Transactional
-    public void save(Category category) {
-        duplicateValidate(category);
+    public void save(CategoryDTO dto) {
+        checkDuplicate(dto);
+        dto.getChildCategories().forEach(this::checkDuplicate);
+        checkDuplicateOfChildName(dto.getChildCategories());
 
-        category.getChildCategories().forEach(this::duplicateValidate);
-
-        categoryRepository.save(category);
+        categoryRepository.save(dto.toEntity());
     }
 
-    private void duplicateValidate(Category category) {
-        categoryRepository.findByName(category.getName())
+    private void checkDuplicate(CategoryDTO dto) {
+        categoryRepository.findByName(dto.getName())
                 .ifPresent(findCategory -> {throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);});
     }
 
-//    public Page<CategoryListResponse> search(Pageable pageable) {
-//        return categoryRepository.search(pageable)
-//                .map(CategoryListResponse::fromEntity);
-//    }
+    private void checkDuplicateOfChildName(Set<CategoryDTO> childs) {
+        List<String> names = new ArrayList<>();
+        for (CategoryDTO child : childs) {
+            names.add(child.getName());
+        }
+
+        if (names.stream().toList().contains("")) {
+            throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
+        }
+
+        if (names.stream().distinct().count() != names.size()) {
+            throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);
+        }
+    }
+
+    public Page<CategoryListResponse> searchList(Pageable pageable) {
+        return categoryRepository.searchList(pageable)
+                .map(CategoryListResponse::fromEntity);
+    }
 
     public List<CategoryIdNameResponse> findParent() {
         return categoryRepository.findByParentIdIsNullOrderByName();
     }
 
-//    public List<CategoryIdNameResponse> findChild(Long parentId) {
-//        return categoryRepository.findByParentIdOrderByName(parentId);
-//    }
-//
-//
-//    public CategoryDTO getParentCategory(Long categoryId) {
-//        return categoryRepository.findById(categoryId)
-//                .map(CategoryDTO::fromEntity)
-//                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
-//    }
+    public CategoryDTO findByParentId(Long parentId) {
+        return categoryRepository.findById(parentId)
+                .map(CategoryDTO::fromEntity)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+    }
 
+    @Transactional
+    public void edit(CategoryDTO dto) {
+        Category parent = categoryRepository.findById(dto.getId())
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
 
-//    @Transactional
-//    public void saveChild(List<CategoryDTO> dtos, Long parentId) {
-//        Category category = categoryRepository.findById(parentId)
-//                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_PARENT_CATEGORY));
-//
-//        if (!dtos.isEmpty()) {
-//            for (CategoryDTO dto : dtos) {
-//                saveValidate(dto);
-//                category.addChildCategories(List.of(dto.toEntity()));
-//            }
-//        }
-//    }
-//    @Transactional
-//    public void edit(CategoryDTO dto) {
-//        Category category = categoryRepository.findById(dto.getId())
-//                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
-//        editValidate(dto);
-//        category.edit(dto.getName());
-//
-//        for (CategoryDTO childCategoryDTO : dto.getChildCategories()) {
-//            editValidate(childCategoryDTO);
-//
-//            Category childCategory = categoryRepository.findById(childCategoryDTO.getId())
-//                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
-//
-//            childCategory.edit(childCategoryDTO.getName());
-//        }
-//    }
+        checkEditDuplicate(dto);
+        parent.editName(dto.getName());
 
-//    private void editValidate(CategoryDTO dto) {
-//        if (dto.getName() == null || dto.getName().isEmpty()) {
-//            throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
-//        }
-//
-//        dto.nameTrim();
-//
-//        if (dto.getName().length() < 2 || dto.getName().length() > 15) {
-//            throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
-//        }
-//        categoryRepository.findByName(dto.getName())
-//                .ifPresent(category -> {
-//                    if (!category.getId().equals(dto.getId())) {
-//                        throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);
-//                    }
-//                });
-//
-//    }
-//
-//    @Transactional
-//    public void delete(List<Long> categoryIds, AdminDTO dto) {
-//        if (categoryIds == null) {
-//            return;
-//        }
-//        Admin admin = adminRepository.findById(dto.getId())
-//                .orElseThrow(() -> new DMAdminException(ErrorCode.ADMIN_NOT_FOUND));
-//
-//        for (Long categoryId : categoryIds) {
-//            Category category = categoryRepository.findById(categoryId)
-//                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
-//
-//            if (!category.getChildCategories().isEmpty()) {
-//                throw new DMAdminException(ErrorCode.EXIST_CHILD_CATEGORY);
-//            }
-//
-//            category.delete(admin);
-//        }
-//    }
+        saveChildCategory(dto.getChildCategories());
+    }
+
+    private void saveChildCategory(Set<CategoryDTO> dtos) {
+        if (dtos.isEmpty()) {
+            return;
+        }
+
+        for (CategoryDTO dto : dtos) {
+            Category category = categoryRepository.findById(dto.getId())
+                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+            checkEditDuplicate(dto);
+            category.editName(dto.getName());
+        }
+
+    }
+
+    @Transactional
+    public void saveChildCategory(Set<CategoryDTO> dtos, Long parentId) {
+        Category category = categoryRepository.findById(parentId)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_PARENT_CATEGORY));
+
+        if (!dtos.isEmpty()) {
+            for (CategoryDTO dto : dtos) {
+                checkDuplicate(dto);
+                category.addChildCategories(List.of(dto.toEntity()));
+            }
+        }
+
+    }
+
+    private void checkEditDuplicate(CategoryDTO dto) {
+        categoryRepository.findByName(dto.getName())
+                .ifPresent(category -> {
+                    if (!category.getId().equals(dto.getId())) {
+                        throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);
+                    }
+                });
+    }
 
 
 
+    @Transactional
+    public void delete(List<Long> categoryIds, AdminDTO dto) {
+        if (categoryIds == null || categoryIds.isEmpty()) {
+            return;
+        }
+
+        Admin admin = findAdmin(dto);
+
+        for (Long categoryId : categoryIds) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+
+            if (!category.getChildCategories().isEmpty()) {
+                throw new DMAdminException(ErrorCode.EXIST_CHILD_CATEGORY);
+            }
+
+            category.delete(admin);
+        }
+    }
+
+    private Admin findAdmin(AdminDTO dto) {
+        return adminRepository.findById(dto.getId())
+                .orElseThrow(() -> new DMAdminException(ErrorCode.ADMIN_NOT_FOUND));
+    }
+
+    public List<CategoryIdNameResponse> findChild(Long parentId) {
+        return categoryRepository.findByParentIdOrderByName(parentId);
+    }
 
 }
