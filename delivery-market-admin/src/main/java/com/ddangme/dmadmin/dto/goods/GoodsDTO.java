@@ -53,29 +53,29 @@ public class GoodsDTO {
         this.goodsOptionDTO = goodsOptionDTO;
     }
 
-    public static GoodsDTO fromEntity(Goods entity) {
-        return new GoodsDTO(
-                entity.getId(),
-                CategoryDTO.fromEntity(entity.getCategory()),
-                entity.getName(),
-                entity.getSummary(),
-                entity.getPrice(),
-                entity.getDiscountPrice(),
-                entity.getDiscountPercent(),
-                entity.getSaleStatus(),
-                GoodsDetailDTO.fromEntity(entity.getGoodsDetail()),
-                entity.getGoodsOption()
-                        .stream().map(GoodsOptionDTO::fromEntity)
-                        .toList(),
-                entity.getPhoto(),
-                entity.getCreatedAt(),
-                AdminDTO.fromEntity(entity.getCreatedBy()),
-                entity.getUpdatedAt(),
-                AdminDTO.fromEntity(entity.getUpdatedBy()),
-                entity.getDeletedAt(),
-                AdminDTO.fromEntity(entity.getDeletedBy())
-        );
-    }
+//    public static GoodsDTO fromEntity(Goods entity) {
+//        return new GoodsDTO(
+//                entity.getId(),
+//                CategoryDTO.fromEntity(entity.getCategory()),
+//                entity.getName(),
+//                entity.getSummary(),
+//                entity.getPrice(),
+//                entity.getDiscountPrice(),
+//                entity.getDiscountPercent(),
+//                entity.getSaleStatus(),
+//                GoodsDetailDTO.fromEntity(entity.getGoodsDetail()),
+//                entity.getGoodsOption()
+//                        .stream().map(GoodsOptionDTO::fromEntity)
+//                        .toList(),
+//                entity.getPhoto(),
+//                entity.getCreatedAt(),
+//                AdminDTO.fromEntity(entity.getCreatedBy()),
+//                entity.getUpdatedAt(),
+//                AdminDTO.fromEntity(entity.getUpdatedBy()),
+//                entity.getDeletedAt(),
+//                AdminDTO.fromEntity(entity.getDeletedBy())
+//        );
+//    }
 
     public Goods toGoodsEntity(Category category, UploadFile photo) {
         return new Goods(

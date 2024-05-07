@@ -26,31 +26,17 @@ public class Category extends AuditingFields {
     private String name;
 
     @Setter
-    private Long parentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Category parent;
 
     @OrderBy("id DESC")
     @ToString.Exclude
-    @OneToMany(mappedBy = "parentId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private Set<Category> childCategories = new LinkedHashSet<>();
-
-    public Category(Long id) {
-        this.id = id;
-    }
-
-    public Category(Long id, String name, Long parentId, Set<Category> childCategories) {
-        this.id = id;
-        this.name = name;
-        this.parentId = parentId;
-        this.childCategories = childCategories;
-    }
 
     public Category(String name) {
         this.name = name;
-    }
-
-    public Category(String name, Long parentId) {
-        this.name = name;
-        this.parentId = parentId;
     }
 
     public void delete(Admin admin) {
@@ -60,6 +46,9 @@ public class Category extends AuditingFields {
 
     public void addChildCategories(Collection<Category> childCategories) {
         this.childCategories.addAll(childCategories);
+        for (Category childCategory : childCategories) {
+            childCategory.setParent(this);
+        }
     }
 
     public void edit(String name) {

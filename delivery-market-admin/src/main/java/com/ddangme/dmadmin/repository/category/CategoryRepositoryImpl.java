@@ -21,15 +21,17 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
 
     @Override
     public Page<Category> search(Pageable pageable) {
-        JPAQuery<Category> query = queryFactory
-                .selectFrom(category)
-                .where(category.parentId.isNull())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(category.name.asc());
+//        JPAQuery<Category> query = queryFactory
+//                .selectFrom(category)
+//                .where(category.parentId.isNull())
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .orderBy(category.name.asc());
+//
+//        return PageableExecutionUtils.getPage(query.fetch(), pageable,
+//                query::fetchCount);
 
-        return PageableExecutionUtils.getPage(query.fetch(), pageable,
-                query::fetchCount);
+        return null;
     }
 
 //    @Override

@@ -36,23 +36,23 @@ public class GoodsOptionDTO {
         this.saleStatus = saleStatus;
     }
 
-    public static GoodsOptionDTO fromEntity(GoodsOption entity) {
-        return new GoodsOptionDTO(
-            entity.getId(),
-            GoodsDTO.fromEntity(entity.getGoods()),
-            entity.getName(),
-            entity.getPrice(),
-            entity.getDiscountPrice(),
-            entity.getDiscountPercent(),
-            entity.getAmount(),
-            entity.getSaleStatus(),
-            entity.getCreatedAt(),
-            AdminDTO.fromEntity(entity.getCreatedBy()),
-            entity.getUpdatedAt(),
-            AdminDTO.fromEntity(entity.getUpdatedBy()),
-            entity.getDeletedAt(),
-            AdminDTO.fromEntity(entity.getDeletedBy())
-        );
-    }
+//    public static GoodsOptionDTO fromEntity(GoodsOption entity) {
+//        return new GoodsOptionDTO(
+//            entity.getId(),
+//            GoodsDTO.fromEntity(entity.getGoods()),
+//            entity.getName(),
+//            entity.getPrice(),
+//            entity.getDiscountPrice(),
+//            entity.getDiscountPercent(),
+//            entity.getAmount(),
+//            entity.getSaleStatus(),
+//            entity.getCreatedAt(),
+//            AdminDTO.fromEntity(entity.getCreatedBy()),
+//            entity.getUpdatedAt(),
+//            AdminDTO.fromEntity(entity.getUpdatedBy()),
+//            entity.getDeletedAt(),
+//            AdminDTO.fromEntity(entity.getDeletedBy())
+//        );
+//    }
 
 }

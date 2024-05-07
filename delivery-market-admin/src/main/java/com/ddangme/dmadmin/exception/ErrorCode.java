@@ -20,6 +20,7 @@ public enum ErrorCode {
 
 
     FIELD_IS_NULL(HttpStatus.BAD_REQUEST, "필수 값을 입력해 주세요."),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
     ;
 
 
