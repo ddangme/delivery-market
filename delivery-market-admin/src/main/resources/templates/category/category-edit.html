@@ -31,14 +31,14 @@
                                 <button type="button" class="btn btn-outline-success btn-sm" id="add-child-category-in-edit">하위 카테고리 추가</button>
                             </div>
                         </div>
-                        <div th:each="child : ${childCategories}">
+                        <div th:each="child, iterStat : ${childCategories}">
                             <div class="row">
                                 <div class="col-10 pb-3">
-                                    <input hidden name="childIds" th:value="${child.id}" class="form-control"/>
-                                    <input type="text" class="form-control" name="childName" th:value="${child.name}" placeholder="이름을 입력해주세요.">
+                                    <input type="hidden" th:name="'oldChild[' + ${iterStat.index} + '].id'" th:value="${child.id}" class="form-control"/>
+                                    <input type="text" class="form-control" th:name="'oldChild[' + ${iterStat.index} + '].name'" th:value="${child.name}" placeholder="이름을 입력해주세요.">
                                 </div>
                                 <div class="col-2 pb-3">
-                                    <button th:id="${'del-category-'+child.id}" type="button" class="btn btn-outline-danger w-100">삭제</button>
+                                    <button th:id="'del-category-' + ${child.id}" type="button" class="btn btn-outline-danger w-100">삭제</button>
                                 </div>
                             </div>
                         </div>
@@ -56,4 +56,4 @@
 </body>
 </html>
 
-<script src="/js/category-add.js"></script>
+<script src="/js/category.js"></script>

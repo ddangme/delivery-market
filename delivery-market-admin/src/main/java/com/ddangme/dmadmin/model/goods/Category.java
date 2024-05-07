@@ -3,7 +3,6 @@ package com.ddangme.dmadmin.model.goods;
 import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.AuditingFields;
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -51,7 +50,7 @@ public class Category extends AuditingFields {
         }
     }
 
-    public void edit(String name) {
+    public void editName(String name) {
         this.name = name;
     }
 

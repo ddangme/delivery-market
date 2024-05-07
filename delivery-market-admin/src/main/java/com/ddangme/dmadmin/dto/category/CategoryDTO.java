@@ -36,6 +36,11 @@ public class CategoryDTO {
         this.name = name.trim();
     }
 
+    public CategoryDTO(Long id, String name) {
+        this.id = id;
+        this.name = name.trim();
+    }
+
     public Category toEntity() {
         checkNameLength(name);
         childCategories.forEach(child -> checkNameLength(child.name));

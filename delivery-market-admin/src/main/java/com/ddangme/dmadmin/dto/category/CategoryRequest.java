@@ -2,7 +2,6 @@ package com.ddangme.dmadmin.dto.category;
 
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
-import com.ddangme.dmadmin.model.goods.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
