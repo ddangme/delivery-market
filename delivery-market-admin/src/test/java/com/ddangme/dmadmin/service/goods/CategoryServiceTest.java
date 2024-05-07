@@ -233,8 +233,6 @@ class CategoryServiceTest {
                 .hasMessage(ErrorCode.EXIST_CHILD_CATEGORY.getMessage());
     }
 
-
-
     private static AdminDTO newAdminDTO() {
         return new AdminDTO(1L, "email@test.com", "password", "name", "nickname");
     }

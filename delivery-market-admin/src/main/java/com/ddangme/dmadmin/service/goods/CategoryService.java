@@ -61,10 +61,10 @@ public class CategoryService {
         }
     }
 
-//    public Page<CategoryListResponse> search(Pageable pageable) {
-//        return categoryRepository.search(pageable)
-//                .map(CategoryListResponse::fromEntity);
-//    }
+    public Page<CategoryListResponse> searchList(Pageable pageable) {
+        return categoryRepository.searchList(pageable)
+                .map(CategoryListResponse::fromEntity);
+    }
 
     public List<CategoryIdNameResponse> findParent() {
         return categoryRepository.findByParentIdIsNullOrderByName();
@@ -75,11 +75,11 @@ public class CategoryService {
 //    }
 //
 //
-//    public CategoryDTO getParentCategory(Long categoryId) {
-//        return categoryRepository.findById(categoryId)
-//                .map(CategoryDTO::fromEntity)
-//                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
-//    }
+    public CategoryDTO findByParentId(Long parentId) {
+        return categoryRepository.findById(parentId)
+                .map(CategoryDTO::fromEntity)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+    }
 
 
 //    @Transactional

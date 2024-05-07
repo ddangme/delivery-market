@@ -23,7 +23,6 @@ public class CategoryListResponse {
     private Set<CategoryListResponse> childCategories;
 
     public static CategoryListResponse fromEntity(Category entity) {
-
         return new CategoryListResponse(
                 entity.getId(),
                 entity.getName(),
@@ -33,11 +32,6 @@ public class CategoryListResponse {
                 entity.getUpdatedBy().getName(),
                 entity.getChildCategories().stream().map(CategoryListResponse::fromEntity).collect(Collectors.toUnmodifiableSet())
         );
-    }
-
-    public CategoryListResponse(Long id, String name) {
-        this.id = id;
-        this.name = name;
     }
 
 }

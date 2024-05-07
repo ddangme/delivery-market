@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 import static com.ddangme.dmadmin.model.goods.QCategory.category;
 
@@ -20,43 +21,21 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
     }
 
     @Override
-    public Page<Category> search(Pageable pageable) {
-//        JPAQuery<Category> query = queryFactory
-//                .selectFrom(category)
-//                .where(category.parentId.isNull())
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .orderBy(category.name.asc());
-//
-//        return PageableExecutionUtils.getPage(query.fetch(), pageable,
-//                query::fetchCount);
+    public Page<Category> searchList(Pageable pageable) {
+        List<Category> content = queryFactory
+                .selectFrom(category)
+                .where(category.parent.isNull())
+                .orderBy(category.name.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
-        return null;
+        JPAQuery<Long> countQuery = queryFactory
+                .select(category.count())
+                .from(category)
+                .where(category.parent.isNull(),
+                        category.deletedAt.isNotNull());
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
-
-//    @Override
-//    public Page<CategoryListResponse> searchList(Pageable pageable) {
-//        QAdmin a1 = new QAdmin("a1");
-//        QAdmin a2 = new QAdmin("a2");
-//
-//        JPAQuery<CategoryListResponse> query = queryFactory
-//                .select(new QCategoryListResponse(category.id.as("id"),
-//                        category.name,
-//                        category.createdAt,
-//                        a1.name,
-//                        category.updatedAt,
-//                        a2.name))
-//                .from(category)
-//                .leftJoin(a1).on(category.createdBy.id.eq(a1.id))
-//                .leftJoin(a2).on(category.updatedBy.id.eq(a2.id))
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .orderBy(category.id.desc());
-//
-//        return PageableExecutionUtils.getPage(query.fetch(), pageable,
-//                query::fetchCount);
-////        return null;
-//    }
-//
-
 }

@@ -51,6 +51,20 @@ public class CategoryDTO {
         return category;
     }
 
+    public static CategoryDTO fromEntity(Category entity) {
+        return new CategoryDTO(
+                entity.getId(),
+                entity.getName(),
+                entity.getChildCategories().stream().map(CategoryDTO::fromEntity).collect(Collectors.toUnmodifiableSet())
+        );
+    }
+
+    private CategoryDTO(Long id, String name, Set<CategoryDTO> childCategories) {
+        this.id = id;
+        this.name = name;
+        this.childCategories = childCategories;
+    }
+
     private void checkNameLength(String name) {
         if (name.isEmpty()) {
             throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
