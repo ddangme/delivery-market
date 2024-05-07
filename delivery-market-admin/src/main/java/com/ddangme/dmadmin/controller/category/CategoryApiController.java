@@ -26,18 +26,10 @@ public class CategoryApiController {
     public Response<Void> addCategory(CategoryRequest request) {
         log.info("request={}", request);
 
-        categoryService.save(request.toEntity());
+        categoryService.save(request.toDTO());
         return Response.success();
     }
 
-//
-//    @GetMapping("/{parentId}")
-//    public Response<List<CategoryIdNameResponse>> findChildCategory(@PathVariable Long parentId) {
-//        log.info("parentId={}", parentId);
-//
-//        return Response.success(categoryService.findChild(parentId));
-//    }
-//
 //    @DeleteMapping
 //    public Response<Void> delCategory(@AuthenticationPrincipal AdminPrincipal principal,
 //                                      @RequestBody List<Long> categoryIds) {
@@ -46,7 +38,7 @@ public class CategoryApiController {
 //
 //        return Response.success();
 //    }
-//
+
 //    @PostMapping("/edit/{categoryId}")
 //    public Response<Void> editCategory(@AuthenticationPrincipal AdminPrincipal principal,
 //                                       @PathVariable Long categoryId,

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,21 +31,34 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
 
-
-
-
     @Transactional
-    public void save(Category category) {
-        duplicateValidate(category);
+    public void save(CategoryDTO dto) {
+        log.info("dto={}", dto);
+        duplicateValidate(dto);
+        dto.getChildCategories().forEach(this::duplicateValidate);
+        checkDuplicateOfChildName(dto.getChildCategories());
 
-        category.getChildCategories().forEach(this::duplicateValidate);
-
-        categoryRepository.save(category);
+        categoryRepository.save(dto.toEntity());
     }
 
-    private void duplicateValidate(Category category) {
-        categoryRepository.findByName(category.getName())
+    private void duplicateValidate(CategoryDTO dto) {
+        categoryRepository.findByName(dto.getName())
                 .ifPresent(findCategory -> {throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);});
+    }
+
+    private void checkDuplicateOfChildName(Set<CategoryDTO> childs) {
+        List<String> names = new ArrayList<>();
+        for (CategoryDTO child : childs) {
+            names.add(child.getName());
+        }
+
+        if (names.stream().toList().contains("")) {
+            throw new DMAdminException(ErrorCode.UNABLE_LENGTH_CATEGORY_NAME);
+        }
+
+        if (names.stream().distinct().count() != names.size()) {
+            throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);
+        }
     }
 
 //    public Page<CategoryListResponse> search(Pageable pageable) {
@@ -115,14 +129,14 @@ public class CategoryService {
 //                });
 //
 //    }
-//
+
 //    @Transactional
 //    public void delete(List<Long> categoryIds, AdminDTO dto) {
-//        if (categoryIds == null) {
-//            return;
+//        if (categoryIds == null || categoryIds.isEmpty()) {
+//            throw new DMAdminException(ErrorCode.NOT_CHOICE_CATEGORY);
 //        }
-//        Admin admin = adminRepository.findById(dto.getId())
-//                .orElseThrow(() -> new DMAdminException(ErrorCode.ADMIN_NOT_FOUND));
+//
+//        Admin admin = findAdmin(dto);
 //
 //        for (Long categoryId : categoryIds) {
 //            Category category = categoryRepository.findById(categoryId)
@@ -136,7 +150,10 @@ public class CategoryService {
 //        }
 //    }
 
-
+    private Admin findAdmin(AdminDTO dto) {
+        return adminRepository.findById(dto.getId())
+                .orElseThrow(() -> new DMAdminException(ErrorCode.ADMIN_NOT_FOUND));
+    }
 
 
 }
