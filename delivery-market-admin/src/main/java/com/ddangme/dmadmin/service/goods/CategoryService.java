@@ -76,21 +76,28 @@ public class CategoryService {
     }
 
     @Transactional
-    public void edit(CategoryDTO dto, Long parentId) {
-        Category parent = categoryRepository.findById(parentId)
+    public void edit(CategoryDTO dto) {
+        Category parent = categoryRepository.findById(dto.getId())
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
 
         checkEditDuplicate(dto);
         parent.editName(dto.getName());
 
-        Set<CategoryDTO> childCategories = dto.getChildCategories();
+        saveChildCategory(dto.getChildCategories());
+    }
 
-        for (CategoryDTO childCategory : childCategories) {
-            Category category = categoryRepository.findById(childCategory.getId())
-                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
-            checkEditDuplicate(childCategory);
-            category.editName(childCategory.getName());
+    private void saveChildCategory(Set<CategoryDTO> dtos) {
+        if (dtos.isEmpty()) {
+            return;
         }
+
+        for (CategoryDTO dto : dtos) {
+            Category category = categoryRepository.findById(dto.getId())
+                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+            checkEditDuplicate(dto);
+            category.editName(dto.getName());
+        }
+
     }
 
     @Transactional
@@ -143,5 +150,8 @@ public class CategoryService {
                 .orElseThrow(() -> new DMAdminException(ErrorCode.ADMIN_NOT_FOUND));
     }
 
+    public List<CategoryIdNameResponse> findChild(Long parentId) {
+        return categoryRepository.findByParentIdOrderByName(parentId);
+    }
 
 }

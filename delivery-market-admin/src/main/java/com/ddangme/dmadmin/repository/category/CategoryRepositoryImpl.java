@@ -33,8 +33,7 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(category.count())
                 .from(category)
-                .where(category.parent.isNull(),
-                        category.deletedAt.isNotNull());
+                .where(category.parent.isNull());
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }

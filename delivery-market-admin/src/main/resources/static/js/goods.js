@@ -1,14 +1,14 @@
 $(document).ready(function() {
     $('#parentCategoryId').change(function() {
-        var selectedValue = $(this).val();
-        if (selectedValue === "") {
+        var parentId = $(this).val();
+        if (parentId === "") {
             $('#childCategoryId').empty();
             $('#childCategoryId').prop('disabled', true);
 
             return;
         }
         $.ajax({
-            url: '/api/categories/' + selectedValue,
+            url: '/api/categories/' + parentId,
             method: 'GET',
             success: function(data) {
                 $('#childCategoryId').empty();

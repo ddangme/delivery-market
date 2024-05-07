@@ -2,6 +2,7 @@ package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.AdminDTO;
 import com.ddangme.dmadmin.dto.category.CategoryDTO;
+import com.ddangme.dmadmin.dto.category.CategoryEditRequest;
 import com.ddangme.dmadmin.dto.category.CategoryRequest;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
@@ -60,6 +61,8 @@ class CategoryServiceTest {
         then(categoryRepository).should().save(any(Category.class));
 
     }
+
+
 
     @Test
     void 정상_등록_하위_있는_카테고리() {
@@ -233,7 +236,8 @@ class CategoryServiceTest {
                 .hasMessage(ErrorCode.EXIST_CHILD_CATEGORY.getMessage());
     }
 
-    private static AdminDTO newAdminDTO() {
+
+    private AdminDTO newAdminDTO() {
         return new AdminDTO(1L, "email@test.com", "password", "name", "nickname");
     }
 

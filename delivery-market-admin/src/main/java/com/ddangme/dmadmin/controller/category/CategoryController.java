@@ -27,7 +27,7 @@ public class CategoryController {
 
     @GetMapping("/categories")
     public String categoriesList(Model model,
-                                 @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+                                 @PageableDefault(size = 1, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<CategoryListResponse> categories = categoryService.searchList(pageable);
         List<Integer> pages = paginationService.getPaginationLength(pageable.getPageNumber(), categories.getTotalPages());
 
