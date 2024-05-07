@@ -12,7 +12,7 @@ public enum ErrorCode {
     DUPLICATE_PARENT_CATEGORY_NAME(HttpStatus.CONFLICT, "상위 카테고리와 하위 카테고리 이름은 같을 수 없습니다."),
     UNABLE_LENGTH_CATEGORY_NAME(HttpStatus.BAD_REQUEST, "카테고리 이름은 2자 ~ 15자로 입력해주세요."),
     NOT_EXIST_PARENT_CATEGORY(HttpStatus.NOT_FOUND, "상위 카테고리가 존재하지 않습니다."),
-    EXIST_CHILD_CATEGORY(HttpStatus.NOT_FOUND, "상위 카테고리가 존재하지 않습니다."),
+    EXIST_CHILD_CATEGORY(HttpStatus.BAD_REQUEST, "하위 카테고리가 존재합니다."),
     NOT_EXIST_CATEGORY(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다."),
     NOT_CHOICE_CATEGORY(HttpStatus.BAD_REQUEST, "선택된 카테고리가 없습니다."),
     NOT_EXIST_ADMIN_ACCOUNT(HttpStatus.UNAUTHORIZED, "존재하지 않는 관리자입니다."),

@@ -30,14 +30,14 @@ public class CategoryApiController {
         return Response.success();
     }
 
-//    @DeleteMapping
-//    public Response<Void> delCategory(@AuthenticationPrincipal AdminPrincipal principal,
-//                                      @RequestBody List<Long> categoryIds) {
-//        log.info("ids={}", categoryIds);
-//        categoryService.delete(categoryIds, principal.toDTO());
-//
-//        return Response.success();
-//    }
+    @DeleteMapping
+    public Response<Void> delCategory(@AuthenticationPrincipal AdminPrincipal principal,
+                                      @RequestBody List<Long> categoryIds) {
+        log.info("ids={}", categoryIds);
+        categoryService.delete(categoryIds, principal.toDTO());
+
+        return Response.success();
+    }
 
 //    @PostMapping("/edit/{categoryId}")
 //    public Response<Void> editCategory(@AuthenticationPrincipal AdminPrincipal principal,

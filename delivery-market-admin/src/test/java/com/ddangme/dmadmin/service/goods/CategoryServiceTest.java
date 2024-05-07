@@ -180,60 +180,63 @@ class CategoryServiceTest {
                 .hasMessage(ErrorCode.BAD_REQUEST.getMessage());
     }
 
-//
-//    @ParameterizedTest
-//    @NullAndEmptySource
-//    void 선택한_카테고리가_null_이거나_empty_인_경우_삭제_시도_시_에러(List<Long> categoryIds) {
-//        AdminDTO adminDTO = newAdminDTO();
-//
-//        assertThatThrownBy(() -> categoryService.delete(categoryIds, adminDTO))
-//                .isInstanceOf(DMAdminException.class)
-//                .hasMessage(ErrorCode.NOT_CHOICE_CATEGORY.getMessage());
-//    }
+    @Test
+    void 정상_삭제() {
+        CategoryRequest request = new CategoryRequest();
+        request.setName("parent");
+        request.setChildName(List.of());
+        CategoryDTO dto = request.toDTO();
+        dto.setId(1L);
+        Category entity = dto.toEntity();
+
+        AdminDTO adminDTO = newAdminDTO();
 
 
-//    @Test
-//    void 하위_카테고리가_있는_상위_카테고리_삭제_시도_시_에러() {
-//        CategoryRequest request = new CategoryRequest();
-//        request.setName("parent");
-//        request.setChildName(List.of("child1", "child2"));
-//        Category category = request.toEntity();
-//
-//        AdminDTO adminDTO = newAdminDTO();
-//
-//
-//        given(adminRepository.findById(adminDTO.getId())).willReturn(Optional.of(adminDTO.toEntity()));
-//        given(categoryRepository.findById(category.getId())).willReturn(Optional.of(category));
-//
-//        DMAdminException exception = assertThrows(DMAdminException.class, () -> {
-//            categoryService.delete(categoryIds, adminDTO);
-//        });
-//
-//        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.EXIST_CHILD_CATEGORY);
-//    }
+        given(adminRepository.findById(adminDTO.getId())).willReturn(Optional.of(adminDTO.toEntity()));
+        given(categoryRepository.findById(dto.getId())).willReturn(Optional.of(entity));
 
-//    @Test
-//    void 카테고리_삭제_DELETE_AT과_DELETE_BY에_데이터_입력() {
-//        List<Long> categoryIds = List.of(1L);
-//
-//        Category category = new Category("parent");
-//
-//        AdminDTO adminDTO = newAdminDTO();
-//        given(adminRepository.findById(adminDTO.getId())).willReturn(Optional.of(adminDTO.toEntity()));
-//        given(categoryRepository.findById(1L)).willReturn(Optional.of(category));
-//
-//
-//        // When
-//        categoryService.delete(categoryIds, adminDTO);
-//
-//        // Then
-//        assertThat(category.getDeletedAt()).isNotNull();
-//        assertThat(category.getDeletedBy()).isNotNull();
-//    }
-//
-//
-//    private static AdminDTO newAdminDTO() {
-//        return new AdminDTO(1L, "email@test.com", "password", "name", "nickname");
-//    }
+        // When
+        categoryService.delete(List.of(dto.getId()), adminDTO);
+
+        // Then
+        assertThat(entity.getDeletedAt()).isNotNull();
+        assertThat(entity.getDeletedBy()).isNotNull();
+    }
+
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    void 오류_삭제_선택한_카테고리_null_or_empty(List<Long> categoryIds) {
+        AdminDTO adminDTO = newAdminDTO();
+
+        assertThatThrownBy(() -> categoryService.delete(categoryIds, adminDTO))
+                .isInstanceOf(DMAdminException.class)
+                .hasMessage(ErrorCode.NOT_CHOICE_CATEGORY.getMessage());
+    }
+
+
+    @Test
+    void 하위_카테고리가_있는_상위_카테고리_삭제_시도_시_에러() {
+        CategoryRequest request = new CategoryRequest();
+        request.setName("parent");
+        request.setChildName(List.of("child1", "child2"));
+        CategoryDTO dto = request.toDTO();
+        dto.setId(1L);
+
+        AdminDTO adminDTO = newAdminDTO();
+
+        given(adminRepository.findById(adminDTO.getId())).willReturn(Optional.of(adminDTO.toEntity()));
+        given(categoryRepository.findById(dto.getId())).willReturn(Optional.of(dto.toEntity()));
+
+        assertThatThrownBy(() -> categoryService.delete(List.of(dto.getId()), adminDTO))
+                .isInstanceOf(DMAdminException.class)
+                .hasMessage(ErrorCode.EXIST_CHILD_CATEGORY.getMessage());
+    }
+
+
+
+    private static AdminDTO newAdminDTO() {
+        return new AdminDTO(1L, "email@test.com", "password", "name", "nickname");
+    }
 
 }

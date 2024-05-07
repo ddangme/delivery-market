@@ -130,25 +130,25 @@ public class CategoryService {
 //
 //    }
 
-//    @Transactional
-//    public void delete(List<Long> categoryIds, AdminDTO dto) {
-//        if (categoryIds == null || categoryIds.isEmpty()) {
-//            throw new DMAdminException(ErrorCode.NOT_CHOICE_CATEGORY);
-//        }
-//
-//        Admin admin = findAdmin(dto);
-//
-//        for (Long categoryId : categoryIds) {
-//            Category category = categoryRepository.findById(categoryId)
-//                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
-//
-//            if (!category.getChildCategories().isEmpty()) {
-//                throw new DMAdminException(ErrorCode.EXIST_CHILD_CATEGORY);
-//            }
-//
-//            category.delete(admin);
-//        }
-//    }
+    @Transactional
+    public void delete(List<Long> categoryIds, AdminDTO dto) {
+        if (categoryIds == null || categoryIds.isEmpty()) {
+            throw new DMAdminException(ErrorCode.NOT_CHOICE_CATEGORY);
+        }
+
+        Admin admin = findAdmin(dto);
+
+        for (Long categoryId : categoryIds) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+
+            if (!category.getChildCategories().isEmpty()) {
+                throw new DMAdminException(ErrorCode.EXIST_CHILD_CATEGORY);
+            }
+
+            category.delete(admin);
+        }
+    }
 
     private Admin findAdmin(AdminDTO dto) {
         return adminRepository.findById(dto.getId())
