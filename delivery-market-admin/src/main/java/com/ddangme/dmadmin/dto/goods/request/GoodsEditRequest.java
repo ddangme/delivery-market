@@ -1,6 +1,7 @@
 package com.ddangme.dmadmin.dto.goods.request;
 
 import com.ddangme.dmadmin.model.constants.SaleStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @ToString
 @Data
+@AllArgsConstructor
 public class GoodsEditRequest {
     private Long id;
     private String name;
@@ -20,4 +22,5 @@ public class GoodsEditRequest {
 
     private GoodsEditDetailRequest goodsDetail;
     private List<GoodsEditOptionRequest> goodsOptions;
+
 }

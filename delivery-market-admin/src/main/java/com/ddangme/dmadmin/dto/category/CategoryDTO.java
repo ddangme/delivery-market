@@ -32,6 +32,10 @@ public class CategoryDTO {
 
     private Set<CategoryDTO> childCategories = new LinkedHashSet<>();
 
+    public CategoryDTO(Long id) {
+        this.id = id;
+    }
+
     public CategoryDTO(String name) {
         this.name = name.trim();
     }

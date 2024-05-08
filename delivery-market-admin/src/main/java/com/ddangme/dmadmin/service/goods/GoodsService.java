@@ -2,6 +2,9 @@ package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.goods.GoodsDTO;
 import com.ddangme.dmadmin.dto.goods.GoodsListResponse;
+import com.ddangme.dmadmin.dto.goods.request.GoodsEditDetailRequest;
+import com.ddangme.dmadmin.dto.goods.request.GoodsEditOptionRequest;
+import com.ddangme.dmadmin.dto.goods.request.GoodsEditRequest;
 import com.ddangme.dmadmin.dto.goods.response.GoodsResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
@@ -11,8 +14,6 @@ import com.ddangme.dmadmin.model.goods.Goods;
 import com.ddangme.dmadmin.model.goods.GoodsDetail;
 import com.ddangme.dmadmin.model.goods.GoodsOption;
 import com.ddangme.dmadmin.repository.category.CategoryRepository;
-import com.ddangme.dmadmin.repository.goods.GoodsDetailRepository;
-import com.ddangme.dmadmin.repository.goods.GoodsOptionRepository;
 import com.ddangme.dmadmin.repository.goods.GoodsRepository;
 import com.ddangme.dmadmin.service.FileUploadService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -67,6 +68,102 @@ public class GoodsService {
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOODS));
 
         return GoodsResponse.fromEntity(goods);
+    }
+
+    @Transactional
+    public void edit(GoodsEditRequest request, MultipartFile uploadFile) throws IOException {
+        Goods good = goodsRepository.findById(request.getId())
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOODS));
+
+        setGood(good, request);
+        setDetail(good, request.getGoodsDetail());
+        setOptions(good, request.getGoodsOptions());
+        setPhoto(good, uploadFile);
+    }
+
+    private void setGood(Goods good, GoodsEditRequest request) {
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+
+        good.edit(
+                category,
+                request.getName(),
+                request.getSummary(),
+                request.getPrice(),
+                request.getDiscountPrice(),
+                request.getDiscountPercent(),
+                request.getSaleStatus()
+        );
+    }
+
+    private void setDetail(Goods good, GoodsEditDetailRequest request) {
+        GoodsDetail detail = good.getGoodsDetail();
+
+        if (!detail.getId().equals(request.getId())) {
+            throw new DMAdminException(ErrorCode.NOT_EXIST_GOOD_DETAIL);
+        }
+
+        detail.edit(
+                request.getOrigin(),
+                request.getPackagingType(),
+                request.getWeightVolume(),
+                request.getAllergyInfo(),
+                request.getGuidelines(),
+                request.getExpiryDate(),
+                request.getDescription());
+    }
+
+    private void setOptions(Goods good, List<GoodsEditOptionRequest> options) {
+        Set<GoodsOption> goodsOption = good.getGoodsOption();
+
+        List<GoodsEditOptionRequest> newOptions = options.stream().filter(option -> option.getId() == null).toList();
+        addOption(good, newOptions);
+
+        List<Long> oldOptionRequestIds = options.stream()
+                .map(GoodsEditOptionRequest::getId)
+                .filter(Objects::nonNull)
+                .toList();
+
+        for (GoodsOption option : goodsOption) {
+            if (oldOptionRequestIds.contains(option.getId())) {
+                GoodsEditOptionRequest editRequest = options.stream()
+                        .filter(request -> request.getId().equals(option.getId()))
+                        .findFirst()
+                        .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOOD_OPTION));
+                editOption(option, editRequest);
+            } else {
+                deleteOption(good, option);
+            }
+        }
+    }
+
+    private void editOption(GoodsOption option, GoodsEditOptionRequest request) {
+        option.edit(
+                request.getName(),
+                request.getPrice(),
+                request.getDiscountPrice(),
+                request.getDiscountPercent(),
+                request.getAmount(),
+                request.getSaleStatus()
+        );
+    }
+
+    private void addOption(Goods good, List<GoodsEditOptionRequest> newOptionRequest) {
+        List<GoodsOption> newOptions = newOptionRequest.stream().map(GoodsEditOptionRequest::toEntity).toList();
+        good.saveOptions(newOptions);
+    }
+
+    private void deleteOption(Goods good, GoodsOption option) {
+        good.getGoodsOption().remove(option);
+    }
+
+    private void setPhoto(Goods good, MultipartFile uploadFile) throws IOException {
+        if (uploadFile != null) {
+            UploadFile file = fileUploadService.getUploadFile(uploadFile);
+            good.setPhoto(file);
+
+            fileUploadService.transferTo(uploadFile, file);
+        }
     }
 
 }

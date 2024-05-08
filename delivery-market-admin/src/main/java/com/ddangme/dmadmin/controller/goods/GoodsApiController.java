@@ -28,7 +28,7 @@ public class GoodsApiController {
     public Response<Void> add(GoodsSaveRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
         log.info("request={}", request);
 
-//        goodsService.save(request.toDTO(), photo);
+        goodsService.save(request.toDTO(), photo);
 
         return Response.success();
     }
@@ -39,9 +39,12 @@ public class GoodsApiController {
     }
 
     @PostMapping("/edit")
-    public Response<Void> edit(GoodsEditRequest request, @RequestParam(required = false) MultipartFile photo) {
+    public Response<Void> edit(GoodsEditRequest request, @RequestParam(required = false) MultipartFile photo) throws IOException {
         log.info("request={}", request);
         log.info("photo={}", photo);
+
+        goodsService.edit(request, photo);
+
         return Response.success();
     }
 }

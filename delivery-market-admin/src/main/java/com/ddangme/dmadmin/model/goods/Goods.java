@@ -3,10 +3,8 @@ package com.ddangme.dmadmin.model.goods;
 import com.ddangme.dmadmin.model.AuditingFields;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.constants.UploadFile;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -47,6 +45,7 @@ public class Goods extends AuditingFields {
             @AttributeOverride(name = "uploadFileName", column = @Column(name = "photo_upload_file_name")),
             @AttributeOverride(name = "storeFileName", column = @Column(name = "photo_store_file_name"))
     })
+    @Setter
     private UploadFile photo;
 
     @OneToOne(mappedBy = "goods", cascade = CascadeType.ALL)
@@ -69,11 +68,24 @@ public class Goods extends AuditingFields {
         this.photo = photo;
     }
 
+
     public void saveDetail(GoodsDetail detail) {
         this.goodsDetail = detail;
     }
 
     public void saveOptions(List<GoodsOption> options) {
+        options.forEach(option -> option.setGoods(this));
         this.goodsOption = new LinkedHashSet<>(options);
+    }
+
+    public void edit(Category category, String name, String summary, Long price,
+                     Long discountPrice, Integer discountPercent, SaleStatus saleStatus) {
+        this.category = category;
+        this.name = name;
+        this.summary = summary;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+        this.saleStatus = saleStatus;
     }
 }

@@ -112,7 +112,7 @@ $(document).ready(function () {
             success: function(response) {
                 if (response.resultCode === "SUCCESS") {
                     window.location.href = '/goods';
-                    alert("상품이 추가되었습니다.");
+                    alert("상품이 수정되었습니다.");
                 }
             },
             error: function(xhr, status) {
