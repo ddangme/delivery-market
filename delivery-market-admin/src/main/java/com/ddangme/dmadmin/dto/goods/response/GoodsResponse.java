@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.List;
 
 @ToString
 @Data
@@ -27,7 +27,7 @@ public class GoodsResponse {
     private String photo;
 
     private GoodsDetailResponse goodsDetail;
-    private Set<GoodsOptionResponse> goodsOptions;
+    private List<GoodsOptionResponse> goodsOptions;
 
 
     public static GoodsResponse fromEntity(Goods entity) {
@@ -45,7 +45,8 @@ public class GoodsResponse {
                 GoodsDetailResponse.fromEntity(entity.getGoodsDetail()),
                 entity.getGoodsOption().stream()
                         .map(GoodsOptionResponse::fromEntity)
-                        .collect(Collectors.toUnmodifiableSet())
-        );
+                        .sorted(Comparator.comparing(GoodsOptionResponse::getId))
+                        .toList());
     }
+
 }
