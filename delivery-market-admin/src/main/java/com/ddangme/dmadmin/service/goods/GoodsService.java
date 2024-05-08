@@ -2,6 +2,7 @@ package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.goods.GoodsDTO;
 import com.ddangme.dmadmin.dto.goods.GoodsListResponse;
+import com.ddangme.dmadmin.dto.goods.response.GoodsResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.constants.UploadFile;
@@ -60,4 +61,12 @@ public class GoodsService {
 
     private void saveValidate(GoodsDTO dto) {
     }
+
+    public GoodsResponse findByGoodsId(Long goodsId) {
+        Goods goods = goodsRepository.findById(goodsId)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOODS));
+
+        return GoodsResponse.fromEntity(goods);
+    }
+
 }

@@ -11,7 +11,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <p class="fs-5 fw-bold mb-0">상품 추가</p>
+                        <p class="fs-5 fw-bold mb-0">상품 수정</p>
                     </li>
                 </ol>
             </nav>
@@ -30,35 +30,53 @@
                                 <div class="accordion-body">
                                     <div class="row py-4 px-3">
                                         <div class="col-6 pb-3">
-                                            <label for="name" class="form-label">상품명</label>
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="상품 이름을 입력해주세요.">
+                                            <input type="hidden" class="good-id" th:value="${good.id}">
+                                            <label for="name" class="form-label" >상품명</label>
+                                            <input type="text" class="form-control" th:value="${good.name}" id="name" name="name" placeholder="상품 이름을 입력해주세요.">
                                         </div>
                                         <div class="col-3 pb-3">
                                             <label for="parentCategoryId" class="form-label">상위 카테고리</label>
-                                            <select id="parentCategoryId" class="form-select" name="parentCategoryId" >
+                                            <select id="parentCategoryId" class="form-select" name="parentCategoryId">
                                                 <option value="">--카테고리--</option>
-                                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                                                <option th:each="category : ${categories}"
+                                                        th:value="${category.id}"
+                                                        th:text="${category.name}"
+                                                        th:selected="${good.category.parentId != category.id ? false : true}"></option>
                                             </select>
                                         </div>
                                         <div class="col-3 pb-3">
                                             <label for="childCategoryId" class="form-label">하위 카테고리</label>
-                                            <select id="childCategoryId" name="childCategoryId" class="form-select" disabled>
+                                            <select id="childCategoryId" name="childCategoryId" class="form-select" th:disabled="${good.category.childId == null}">
+                                                <option th:each="category : ${childCategories}"
+                                                        th:value="${category.id}"
+                                                        th:text="${category.name}"
+                                                        th:selected="${good.category.childId != category.id ? false : true}"></option>
                                             </select>
                                         </div>
                                         <div class="col-12 pb-3">
                                             <label for="summary" class="form-label">상품 요약 설명</label>
-                                            <textarea id="summary" name="summary" class="form-control" placeholder="ex) 진짜 갈비로 우려낸 전통 갈비탕"></textarea>
+                                            <textarea id="summary" name="summary" th:text="${good.summary}" class="form-control" placeholder="ex) 진짜 갈비로 우려낸 전통 갈비탕"></textarea>
                                         </div>
                                         <div class="col-3 pb-3">
                                             <label for="saleStatus" class="form-label">판매 상태</label>
-                                            <select id="saleStatus" name="saleStatus" class="form-select">
+                                            <select id="saleStatus" th:field="*{good.saleStatus}" name="saleStatus" class="form-select">
                                                 <option value="">--판매 상태--</option>
                                                 <option th:each="status : ${saleStatus}" th:value="${status.name}" th:text="${status.status}"></option>
                                             </select>
                                         </div>
                                         <div class="col-9 pb-3">
                                             <label for="photo" class="form-label">상품 대표 이미지</label>
-                                            <input class="form-control" type="file" id="photo" name="photo">
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <input class="form-control" type="file" id="photo" name="photo" disabled>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button type="button" class="btn btn-outline-success w-100" id="change-photo">이미지 변경</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-9 offset-3 pb-3" id="before-photo">
+                                            <img th:src="|/api/goods/images/${good.photo}|" width="auto" height="300">
                                         </div>
                                     </div>
                                 </div>
@@ -76,21 +94,21 @@
                                         <div class="col-4 pb-3">
                                             <label for="price" class="form-label">상품 대표 가격</label>
                                             <div class="input-group mb-3">
-                                                <input type="text" id="price" name="price" class="form-control">
+                                                <input type="text" id="price" name="price" th:value="${good.price}" class="form-control">
                                                 <span class="input-group-text">원</span>
                                             </div>
                                         </div>
                                         <div class="col-4 pb-3">
                                             <label for="discountPrice" class="form-label">할인된 가격</label>
                                             <div class="input-group mb-3">
-                                                <input type="text" id="discountPrice" name="discountPrice" class="form-control">
+                                                <input type="text" id="discountPrice" th:value="${good.discountPrice}" name="discountPrice" class="form-control">
                                                 <span class="input-group-text">원</span>
                                             </div>
                                         </div>
                                         <div class="col-4 pb-3">
                                             <label for="discountPercent" class="form-label">할인율</label>
                                             <div class="input-group mb-3">
-                                                <input type="text" id="discountPercent" name="discountPercent" class="form-control">
+                                                <input type="text" id="discountPercent" th:value="${good.discountPercent}" name="discountPercent" class="form-control">
                                                 <span class="input-group-text">%</span>
                                             </div>
                                         </div>
@@ -108,35 +126,37 @@
                                 <div class="accordion-body">
                                     <div class="row py-4 px-3">
                                         <div class="col-12 pb-3">
+                                            <input type="hidden" id="detail-id" th:value="${good.goodsDetail.id}">
                                             <label for="origin" class="form-label">원산지</label>
-                                            <textarea id="origin" name="goodsDetail.origin" class="form-control" placeholder="ex) 한국, 축산물 이력번호가 표시된 제품이며, 이력번호는 수령하시는 상품 패키지에서 확인 가능합니다."></textarea>
+                                            <textarea id="origin" th:text="${good.goodsDetail.origin}" name="goodsDetail.origin" class="form-control" placeholder="ex) 한국, 축산물 이력번호가 표시된 제품이며, 이력번호는 수령하시는 상품 패키지에서 확인 가능합니다."></textarea>
                                         </div>
                                         <div class="col-12 pb-3">
                                             <label for="allergyInfo" class="form-label">알레르기</label>
-                                            <textarea id="allergyInfo" name="goodsDetail.allergyInfo" class="form-control" placeholder="ex) 소고기, 대두, 밀, 우유 함유"></textarea>
+                                            <textarea id="allergyInfo" th:text="${good.goodsDetail.allergyInfo}" name="goodsDetail.allergyInfo" class="form-control" placeholder="ex) 소고기, 대두, 밀, 우유 함유"></textarea>
                                         </div>
                                         <div class="col-12 pb-3">
                                             <label for="guidelines" class="form-label">안내사항</label>
-                                            <textarea id="guidelines" name="goodsDetail.guidelines" class="form-control" placeholder="ex) 뼈 조각이 있을 수 있으니 섭취 시 주의부탁드립니다."></textarea>
+                                            <textarea id="guidelines" th:text="${good.goodsDetail.guidelines}" name="goodsDetail.guidelines" class="form-control" placeholder="ex) 뼈 조각이 있을 수 있으니 섭취 시 주의부탁드립니다."></textarea>
                                         </div>
                                         <div class="col-12 pb-3">
                                             <label for="expiryDate" class="form-label">소비기한</label>
-                                            <textarea id="expiryDate" name="goodsDetail.expiryDate" class="form-control" placeholder="ex) 수령일 포함 180일 이상 남은 제품을 보내드립니다. (총 소비기한 365일)"></textarea>
+                                            <textarea id="expiryDate" th:text="${good.goodsDetail.expiryDate}" name="goodsDetail.expiryDate" class="form-control" placeholder="ex) 수령일 포함 180일 이상 남은 제품을 보내드립니다. (총 소비기한 365일)"></textarea>
                                         </div>
                                         <div class="col-6 pb-3">
                                             <label for="packagingType" class="form-label">포장 타입</label>
                                             <select id="packagingType" name="goodsDetail.packagingType" class="form-select">
                                                 <option value="">--포장 타입--</option>
-                                                <option th:each="packaging : ${packagingType}" th:value="${packaging.name}" th:text="${packaging.type}"></option>
+                                                <option th:each="packaging : ${packagingType}" th:value="${packaging.name}" th:text="${packaging.type}"
+                                                        th:selected="${good.goodsDetail.packagingType.name != packaging.name ? false : true}"></option>
                                             </select>
                                         </div>
                                         <div class="col-6 pb-3">
                                             <label for="weightVolume" class="form-label">중량/용량</label>
-                                            <input type="text" class="form-control" id="weightVolume" name="goodsDetail.weightVolume" placeholder="ex) 1040g / 옵션별 상이">
+                                            <input type="text" class="form-control" th:value="${good.goodsDetail.weightVolume}"  id="weightVolume" name="goodsDetail.weightVolume" placeholder="ex) 1040g / 옵션별 상이">
                                         </div>
                                         <div class="col-12 pb-3">
                                             <label for="summernote" class="form-label">상품 상세 설명</label>
-                                            <textarea id="summernote" name="goodsDetail.description"></textarea>
+                                            <textarea id="summernote" th:text="${good.goodsDetail.description}"  name="goodsDetail.description"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -151,48 +171,52 @@
                             <div id="goods-option-input-area" class="accordion-collapse collapse show">
                                 <div class="accordion-body py-3" id="option-fields">
                                     <a type="button" class="btn btn-outline-success btn-sm w-100" id="addOption">옵션 추가</a>
-                                    <div class="row py-4 px-3 option-field">
+                                    <div class="row py-4 px-3 option-field" th:each="option, iterStat: ${good.goodsOptions}">
                                         <div class="col-9 pb-3">
                                             <label for="option-name" class="form-label">이름</label>
-                                            <input id="option-name" name="goodsOptions.name" class="optionName form-control" placeholder="옵션 상품의 이름을 입력해주세요.">
+                                            <input class="option-id" type="hidden" th:name="'goodsOptions[' + ${iterStat.index} + '].id'" th:value="${option.id}">
+                                            <input id="option-name" th:value="${option.name}"
+                                                   th:name="'goodsOptions[' + ${iterStat.index} + '].name'"
+                                                   name="goodsOptions.name" class="optionName form-control" placeholder="옵션 상품의 이름을 입력해주세요.">
                                         </div>
                                         <div class="col-3 pb-3">
                                             <label class="form-label">판매 상태</label>
-                                            <select name="goodsOptions.saleStatus" class="optionSaleStatus form-select">
+                                            <select name="'goodsOptions[' + ${iterStat.index} + '].saleStatus'" class="optionSaleStatus form-select">
                                                 <option value="">--판매 상태--</option>
-                                                <option th:each="status : ${saleStatus}" th:value="${status.name}" th:text="${status.status}"></option>
+                                                <option th:each="status : ${saleStatus}" th:value="${status.name}" th:text="${status.status}"
+                                                th:selected="${option.saleStatus.name == status.name}"></option>
                                             </select>
                                         </div>
                                         <div class="col-3 pb-3">
                                             <label class="form-label">상품 금액</label>
                                             <div class="input-group mb-3">
-                                                <input type="text" name="goodsOptions.price" class="optionPrice form-control">
+                                                <input type="text" th:value="${option.price}" name="'goodsOptions[' + ${iterStat.index} + '].price'" class="optionPrice form-control">
                                                 <span class="input-group-text">원</span>
                                             </div>
                                         </div>
                                         <div class="col-3 pb-3">
                                             <label class="form-label">재고</label>
                                             <div class="input-group mb-3">
-                                                <input type="text" name="goodsOptions.amount" class="optionAmount form-control">
+                                                <input type="text" th:value="${option.amount}" name="'goodsOptions[' + ${iterStat.index} + '].amount'" class="optionAmount form-control">
                                                 <span class="input-group-text">개</span>
                                             </div>
                                         </div>
                                         <div class="col-3 pb-3">
                                             <label class="form-label">할인된 금액</label>
                                             <div class="input-group mb-3">
-                                                <input type="number" name="goodsOptions.discountPrice" class="optionDiscountPrice form-control">
+                                                <input type="number" th:value="${option.discountPrice}" name="'goodsOptions[' + ${iterStat.index} + '].discountPrice'" class="optionDiscountPrice form-control">
                                                 <span class="input-group-text">원</span>
                                             </div>
                                         </div>
                                         <div class="col-3 pb-3">
                                             <label class="form-label">할인율</label>
                                             <div class="input-group mb-3">
-                                                <input type="number" name="goodsOptions.discountPercent" class="optionDiscountPercent form-control" max="100">
+                                                <input type="number" th:value="${option.discountPercent}" name="'goodsOptions[' + ${iterStat.index} + '].discountPercent'" class="optionDiscountPercent form-control" max="100">
                                                 <span class="input-group-text">%</span>
                                             </div>
                                         </div>
                                         <div class="col-2 pb-3 offset-10">
-                                            <a type="button" class="btn w-100 btn-outline-danger btn-sm delOption" hidden="hidden">옵션 삭제</a>
+                                            <a type="button" class="btn w-100 btn-outline-danger btn-sm delOption">옵션 삭제</a>
                                         </div>
                                     </div>
                                 </div>
@@ -200,10 +224,10 @@
                         </div>
                     </div>
                 </div>
-            <div class="d-flex justify-content-center mt-5">
-                <button type="submit" class="btn btn-outline-success">추가</button>
-                <a type="button" class="btn btn-outline-secondary ms-3" href="/goods">취소</a>
-            </div>
+                <div class="d-flex justify-content-center mt-5">
+                    <button type="submit" class="btn btn-outline-success" id="add-category-btn">추가</button>
+                    <a type="button" class="btn btn-outline-secondary ms-3" href="/goods">취소</a>
+                </div>
             </form>
 
         </div>
@@ -213,11 +237,10 @@
 </html>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"
         integrity="sha256-5slxYrL5Ct3mhMAp/dgnb5JSnTYMtkr4dHby34N10qw=" crossorigin="anonymous"></script>
-
 <!-- language pack -->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/lang/summernote-ko-KR.min.js"
         integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="anonymous"></script>
 
 <script>
 </script>
-<script src="/js/goods-add.js"></script>
+<script src="/js/goods-edit.js"></script>

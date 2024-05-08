@@ -69,7 +69,7 @@
                                 <td th:text="${good.price}"></td>
                                 <td th:text="${good.saleStatus.getStatus()}"></td>
                                 <td>
-                                    <img th:src="|/api/goods/images/${good.getStoreFileName()}|" width="auto" height="30">
+                                    <img th:src="|/api/goods/images/${good.getStoreFileName}|" width="auto" height="30">
                                 </td>
                                 <td th:text="${#temporals.format(good.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${good.createdBy}"></td>

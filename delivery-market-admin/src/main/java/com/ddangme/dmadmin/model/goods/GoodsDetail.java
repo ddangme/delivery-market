@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Where(clause = "DELETED_AT IS NULL")
 @AllArgsConstructor
 public class GoodsDetail {
 

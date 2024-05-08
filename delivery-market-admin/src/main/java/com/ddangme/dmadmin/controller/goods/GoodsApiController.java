@@ -1,6 +1,7 @@
 package com.ddangme.dmadmin.controller.goods;
 
 import com.ddangme.dmadmin.dto.Response;
+import com.ddangme.dmadmin.dto.goods.request.GoodsEditRequest;
 import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
 import com.ddangme.dmadmin.service.FileUploadService;
 import com.ddangme.dmadmin.service.goods.GoodsService;
@@ -33,7 +34,14 @@ public class GoodsApiController {
     }
 
     @GetMapping("/images/{filename}")
-    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
+    public Resource loadImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:" + fileUploadService.getFullPath(filename));
+    }
+
+    @PostMapping("/edit")
+    public Response<Void> edit(GoodsEditRequest request, @RequestParam(required = false) MultipartFile photo) {
+        log.info("request={}", request);
+        log.info("photo={}", photo);
+        return Response.success();
     }
 }
