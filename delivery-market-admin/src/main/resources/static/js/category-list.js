@@ -30,6 +30,10 @@ $(document).ready(function() {
             return allChecked;
         }
     });
+
+    $(".clickable-row").click(function() {
+        window.location = "/categories/" + $(this).attr("id");
+    });
 });
 
 
