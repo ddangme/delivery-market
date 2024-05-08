@@ -1,6 +1,5 @@
 package com.ddangme.dmadmin.model.goods;
 
-import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.AuditingFields;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.constants.UploadFile;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
