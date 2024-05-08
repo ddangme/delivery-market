@@ -111,7 +111,6 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response.resultCode === "SUCCESS") {
-                    window.location.href = '/goods';
                     alert("상품이 수정되었습니다.");
                 }
             },

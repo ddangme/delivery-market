@@ -1,5 +1,6 @@
 package com.ddangme.dmadmin.controller.goods;
 
+import com.ddangme.dmadmin.dto.AdminPrincipal;
 import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.goods.request.GoodsEditRequest;
 import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,11 +41,12 @@ public class GoodsApiController {
     }
 
     @PostMapping("/edit")
-    public Response<Void> edit(GoodsEditRequest request, @RequestParam(required = false) MultipartFile photo) throws IOException {
+    public Response<Void> edit(GoodsEditRequest request, @RequestParam(required = false) MultipartFile photo,
+                               @AuthenticationPrincipal AdminPrincipal principal) throws IOException {
         log.info("request={}", request);
         log.info("photo={}", photo);
 
-        goodsService.edit(request, photo);
+        goodsService.edit(request, photo, principal.toDTO());
 
         return Response.success();
     }

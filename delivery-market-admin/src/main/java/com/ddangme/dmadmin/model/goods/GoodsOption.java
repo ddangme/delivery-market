@@ -62,4 +62,5 @@ public class GoodsOption extends AuditingFields {
         this.amount = amount;
         this.saleStatus = saleStatus;
     }
+
 }

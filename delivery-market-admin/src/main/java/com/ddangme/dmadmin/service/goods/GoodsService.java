@@ -1,5 +1,6 @@
 package com.ddangme.dmadmin.service.goods;
 
+import com.ddangme.dmadmin.dto.AdminDTO;
 import com.ddangme.dmadmin.dto.goods.GoodsDTO;
 import com.ddangme.dmadmin.dto.goods.GoodsListResponse;
 import com.ddangme.dmadmin.dto.goods.request.GoodsEditDetailRequest;
@@ -8,11 +9,13 @@ import com.ddangme.dmadmin.dto.goods.request.GoodsEditRequest;
 import com.ddangme.dmadmin.dto.goods.response.GoodsResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
+import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.constants.UploadFile;
 import com.ddangme.dmadmin.model.goods.Category;
 import com.ddangme.dmadmin.model.goods.Goods;
 import com.ddangme.dmadmin.model.goods.GoodsDetail;
 import com.ddangme.dmadmin.model.goods.GoodsOption;
+import com.ddangme.dmadmin.repository.AdminRepository;
 import com.ddangme.dmadmin.repository.category.CategoryRepository;
 import com.ddangme.dmadmin.repository.goods.GoodsRepository;
 import com.ddangme.dmadmin.service.FileService;
@@ -37,6 +40,7 @@ public class GoodsService {
     private final FileService fileService;
     private final GoodsRepository goodsRepository;
     private final CategoryRepository categoryRepository;
+    private final AdminRepository adminRepository;
 
     public Page<GoodsListResponse> search(Pageable pageable) {
         return goodsRepository.search(pageable);
@@ -72,13 +76,14 @@ public class GoodsService {
     }
 
     @Transactional
-    public void edit(GoodsEditRequest request, MultipartFile uploadFile) throws IOException {
+    public void edit(GoodsEditRequest request, MultipartFile uploadFile, AdminDTO adminDTO) throws IOException {
         Goods good = goodsRepository.findById(request.getId())
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOODS));
+        Admin admin = findAdmin(adminDTO);
 
         setGood(good, request);
         setDetail(good, request.getGoodsDetail());
-        setOptions(good, request.getGoodsOptions());
+        setOptions(good, request.getGoodsOptions(), admin);
         setPhoto(good, uploadFile);
     }
 
@@ -114,16 +119,28 @@ public class GoodsService {
                 request.getDescription());
     }
 
-    private void setOptions(Goods good, List<GoodsEditOptionRequest> options) {
+    private void setOptions(Goods good, List<GoodsEditOptionRequest> options, Admin admin) {
         Set<GoodsOption> goodsOption = good.getGoodsOption();
 
         List<GoodsEditOptionRequest> newOptions = options.stream().filter(option -> option.getId() == null).toList();
         addOption(good, newOptions);
 
+
+
+
+
         List<Long> oldOptionRequestIds = options.stream()
                 .map(GoodsEditOptionRequest::getId)
                 .filter(Objects::nonNull)
                 .toList();
+
+        List<Long> oldOptionIds = goodsOption.stream()
+                .map(GoodsOption::getId)
+                .filter(Objects::nonNull)
+                .toList();
+
+        log.info("oldOptionRequestIds={}", oldOptionRequestIds);
+        log.info("oldOptionIds={}", oldOptionIds);
 
         for (GoodsOption option : goodsOption) {
             if (oldOptionRequestIds.contains(option.getId())) {
@@ -133,7 +150,7 @@ public class GoodsService {
                         .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOOD_OPTION));
                 editOption(option, editRequest);
             } else {
-                deleteOption(good, option);
+                deleteOption(option, admin);
             }
         }
     }
@@ -154,8 +171,8 @@ public class GoodsService {
         good.saveOptions(newOptions);
     }
 
-    private void deleteOption(Goods good, GoodsOption option) {
-        good.getGoodsOption().remove(option);
+    private void deleteOption(GoodsOption option, Admin admin) {
+        option.delete(admin);
     }
 
     private void setPhoto(Goods good, MultipartFile uploadFile) throws IOException {
@@ -170,4 +187,9 @@ public class GoodsService {
         }
     }
 
+
+    private Admin findAdmin(AdminDTO dto) {
+        return adminRepository.findById(dto.getId())
+                .orElseThrow(() -> new DMAdminException(ErrorCode.ADMIN_NOT_FOUND));
+    }
 }
