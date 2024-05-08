@@ -15,7 +15,7 @@ import com.ddangme.dmadmin.model.goods.GoodsDetail;
 import com.ddangme.dmadmin.model.goods.GoodsOption;
 import com.ddangme.dmadmin.repository.category.CategoryRepository;
 import com.ddangme.dmadmin.repository.goods.GoodsRepository;
-import com.ddangme.dmadmin.service.FileUploadService;
+import com.ddangme.dmadmin.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -33,7 +34,7 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class GoodsService {
 
-    private final FileUploadService fileUploadService;
+    private final FileService fileService;
     private final GoodsRepository goodsRepository;
     private final CategoryRepository categoryRepository;
 
@@ -43,7 +44,7 @@ public class GoodsService {
 
     @Transactional
     public void save(GoodsDTO dto, MultipartFile uploadFile) throws IOException {
-        UploadFile file = fileUploadService.getUploadFile(uploadFile);
+        UploadFile file = fileService.getUploadFile(uploadFile);
 
         Category category = categoryRepository.findById(dto.getCategoryDTO().getId())
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
@@ -57,7 +58,7 @@ public class GoodsService {
         goods.saveDetail(detail);
         goods.saveOptions(options);
 
-        fileUploadService.transferTo(uploadFile, file);
+        fileService.transferTo(uploadFile, file);
     }
 
     private void saveValidate(GoodsDTO dto) {
@@ -159,10 +160,13 @@ public class GoodsService {
 
     private void setPhoto(Goods good, MultipartFile uploadFile) throws IOException {
         if (uploadFile != null) {
-            UploadFile file = fileUploadService.getUploadFile(uploadFile);
+            UploadFile deleteFile = good.getPhoto();
+            fileService.delete(deleteFile);
+
+            UploadFile file = fileService.getUploadFile(uploadFile);
             good.setPhoto(file);
 
-            fileUploadService.transferTo(uploadFile, file);
+            fileService.transferTo(uploadFile, file);
         }
     }
 

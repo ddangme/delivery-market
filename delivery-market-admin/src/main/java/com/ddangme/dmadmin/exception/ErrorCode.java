@@ -26,6 +26,7 @@ public enum ErrorCode {
     NOT_EXIST_GOODS(HttpStatus.NOT_FOUND, "존재하지 않는 상품입니다."),
     NOT_EXIST_GOOD_DETAIL(HttpStatus.NOT_FOUND, "존재하지 않는 상품 상세입니다."),
     NOT_EXIST_GOOD_OPTION(HttpStatus.NOT_FOUND, "존재하지 않는 상품 옵션입니다."),
+    NOT_EXIST_GOOD_PHOTO(HttpStatus.BAD_REQUEST, "상품 이미지 삭제에 실패하였습니다. 관리자에게 문의해주세요."),
 
 
 

@@ -3,7 +3,7 @@ package com.ddangme.dmadmin.controller.goods;
 import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.goods.request.GoodsEditRequest;
 import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
-import com.ddangme.dmadmin.service.FileUploadService;
+import com.ddangme.dmadmin.service.FileService;
 import com.ddangme.dmadmin.service.goods.GoodsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import java.net.MalformedURLException;
 public class GoodsApiController {
 
     private final GoodsService goodsService;
-    private final FileUploadService fileUploadService;
+    private final FileService fileService;
 
     @PostMapping("/add")
     public Response<Void> add(GoodsSaveRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
@@ -35,7 +35,7 @@ public class GoodsApiController {
 
     @GetMapping("/images/{filename}")
     public Resource loadImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + fileUploadService.getFullPath(filename));
+        return new UrlResource("file:" + fileService.getFullPath(filename));
     }
 
     @PostMapping("/edit")
