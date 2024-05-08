@@ -41,6 +41,7 @@ public class GoodsService {
     private final GoodsRepository goodsRepository;
     private final CategoryRepository categoryRepository;
     private final AdminRepository adminRepository;
+    private final GoodsValidateService validateService;
 
     public Page<GoodsListResponse> search(Pageable pageable) {
         return goodsRepository.search(pageable);
@@ -65,9 +66,6 @@ public class GoodsService {
         fileService.transferTo(uploadFile, file);
     }
 
-    private void saveValidate(GoodsDTO dto) {
-    }
-
     public GoodsResponse findByGoodsId(Long goodsId) {
         Goods goods = goodsRepository.findById(goodsId)
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOODS));
@@ -80,6 +78,8 @@ public class GoodsService {
         Goods good = goodsRepository.findById(request.getId())
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOODS));
         Admin admin = findAdmin(adminDTO);
+
+        validateService.valid(request);
 
         setGood(good, request);
         setDetail(good, request.getGoodsDetail());
