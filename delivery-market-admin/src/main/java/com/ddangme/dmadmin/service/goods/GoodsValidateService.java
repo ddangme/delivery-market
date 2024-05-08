@@ -1,8 +1,6 @@
 package com.ddangme.dmadmin.service.goods;
 
-import com.ddangme.dmadmin.dto.goods.request.GoodsEditDetailRequest;
-import com.ddangme.dmadmin.dto.goods.request.GoodsEditOptionRequest;
-import com.ddangme.dmadmin.dto.goods.request.GoodsEditRequest;
+import com.ddangme.dmadmin.dto.goods.request.*;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +12,14 @@ import java.util.List;
 @Service
 public class GoodsValidateService {
 
-    public void valid(GoodsEditRequest request) {
+    public void valid(GoodsRequest request) {
         validGood(request);
         validDetail(request.getGoodsDetail());
         validOption(request.getGoodsOptions());
     }
 
-    private void validGood(GoodsEditRequest request) {
+
+    private void validGood(GoodsRequest request) {
         if (request.getName() == null || request.getName().isEmpty()) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "상품명을 입력해주세요.");
         }
@@ -39,9 +38,10 @@ public class GoodsValidateService {
         if (request.getGoodsOptions() == null || request.getGoodsOptions().isEmpty()) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "옵션은 최소 1개가 필요합니다.");
         }
+
     }
 
-    private void validDetail(GoodsEditDetailRequest request) {
+    private void validDetail(GoodsDetailRequest request) {
         if (request.getPackagingType() == null) {
             throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "포장 타입을 선택해주세요.");
         }
@@ -53,8 +53,8 @@ public class GoodsValidateService {
         }
     }
 
-    private void validOption(List<GoodsEditOptionRequest> requests) {
-        for (GoodsEditOptionRequest request : requests) {
+    private void validOption(List<GoodsOptionRequest> requests) {
+        for (GoodsOptionRequest request : requests) {
             if (request.getName() == null || request.getName().isEmpty()) {
                 throw new DMAdminException(ErrorCode.FIELD_IS_NULL, "옵션의 이름을 입력해주세요.");
             }

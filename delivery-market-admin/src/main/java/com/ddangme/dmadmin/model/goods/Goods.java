@@ -4,7 +4,6 @@ import com.ddangme.dmadmin.model.AuditingFields;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.constants.UploadFile;
 import lombok.*;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -56,6 +55,17 @@ public class Goods extends AuditingFields {
     @OneToMany(mappedBy = "goods", cascade = CascadeType.ALL)
     private Set<GoodsOption> goodsOption;
 
+    public Goods(Category category, String name, String summary, Long price, Long discountPrice, Integer discountPercent, SaleStatus saleStatus, UploadFile photo) {
+        this.category = category;
+        this.name = name;
+        this.summary = summary;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+        this.saleStatus = saleStatus;
+        this.photo = photo;
+    }
+
     public Goods(Long id, Category category, String name, String summary, Long price, Long discountPrice, Integer discountPercent, SaleStatus saleStatus, UploadFile photo) {
         this.id = id;
         this.category = category;
@@ -74,7 +84,6 @@ public class Goods extends AuditingFields {
     }
 
     public void saveOptions(List<GoodsOption> options) {
-        options.forEach(option -> option.setGoods(this));
         this.goodsOption = new LinkedHashSet<>(options);
     }
 
