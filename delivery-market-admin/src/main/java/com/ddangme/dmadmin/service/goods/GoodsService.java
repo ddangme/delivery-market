@@ -1,11 +1,10 @@
 package com.ddangme.dmadmin.service.goods;
 
 import com.ddangme.dmadmin.dto.AdminDTO;
-import com.ddangme.dmadmin.dto.goods.GoodsDTO;
 import com.ddangme.dmadmin.dto.goods.GoodsListResponse;
-import com.ddangme.dmadmin.dto.goods.request.GoodsEditDetailRequest;
-import com.ddangme.dmadmin.dto.goods.request.GoodsEditOptionRequest;
-import com.ddangme.dmadmin.dto.goods.request.GoodsEditRequest;
+import com.ddangme.dmadmin.dto.goods.request.GoodsDetailRequest;
+import com.ddangme.dmadmin.dto.goods.request.GoodsOptionRequest;
+import com.ddangme.dmadmin.dto.goods.request.GoodsRequest;
 import com.ddangme.dmadmin.dto.goods.response.GoodsResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
@@ -27,9 +26,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -41,31 +41,24 @@ public class GoodsService {
     private final GoodsRepository goodsRepository;
     private final CategoryRepository categoryRepository;
     private final AdminRepository adminRepository;
+    private final GoodsValidateService validateService;
 
     public Page<GoodsListResponse> search(Pageable pageable) {
         return goodsRepository.search(pageable);
     }
 
     @Transactional
-    public void save(GoodsDTO dto, MultipartFile uploadFile) throws IOException {
+    public void save(GoodsRequest request, MultipartFile uploadFile) throws IOException {
         UploadFile file = fileService.getUploadFile(uploadFile);
+        validateService.valid(request);
 
-        Category category = categoryRepository.findById(dto.getCategoryDTO().getId())
+        Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
 
-        Goods goods = dto.toGoodsEntity(category, file);
-        goodsRepository.save(goods);
+        Goods good = request.toEntity(category, file);
 
-        GoodsDetail detail = dto.toGoodsDetailEntity(goods);
-        List<GoodsOption> options = dto.toGoodsOptionsEntity(goods);
-
-        goods.saveDetail(detail);
-        goods.saveOptions(options);
-
+        goodsRepository.save(good);
         fileService.transferTo(uploadFile, file);
-    }
-
-    private void saveValidate(GoodsDTO dto) {
     }
 
     public GoodsResponse findByGoodsId(Long goodsId) {
@@ -76,10 +69,12 @@ public class GoodsService {
     }
 
     @Transactional
-    public void edit(GoodsEditRequest request, MultipartFile uploadFile, AdminDTO adminDTO) throws IOException {
+    public void edit(GoodsRequest request, MultipartFile uploadFile, AdminDTO adminDTO) throws IOException {
         Goods good = goodsRepository.findById(request.getId())
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOODS));
         Admin admin = findAdmin(adminDTO);
+
+        validateService.valid(request);
 
         setGood(good, request);
         setDetail(good, request.getGoodsDetail());
@@ -87,7 +82,7 @@ public class GoodsService {
         setPhoto(good, uploadFile);
     }
 
-    private void setGood(Goods good, GoodsEditRequest request) {
+    private void setGood(Goods good, GoodsRequest request) {
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
 
@@ -102,7 +97,7 @@ public class GoodsService {
         );
     }
 
-    private void setDetail(Goods good, GoodsEditDetailRequest request) {
+    private void setDetail(Goods good, GoodsDetailRequest request) {
         GoodsDetail detail = good.getGoodsDetail();
 
         if (!detail.getId().equals(request.getId())) {
@@ -119,10 +114,10 @@ public class GoodsService {
                 request.getDescription());
     }
 
-    private void setOptions(Goods good, List<GoodsEditOptionRequest> options, Admin admin) {
+    private void setOptions(Goods good, List<GoodsOptionRequest> options, Admin admin) {
         Set<GoodsOption> goodsOption = good.getGoodsOption();
 
-        List<GoodsEditOptionRequest> newOptions = options.stream().filter(option -> option.getId() == null).toList();
+        List<GoodsOptionRequest> newOptions = options.stream().filter(option -> option.getId() == null).toList();
         addOption(good, newOptions);
 
 
@@ -130,7 +125,7 @@ public class GoodsService {
 
 
         List<Long> oldOptionRequestIds = options.stream()
-                .map(GoodsEditOptionRequest::getId)
+                .map(GoodsOptionRequest::getId)
                 .filter(Objects::nonNull)
                 .toList();
 
@@ -144,7 +139,7 @@ public class GoodsService {
 
         for (GoodsOption option : goodsOption) {
             if (oldOptionRequestIds.contains(option.getId())) {
-                GoodsEditOptionRequest editRequest = options.stream()
+                GoodsOptionRequest editRequest = options.stream()
                         .filter(request -> request.getId().equals(option.getId()))
                         .findFirst()
                         .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOOD_OPTION));
@@ -155,7 +150,7 @@ public class GoodsService {
         }
     }
 
-    private void editOption(GoodsOption option, GoodsEditOptionRequest request) {
+    private void editOption(GoodsOption option, GoodsOptionRequest request) {
         option.edit(
                 request.getName(),
                 request.getPrice(),
@@ -166,8 +161,8 @@ public class GoodsService {
         );
     }
 
-    private void addOption(Goods good, List<GoodsEditOptionRequest> newOptionRequest) {
-        List<GoodsOption> newOptions = newOptionRequest.stream().map(GoodsEditOptionRequest::toEntity).toList();
+    private void addOption(Goods good, List<GoodsOptionRequest> newOptionRequest) {
+        List<GoodsOption> newOptions = newOptionRequest.stream().map(option -> option.toEntity(good)).toList();
         good.saveOptions(newOptions);
     }
 

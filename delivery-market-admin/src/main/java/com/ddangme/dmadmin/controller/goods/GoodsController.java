@@ -2,7 +2,6 @@ package com.ddangme.dmadmin.controller.goods;
 
 import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.goods.GoodsListResponse;
-import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
 import com.ddangme.dmadmin.dto.goods.response.GoodsResponse;
 import com.ddangme.dmadmin.model.constants.PackagingType;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;

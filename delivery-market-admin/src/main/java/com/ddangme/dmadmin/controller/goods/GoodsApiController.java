@@ -2,8 +2,7 @@ package com.ddangme.dmadmin.controller.goods;
 
 import com.ddangme.dmadmin.dto.AdminPrincipal;
 import com.ddangme.dmadmin.dto.Response;
-import com.ddangme.dmadmin.dto.goods.request.GoodsEditRequest;
-import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
+import com.ddangme.dmadmin.dto.goods.request.GoodsRequest;
 import com.ddangme.dmadmin.service.FileService;
 import com.ddangme.dmadmin.service.goods.GoodsService;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +26,9 @@ public class GoodsApiController {
     private final FileService fileService;
 
     @PostMapping("/add")
-    public Response<Void> add(GoodsSaveRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
+    public Response<Void> add(GoodsRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
         log.info("request={}", request);
-
-        goodsService.save(request.toDTO(), photo);
+        goodsService.save(request, photo);
 
         return Response.success();
     }
@@ -41,7 +39,7 @@ public class GoodsApiController {
     }
 
     @PostMapping("/edit")
-    public Response<Void> edit(GoodsEditRequest request, @RequestParam(required = false) MultipartFile photo,
+    public Response<Void> edit(GoodsRequest request, @RequestParam(required = false) MultipartFile photo,
                                @AuthenticationPrincipal AdminPrincipal principal) throws IOException {
         log.info("request={}", request);
         log.info("photo={}", photo);
