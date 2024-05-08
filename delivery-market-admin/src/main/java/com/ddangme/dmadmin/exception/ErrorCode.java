@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류가 발생하였습니다. 계속 발생할 경우 관리자에게 문의해 주세요."),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error."),
     DUPLICATE_CATEGORY_NAME(HttpStatus.CONFLICT, "중복된 카테고리 이름이 존재합니다."),
     DUPLICATE_PARENT_CATEGORY_NAME(HttpStatus.CONFLICT, "상위 카테고리와 하위 카테고리 이름은 같을 수 없습니다."),
     UNABLE_LENGTH_CATEGORY_NAME(HttpStatus.BAD_REQUEST, "카테고리 이름은 2자 ~ 15자로 입력해주세요."),
@@ -21,6 +21,16 @@ public enum ErrorCode {
 
     FIELD_IS_NULL(HttpStatus.BAD_REQUEST, "필수 값을 입력해 주세요."),
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
+
+
+    NOT_EXIST_GOODS(HttpStatus.NOT_FOUND, "존재하지 않는 상품입니다."),
+    NOT_EXIST_GOOD_DETAIL(HttpStatus.NOT_FOUND, "존재하지 않는 상품 상세입니다."),
+    NOT_EXIST_GOOD_OPTION(HttpStatus.NOT_FOUND, "존재하지 않는 상품 옵션입니다."),
+    NOT_EXIST_GOOD_PHOTO(HttpStatus.BAD_REQUEST, "상품 이미지 삭제에 실패하였습니다. 관리자에게 문의해주세요."),
+
+
+
+
     ;
 
 

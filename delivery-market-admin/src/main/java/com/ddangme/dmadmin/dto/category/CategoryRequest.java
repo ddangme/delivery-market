@@ -35,7 +35,7 @@ public class CategoryRequest {
                     .map(CategoryDTO::new)
                     .collect(Collectors.toCollection(LinkedHashSet::new));
 
-            categoryDTO.setChildCategories(childDTOs);
+            categoryDTO.setChildCategories(childDTOs.stream().toList());
         }
 
         return categoryDTO;

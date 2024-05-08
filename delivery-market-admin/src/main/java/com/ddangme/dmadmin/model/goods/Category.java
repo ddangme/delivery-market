@@ -38,11 +38,6 @@ public class Category extends AuditingFields {
         this.name = name;
     }
 
-    public void delete(Admin admin) {
-        this.deletedAt = LocalDateTime.now();
-        this.deletedBy = admin;
-    }
-
     public void addChildCategories(Collection<Category> childCategories) {
         this.childCategories.addAll(childCategories);
         for (Category childCategory : childCategories) {

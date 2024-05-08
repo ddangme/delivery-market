@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.List;
 
 @ToString
 @Getter
@@ -20,7 +20,7 @@ public class CategoryListResponse {
     private String createdBy;
     private LocalDateTime updatedAt;
     private String updatedBy;
-    private Set<CategoryListResponse> childCategories;
+    private List<CategoryListResponse> childCategories;
 
     public static CategoryListResponse fromEntity(Category entity) {
         return new CategoryListResponse(
@@ -30,7 +30,10 @@ public class CategoryListResponse {
                 entity.getCreatedBy().getName(),
                 entity.getUpdatedAt(),
                 entity.getUpdatedBy().getName(),
-                entity.getChildCategories().stream().map(CategoryListResponse::fromEntity).collect(Collectors.toUnmodifiableSet())
+                entity.getChildCategories().stream()
+                        .map(CategoryListResponse::fromEntity)
+                        .sorted(Comparator.comparing(CategoryListResponse::getId))
+                        .toList()
         );
     }
 

@@ -47,4 +47,9 @@ public abstract class AuditingFields {
     @ManyToOne
     protected Admin deletedBy;
 
+    public void delete(Admin admin) {
+        this.deletedAt = LocalDateTime.now();
+        this.deletedBy = admin;
+    }
+
 }

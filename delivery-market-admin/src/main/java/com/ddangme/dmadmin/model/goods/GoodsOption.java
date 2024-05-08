@@ -3,10 +3,7 @@ package com.ddangme.dmadmin.model.goods;
 import com.ddangme.dmadmin.model.Admin;
 import com.ddangme.dmadmin.model.AuditingFields;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -26,6 +23,7 @@ public class GoodsOption extends AuditingFields {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_id")
+    @Setter
     private Goods goods;
     private String name;
     private Long price;
@@ -45,4 +43,24 @@ public class GoodsOption extends AuditingFields {
         this.amount = amount;
         this.saleStatus = saleStatus;
     }
+
+    public GoodsOption(String name, Long price, Long discountPrice, Integer discountPercent, Long amount, SaleStatus saleStatus) {
+        this.name = name;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+        this.amount = amount;
+        this.saleStatus = saleStatus;
+    }
+
+
+    public void edit(String name, Long price, Long discountPrice, Integer discountPercent, Long amount, SaleStatus saleStatus) {
+        this.name = name;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+        this.amount = amount;
+        this.saleStatus = saleStatus;
+    }
+
 }

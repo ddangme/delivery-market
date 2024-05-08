@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Where(clause = "DELETED_AT IS NULL")
 @AllArgsConstructor
 public class GoodsDetail {
 
@@ -51,4 +50,13 @@ public class GoodsDetail {
         this.description = description;
     }
 
+    public void edit(String origin, PackagingType packagingType, String weightVolume, String allergyInfo, String guidelines, String expiryDate, String description) {
+        this.origin = origin;
+        this.packagingType = packagingType;
+        this.weightVolume = weightVolume;
+        this.allergyInfo = allergyInfo;
+        this.guidelines = guidelines;
+        this.expiryDate = expiryDate;
+        this.description = description;
+    }
 }

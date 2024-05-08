@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Component
-public class FileUploadService {
+public class FileService {
 
     @Value("${file.dir}")
     private String fileDir;
@@ -48,5 +48,13 @@ public class FileUploadService {
         int pos = originalFileName.lastIndexOf(".");
 
         return originalFileName.substring(pos + 1);
+    }
+
+    public void delete(UploadFile file) {
+        File deleteFile = new File(getFullPath(file.getStoreFileName()));
+
+        if (!deleteFile.delete()) {
+            throw new DMAdminException(ErrorCode.NOT_EXIST_GOOD_PHOTO);
+        }
     }
 }

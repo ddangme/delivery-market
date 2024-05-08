@@ -10,7 +10,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -30,7 +33,11 @@ public class CategoryDTO {
     private LocalDateTime deletedAt;
     private AdminDTO deletedBy;
 
-    private Set<CategoryDTO> childCategories = new LinkedHashSet<>();
+    private List<CategoryDTO> childCategories = new ArrayList<>();
+
+    public CategoryDTO(Long id) {
+        this.id = id;
+    }
 
     public CategoryDTO(String name) {
         this.name = name.trim();
@@ -67,7 +74,7 @@ public class CategoryDTO {
     private CategoryDTO(Long id, String name, Set<CategoryDTO> childCategories) {
         this.id = id;
         this.name = name;
-        this.childCategories = childCategories;
+        this.childCategories = childCategories.stream().sorted(Comparator.comparing(CategoryDTO::getId)).toList();
     }
 
     private void checkNameLength(String name) {

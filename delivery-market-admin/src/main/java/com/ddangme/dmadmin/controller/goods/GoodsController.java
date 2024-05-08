@@ -1,7 +1,9 @@
 package com.ddangme.dmadmin.controller.goods;
 
+import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.goods.GoodsListResponse;
 import com.ddangme.dmadmin.dto.goods.request.GoodsSaveRequest;
+import com.ddangme.dmadmin.dto.goods.response.GoodsResponse;
 import com.ddangme.dmadmin.model.constants.PackagingType;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.service.PaginationService;
@@ -16,6 +18,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -44,10 +47,26 @@ public class GoodsController {
 
     @GetMapping("/add")
     public String addForm(Model model) {
+        addAndEditFormModel(model);
+        return "goods/goods-add";
+    }
+
+    @GetMapping("/{goodsId}")
+    public String editForm(Model model, @PathVariable Long goodsId) {
+        GoodsResponse good = goodsService.findByGoodsId(goodsId);
+        List<CategoryIdNameResponse> childCategories = categoryService.findChild(good.getCategory().getParentId());
+
+        model.addAttribute("good", good);
+        model.addAttribute("childCategories", childCategories);
+        log.info("good={}", good);
+        addAndEditFormModel(model);
+        return "goods/goods-edit";
+    }
+
+    private void addAndEditFormModel(Model model) {
         model.addAttribute("saleStatus", SaleStatus.values());
         model.addAttribute("packagingType", PackagingType.values());
         model.addAttribute("categories",categoryService.findParent());
-        return "goods/goods-add";
     }
 
 }
