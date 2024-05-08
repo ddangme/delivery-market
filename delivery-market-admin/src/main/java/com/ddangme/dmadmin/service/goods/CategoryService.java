@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -45,7 +47,7 @@ public class CategoryService {
                 .ifPresent(findCategory -> {throw new DMAdminException(ErrorCode.DUPLICATE_CATEGORY_NAME);});
     }
 
-    private void checkDuplicateOfChildName(Set<CategoryDTO> childs) {
+    private void checkDuplicateOfChildName(Collection<CategoryDTO> childs) {
         List<String> names = new ArrayList<>();
         for (CategoryDTO child : childs) {
             names.add(child.getName());
@@ -86,7 +88,7 @@ public class CategoryService {
         saveChildCategory(dto.getChildCategories());
     }
 
-    private void saveChildCategory(Set<CategoryDTO> dtos) {
+    private void saveChildCategory(Collection<CategoryDTO> dtos) {
         if (dtos.isEmpty()) {
             return;
         }

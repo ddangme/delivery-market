@@ -28,7 +28,7 @@ public class CategoryEditRequest {
         oldChild.stream().filter(child -> child.id != null)
                 .forEach(child -> childDto.add(new CategoryDTO(child.id, child.name)));
 
-        dto.setChildCategories(childDto);
+        dto.setChildCategories(childDto.stream().toList());
         return dto;
     }
 
