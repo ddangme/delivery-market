@@ -1,6 +1,6 @@
 package com.ddangme.dmadmin.config;
 
-import com.ddangme.dmadmin.dto.AdminPrincipal;
+import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

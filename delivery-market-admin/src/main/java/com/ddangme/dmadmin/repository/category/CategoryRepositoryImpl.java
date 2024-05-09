@@ -1,6 +1,6 @@
 package com.ddangme.dmadmin.repository.category;
 
-import com.ddangme.dmadmin.model.goods.Category;
+import com.ddangme.dmadmin.model.good.Category;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -10,7 +10,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.ddangme.dmadmin.model.goods.QCategory.category;
+import static com.ddangme.dmadmin.model.good.QCategory.category;
 
 public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
 

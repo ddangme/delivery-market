@@ -25,4 +25,5 @@ public class ApiControllerAdvice {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ErrorCode.INTERNAL_SERVER_ERROR.name());
     }
+
 }

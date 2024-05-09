@@ -15,7 +15,6 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "address_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

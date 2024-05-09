@@ -1,6 +1,6 @@
 package com.ddangme.dmadmin.dto.category;
 
-import com.ddangme.dmadmin.model.goods.Category;
+import com.ddangme.dmadmin.model.good.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

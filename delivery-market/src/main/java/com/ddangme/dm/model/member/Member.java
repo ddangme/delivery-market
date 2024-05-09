@@ -20,12 +20,11 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE member SET deleted_at = NOW() WHERE member_id = ?")
+@SQLDelete(sql = "UPDATE member SET deleted_at = NOW() WHERE id = ?")
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
     private Long id;
 
     private String loginId;

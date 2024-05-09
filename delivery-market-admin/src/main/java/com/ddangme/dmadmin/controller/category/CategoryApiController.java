@@ -1,11 +1,11 @@
 package com.ddangme.dmadmin.controller.category;
 
-import com.ddangme.dmadmin.dto.AdminPrincipal;
 import com.ddangme.dmadmin.dto.Response;
+import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.dto.category.CategoryEditRequest;
 import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.category.CategoryRequest;
-import com.ddangme.dmadmin.service.goods.CategoryService;
+import com.ddangme.dmadmin.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

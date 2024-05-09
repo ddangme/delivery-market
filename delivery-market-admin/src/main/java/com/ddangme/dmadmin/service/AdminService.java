@@ -1,7 +1,7 @@
 package com.ddangme.dmadmin.service;
 
-import com.ddangme.dmadmin.dto.AdminDTO;
-import com.ddangme.dmadmin.repository.AdminRepository;
+import com.ddangme.dmadmin.dto.admin.AdminDTO;
+import com.ddangme.dmadmin.repository.admin.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
