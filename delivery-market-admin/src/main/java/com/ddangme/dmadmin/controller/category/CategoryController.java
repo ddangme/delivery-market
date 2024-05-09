@@ -3,7 +3,7 @@ package com.ddangme.dmadmin.controller.category;
 import com.ddangme.dmadmin.dto.category.CategoryDTO;
 import com.ddangme.dmadmin.dto.category.CategoryListResponse;
 import com.ddangme.dmadmin.service.PaginationService;
-import com.ddangme.dmadmin.service.goods.CategoryService;
+import com.ddangme.dmadmin.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

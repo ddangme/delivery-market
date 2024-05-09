@@ -1,5 +1,6 @@
 package com.ddangme.dmadmin.model;
 
+import com.ddangme.dmadmin.model.admin.Admin;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;

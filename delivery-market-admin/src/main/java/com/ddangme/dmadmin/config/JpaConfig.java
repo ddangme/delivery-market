@@ -1,7 +1,7 @@
 package com.ddangme.dmadmin.config;
 
-import com.ddangme.dmadmin.dto.AdminPrincipal;
-import com.ddangme.dmadmin.model.Admin;
+import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
+import com.ddangme.dmadmin.model.admin.Admin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
