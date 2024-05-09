@@ -11,6 +11,9 @@ build/
 # upload-img
 **/upload-imgs
 
+# properties
+**/file-properties
+
 ### STS ###
 .apt_generated
 .classpath
