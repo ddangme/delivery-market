@@ -22,14 +22,14 @@ public class SecurityConfig {
             HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**")
+                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/api/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .logout(logout -> logout.logoutSuccessUrl("/"))
-                .csrf().disable()
+                .csrf(csrf -> csrf.ignoringAntMatchers("/api/**"))
                 .build();
     }
 

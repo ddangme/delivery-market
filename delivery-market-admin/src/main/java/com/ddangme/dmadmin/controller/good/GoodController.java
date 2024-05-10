@@ -1,7 +1,7 @@
 package com.ddangme.dmadmin.controller.good;
 
 import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
-import com.ddangme.dmadmin.dto.good.GoodListResponse;
+import com.ddangme.dmadmin.dto.good.response.GoodListResponse;
 import com.ddangme.dmadmin.dto.good.response.GoodResponse;
 import com.ddangme.dmadmin.model.constants.PackagingType;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
@@ -34,7 +34,7 @@ public class GoodController {
 
     @GetMapping
     public String list(Model model,
-                       @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
+                       @PageableDefault(size = 1, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
         Page<GoodListResponse> goods = goodService.search(pageable);
         List<Integer> pages = paginationService.getPaginationLength(pageable.getPageNumber(), goods.getTotalPages());
 

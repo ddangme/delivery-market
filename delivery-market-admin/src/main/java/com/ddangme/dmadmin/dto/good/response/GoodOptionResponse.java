@@ -2,9 +2,13 @@ package com.ddangme.dmadmin.dto.good.response;
 
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.good.GoodOption;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 @ToString
 @Data
@@ -30,5 +34,4 @@ public class GoodOptionResponse {
                 entity.getSaleStatus()
         );
     }
-
 }

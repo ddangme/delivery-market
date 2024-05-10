@@ -1,10 +1,11 @@
 package com.ddangme.dmadmin.service.good;
 
 import com.ddangme.dmadmin.dto.admin.AdminDTO;
-import com.ddangme.dmadmin.dto.good.GoodListResponse;
 import com.ddangme.dmadmin.dto.good.request.GoodDetailRequest;
 import com.ddangme.dmadmin.dto.good.request.GoodOptionRequest;
 import com.ddangme.dmadmin.dto.good.request.GoodRequest;
+import com.ddangme.dmadmin.dto.good.response.GoodListResponse;
+import com.ddangme.dmadmin.dto.good.response.GoodOptionResponse;
 import com.ddangme.dmadmin.dto.good.response.GoodResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
@@ -46,6 +47,11 @@ public class GoodService {
     public Page<GoodListResponse> search(Pageable pageable) {
         return goodRepository.search(pageable);
     }
+
+    public Page<GoodResponse> searchForMember(Pageable pageable) {
+        return goodRepository.searchForMember(pageable);
+    }
+
 
     @Transactional
     public void save(GoodRequest request, MultipartFile uploadFile) throws IOException {

@@ -1,11 +1,7 @@
 logging:
   level:
     org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql: TRACE
+      web.client.restTemplate: debug
 spring:
   datasource:
     url: ${DB_URL}
@@ -57,3 +53,6 @@ spring:
           auth: true
           ssl:
             enable: true
+
+file:
+  dir: /Users/ddang_me/Project/delivery-market-and-admin/upload-imgs/

@@ -2,7 +2,6 @@ $(document).ready(function() {
     $('#parentCategoryId').change(function() {
         var parentId = $(this).val();
         if (parentId === "") {
-            $('#childCategoryId').empty();
             $('#childCategoryId').prop('disabled', true);
 
             return;

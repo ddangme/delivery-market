@@ -1,4 +1,4 @@
-package com.ddangme.dmadmin.dto.good;
+package com.ddangme.dmadmin.dto.good.response;
 
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.querydsl.core.annotations.QueryProjection;
