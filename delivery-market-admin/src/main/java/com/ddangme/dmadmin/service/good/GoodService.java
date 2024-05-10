@@ -5,8 +5,8 @@ import com.ddangme.dmadmin.dto.good.request.GoodDetailRequest;
 import com.ddangme.dmadmin.dto.good.request.GoodOptionRequest;
 import com.ddangme.dmadmin.dto.good.request.GoodRequest;
 import com.ddangme.dmadmin.dto.good.response.GoodListResponse;
-import com.ddangme.dmadmin.dto.good.response.GoodOptionResponse;
 import com.ddangme.dmadmin.dto.good.response.GoodResponse;
+import com.ddangme.dmadmin.dto.good.response.GoodSaleResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.admin.Admin;
@@ -50,6 +50,10 @@ public class GoodService {
 
     public Page<GoodResponse> searchForMember(Pageable pageable) {
         return goodRepository.searchForMember(pageable);
+    }
+
+    public Page<GoodSaleResponse> searchGoodsInCategoryId(Pageable pageable, Long categoryId) {
+        return goodRepository.searchGoodsInCategoryId(pageable, categoryId);
     }
 
 

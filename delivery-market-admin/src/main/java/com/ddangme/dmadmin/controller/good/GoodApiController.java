@@ -1,9 +1,10 @@
 package com.ddangme.dmadmin.controller.good;
 
-import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.dto.Response;
+import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.dto.good.request.GoodRequest;
 import com.ddangme.dmadmin.dto.good.response.GoodResponse;
+import com.ddangme.dmadmin.dto.good.response.GoodSaleResponse;
 import com.ddangme.dmadmin.service.FileService;
 import com.ddangme.dmadmin.service.good.GoodService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +38,13 @@ public class GoodApiController {
 
         return Response.success(goodService.searchForMember(pageable));
     }
+
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<Page<GoodSaleResponse>> searchInCategoryId(
+            Pageable pageable, @PathVariable Long categoryId) {
+        return ResponseEntity.ok().body(goodService.searchGoodsInCategoryId(pageable, categoryId));
+    }
+
 
     @PostMapping("/add")
     public Response<Void> add(GoodRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {

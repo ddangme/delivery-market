@@ -1,6 +1,8 @@
 package com.ddangme.dm.controller.good;
 
+import com.ddangme.dm.dto.PageResponseCustom;
 import com.ddangme.dm.dto.good.GoodResponse;
+import com.ddangme.dm.dto.good.GoodSaleResponse;
 import com.ddangme.dm.service.FileService;
 import com.ddangme.dm.service.PaginationService;
 import com.ddangme.dm.service.category.CategoryService;
@@ -40,6 +42,22 @@ public class GoodController {
 //
 //        return "good/good";
 //    }
+
+    @GetMapping("/categories/{categoryId}")
+    public String findGoodsInCategory(
+            @PageableDefault(size = 1) Pageable pageable, @PathVariable Long categoryId,
+            Model model) {
+        log.info("pageable={}", pageable);
+        PageResponseCustom<List<GoodSaleResponse>> goods = goodService.findGoodsInCategory(pageable, categoryId);
+        log.info("goods={}", goods);
+        List<Integer> pages = paginationService.getPaginationLength(goods.getNumber(), goods.getTotalPages());
+        model.addAttribute("goods", goods.getContent());
+        model.addAttribute("categoryId", categoryId);
+        model.addAttribute("page", goods.getPage());
+        model.addAttribute("pages", pages);
+
+        return "good/category";
+    }
 
     @GetMapping("/goods")
     public String goods(@PageableDefault(size = 1) Pageable pageable, Model model) {

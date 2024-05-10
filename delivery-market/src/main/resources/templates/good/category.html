@@ -28,17 +28,17 @@
             <ul class="pagination justify-content-center">
                 <li class="page-item">
                     <a class="page-link" th:text="'previous'"
-                       th:href="@{/goods(page=${page.number - 1})}"
+                       th:href="@{/categories/{categoryId}/(page=${page.number - 1}, categoryId=${categoryId})}"
                        th:class="'page-link' + (${page.number} <= 0 ? ' disabled' : '')"></a>
                 </li>
                 <li class="page-item" th:class="page-item" th:each="pageNumber : ${pages}">
                     <a th:class="'page-link' + (${pageNumber} == ${page.number} ? ' disabled' : '')"
                        th:text="${pageNumber + 1}"
-                       th:href="@{/goods(page=${pageNumber})}"></a>
+                       th:href="@{/categories/{categoryId}/(page=${pageNumber}, categoryId=${categoryId})}"></a>
                 </li>
                 <li class="page-item">
                     <a class="page-link" th:text="'next'"
-                       th:href="@{/goods(page=${page.number + 1})}"
+                       th:href="@{/categories/{categoryId}/(page=${page.number + 1}, categoryId=${categoryId})}"
                        th:class="'page-link' + (${page.number} >= ${page.totalPages - 1} ? ' disabled' : '')"></a>
                 </li>
 

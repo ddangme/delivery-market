@@ -1,10 +1,7 @@
 package com.ddangme.dmadmin.repository.good;
 
 
-import com.ddangme.dmadmin.dto.good.response.GoodListResponse;
-import com.ddangme.dmadmin.dto.good.response.GoodResponse;
-import com.ddangme.dmadmin.dto.good.response.QGoodListResponse;
-import com.ddangme.dmadmin.dto.good.response.QGoodResponse;
+import com.ddangme.dmadmin.dto.good.response.*;
 import com.ddangme.dmadmin.model.admin.QAdmin;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -13,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
 import static com.ddangme.dmadmin.model.good.QCategory.category;
@@ -78,6 +74,35 @@ public class GoodRepositoryImpl implements GoodRepositoryCustom {
                 .select(good.count())
                 .from(good)
                 .where(good.deletedAt.isNull());
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public Page<GoodSaleResponse> searchGoodsInCategoryId(Pageable pageable, Long categoryId) {
+        List<GoodSaleResponse> content = queryFactory
+                .select(new QGoodSaleResponse(
+                        good.id,
+                        good.name,
+                        good.summary,
+                        good.price,
+                        good.discountPrice,
+                        good.discountPercent,
+                        good.saleStatus,
+                        good.photo.storeFileName
+                ))
+                .from(good)
+                .where(good.deletedAt.isNull()
+                        .and(good.category.id.eq(categoryId)))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(good.count())
+                .from(good)
+                .where(good.deletedAt.isNull()
+                        .and(good.category.id.eq(categoryId)));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
