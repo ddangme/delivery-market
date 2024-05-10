@@ -22,7 +22,7 @@ function sendCategoriesRequest() {
                     $.each(item.childs, function(childIndex, childItem) {
                         var childLink = $('<a></a>')
                             .addClass('dropdown-item')
-                            .attr('href', '/category/' + childItem.id)
+                            .attr('href', '/categories/' + childItem.id)
                             .text( "    " + childItem.name);
                         listItem.append(childLink);
                     });

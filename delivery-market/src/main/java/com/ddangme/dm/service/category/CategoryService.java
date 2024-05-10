@@ -25,29 +25,14 @@ import java.util.Objects;
 public class CategoryService {
     private final RestTemplate restTemplate;
 
-    public CategoryResponse getGoodInCategory(Long categoryId) {
-        URI uri = UriComponentsBuilder.fromHttpUrl(AdminURL.GET_CATEGORIES_FROM_CHILD_ID.getUrl() + categoryId)
-                .build()
-                .toUri();
-
-        ResponseEntity<Response<CategoryResponse>> responseEntity =
-                restTemplate.exchange(uri,
-                        HttpMethod.GET,
-                        null,
-                        new ParameterizedTypeReference<>() {});
-
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return Objects.requireNonNull(responseEntity.getBody()).getResult();
-        } else {
-            return getGoodInCategory(categoryId);
-        }
-
-    }
 
     public List<CategoryResponse> findAll() {
         URI uri = UriComponentsBuilder.fromHttpUrl(AdminURL.GET_ALL_CATEGORIES.getUrl())
                 .build()
                 .toUri();
+
+
+
 
         ResponseEntity<Response<List<CategoryResponse>>> responseEntity =
                 restTemplate.exchange(uri,

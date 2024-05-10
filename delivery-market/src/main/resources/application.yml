@@ -53,3 +53,6 @@ spring:
           auth: true
           ssl:
             enable: true
+
+file:
+  dir: /Users/ddang_me/Project/delivery-market-and-admin/upload-imgs/

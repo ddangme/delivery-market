@@ -1,7 +1,10 @@
 package com.ddangme.dmadmin.repository.good;
 
-import com.ddangme.dmadmin.dto.good.GoodListResponse;
-import com.ddangme.dmadmin.dto.good.QGoodListResponse;
+
+import com.ddangme.dmadmin.dto.good.response.GoodListResponse;
+import com.ddangme.dmadmin.dto.good.response.GoodResponse;
+import com.ddangme.dmadmin.dto.good.response.QGoodListResponse;
+import com.ddangme.dmadmin.dto.good.response.QGoodResponse;
 import com.ddangme.dmadmin.model.admin.QAdmin;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -10,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
+
+import java.util.List;
 
 import static com.ddangme.dmadmin.model.good.QCategory.category;
 import static com.ddangme.dmadmin.model.good.QGood.good;
@@ -42,9 +47,37 @@ public class GoodRepositoryImpl implements GoodRepositoryCustom {
                 .from(good)
                 .leftJoin(category).on(good.category.id.eq(category.id))
                 .leftJoin(admin1).on(good.createdBy.id.eq(admin1.id))
-                .leftJoin(admin2).on(good.updatedBy.id.eq(admin2.id));
+                .leftJoin(admin2).on(good.updatedBy.id.eq(admin2.id))
+                .offset(pageable.getOffset())
+                .limit(pageable.getOffset());
 
         return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
     }
 
+    @Override
+    public Page<GoodResponse> searchForMember(Pageable pageable) {
+        List<GoodResponse> content = queryFactory
+                .select(new QGoodResponse(
+                        good.id,
+                        good.name,
+                        good.summary,
+                        good.price,
+                        good.discountPrice,
+                        good.discountPercent,
+                        good.saleStatus,
+                        good.photo.storeFileName
+                ))
+                .from(good)
+                .where(good.deletedAt.isNull())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(good.count())
+                .from(good)
+                .where(good.deletedAt.isNull());
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
 }

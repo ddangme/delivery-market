@@ -1,7 +1,7 @@
 package com.ddangme.dmadmin.controller.good;
 
 import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
-import com.ddangme.dmadmin.dto.good.GoodListResponse;
+import com.ddangme.dmadmin.dto.good.response.GoodListResponse;
 import com.ddangme.dmadmin.dto.good.response.GoodResponse;
 import com.ddangme.dmadmin.model.constants.PackagingType;
 import com.ddangme.dmadmin.model.constants.SaleStatus;

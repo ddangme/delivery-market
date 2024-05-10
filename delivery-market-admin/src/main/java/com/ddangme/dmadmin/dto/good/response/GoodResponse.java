@@ -3,6 +3,7 @@ package com.ddangme.dmadmin.dto.good.response;
 import com.ddangme.dmadmin.dto.category.CategoryResponse;
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.good.Good;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
@@ -29,6 +30,17 @@ public class GoodResponse {
     private GoodDetailResponse goodsDetail;
     private List<GoodOptionResponse> goodsOptions;
 
+    @QueryProjection
+    public GoodResponse(Long id, String name, String summary, Long price, Long discountPrice, Integer discountPercent, SaleStatus saleStatus, String photo) {
+        this.id = id;
+        this.name = name;
+        this.summary = summary;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+        this.saleStatus = saleStatus;
+        this.photo = photo;
+    }
 
     public static GoodResponse fromEntity(Good entity) {
         return new GoodResponse(
