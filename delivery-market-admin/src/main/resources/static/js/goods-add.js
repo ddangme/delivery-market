@@ -10,6 +10,7 @@ $(document).ready(function() {
             url: '/api/categories/' + parentId,
             method: 'GET',
             success: function(data) {
+                $('#childCategoryId').empty();
                 if (data.result.length > 0) {
                     $.each(data.result, function(index, item) {
                         $('#childCategoryId').append($('<option>', {
