@@ -49,7 +49,8 @@ public class GoodRepositoryImpl implements GoodRepositoryCustom {
                 .leftJoin(admin1).on(good.createdBy.id.eq(admin1.id))
                 .leftJoin(admin2).on(good.updatedBy.id.eq(admin2.id))
                 .offset(pageable.getOffset())
-                .limit(pageable.getOffset());
+                .limit(pageable.getPageSize())
+                ;
 
         return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
     }

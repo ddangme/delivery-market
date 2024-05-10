@@ -34,7 +34,7 @@
                 <li class="page-item" th:class="page-item" th:each="pageNumber : ${pages}">
                     <a th:class="'page-link' + (${pageNumber} == ${pageable.pageNumber} ? ' disabled' : '')"
                        th:text="${pageNumber + 1}"
-                       th:href="@{/goods(page=${pageNumber}, searchType=${param.searchType}, searchValue=${param.searchValue})}"></a>
+                       th:href="@{/goods(page=${pageNumber})}"></a>
                 </li>
                 <li class="page-item">
                     <a class="page-link" th:text="'next'"
