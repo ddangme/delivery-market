@@ -4,6 +4,7 @@ import com.ddangme.dmadmin.dto.admin.AdminDTO;
 import com.ddangme.dmadmin.dto.category.CategoryDTO;
 import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.category.CategoryListResponse;
+import com.ddangme.dmadmin.dto.category.CategoryParentChildResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.admin.Admin;
@@ -17,10 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -68,6 +66,12 @@ public class CategoryService {
 
     public List<CategoryIdNameResponse> findParent() {
         return categoryRepository.findByParentIdIsNullOrderByName();
+    }
+
+    public List<CategoryParentChildResponse> findAll() {
+        return categoryRepository.findByParentIdIsNullOrderById().stream()
+                .map(CategoryParentChildResponse::fromEntity)
+                .toList();
     }
 
     public CategoryDTO findByParentId(Long parentId) {
@@ -151,6 +155,13 @@ public class CategoryService {
 
     public List<CategoryIdNameResponse> findChild(Long parentId) {
         return categoryRepository.findByParentIdOrderByName(parentId);
+    }
+
+    public CategoryParentChildResponse findByChildId(Long childId) {
+        Category childCategory = categoryRepository.findById(childId)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+
+        return CategoryParentChildResponse.fromEntity(childCategory.getParent());
     }
 
 }

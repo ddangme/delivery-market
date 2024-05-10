@@ -4,6 +4,7 @@ import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.dto.category.CategoryEditRequest;
 import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
+import com.ddangme.dmadmin.dto.category.CategoryParentChildResponse;
 import com.ddangme.dmadmin.dto.category.CategoryRequest;
 import com.ddangme.dmadmin.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -59,4 +60,16 @@ public class CategoryApiController {
         return Response.success(categoryService.findChild(parentId));
     }
 
+    @GetMapping("/parents/{childId}")
+    public Response<CategoryParentChildResponse> findByChildId(@PathVariable Long childId) {
+        log.info("childId={}", childId);
+
+        return Response.success(categoryService.findByChildId(childId));
+    }
+
+    @GetMapping
+    public Response<List<CategoryParentChildResponse>> findAll() {
+
+        return Response.success(categoryService.findAll());
+    }
 }

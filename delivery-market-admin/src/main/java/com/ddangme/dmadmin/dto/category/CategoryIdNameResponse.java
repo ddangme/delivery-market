@@ -8,4 +8,5 @@ import lombok.Data;
 public class CategoryIdNameResponse {
     private Long id;
     private String name;
+
 }
