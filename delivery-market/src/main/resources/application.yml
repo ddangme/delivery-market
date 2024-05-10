@@ -1,11 +1,7 @@
 logging:
   level:
     org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql: TRACE
+      web.client.restTemplate: debug
 spring:
   datasource:
     url: ${DB_URL}

@@ -2,16 +2,12 @@ package com.ddangme.dm.dto.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class CategoryResponse {
-
+@NoArgsConstructor
+public class CategoryIdNameResponse {
     private Long id;
     private String name;
-    private List<CategoryResponse> childs = new ArrayList<>();
-
 }
