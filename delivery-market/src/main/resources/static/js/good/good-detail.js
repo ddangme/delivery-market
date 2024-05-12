@@ -10,7 +10,6 @@ $(document).ready(function() {
         url: '/api/goods/' + window.location.href.split('/').pop(),
         method: 'GET',
         success: function(data) {
-            goodData = data;
             data.price = addCommas(data.price);
             data.discountPrice = addCommas(data.discountPrice);
 
@@ -117,7 +116,11 @@ $(document).ready(function() {
                 $row.append($col10, $col2, $col5, $col3Offset4);
                 $listItem.append($row);
                 $('#choice-options ul').append($listItem);
+
             })
+
+            var descriptionHtml = data.goodDetail.description;
+            $('#good-detail-description').html(descriptionHtml);
         },
         error: function(xhr, status) {
             alert(xhr.responseText);
