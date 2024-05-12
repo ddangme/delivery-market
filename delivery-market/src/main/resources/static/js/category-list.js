@@ -7,7 +7,7 @@ function sendCategoriesRequest() {
         url: "/api/categories",
         method: "GET",
         success: function(data) {
-            $.each(data.result, function(index, item) {
+            $.each(data, function(index, item) {
                 var listItem = $('<li></li>');
                 var link = $('<button></button>')
                     .addClass('dropdown-item fw-bold')
@@ -28,7 +28,7 @@ function sendCategoriesRequest() {
                     });
                 }
 
-                if (index !== data.result.length - 1) {
+                if (index !== data.length - 1) {
                     var hrLinkItem = $('<li></li>');
                     var hrLink = $('<hr>')
                         .addClass("dropdown-divider");
