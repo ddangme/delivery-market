@@ -1,6 +1,5 @@
 package com.ddangme.dmadmin.controller.good;
 
-import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.dto.good.request.GoodRequest;
 import com.ddangme.dmadmin.dto.good.response.GoodResponse;
@@ -47,11 +46,11 @@ public class GoodApiController {
 
 
     @PostMapping("/add")
-    public Response<Void> add(GoodRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
+    public ResponseEntity<Void> add(GoodRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
         log.info("request={}", request);
         goodService.save(request, photo);
 
-        return Response.success();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/images/{filename}")
@@ -60,13 +59,13 @@ public class GoodApiController {
     }
 
     @PostMapping("/edit")
-    public Response<Void> edit(GoodRequest request, @RequestParam(required = false) MultipartFile photo,
+    public ResponseEntity<Void> edit(GoodRequest request, @RequestParam(required = false) MultipartFile photo,
                                @AuthenticationPrincipal AdminPrincipal principal) throws IOException {
         log.info("request={}", request);
         log.info("photo={}", photo);
 
         goodService.edit(request, photo, principal.toDTO());
 
-        return Response.success();
+        return ResponseEntity.ok().build();
     }
 }

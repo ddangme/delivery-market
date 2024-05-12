@@ -1,9 +1,7 @@
 package com.ddangme.dmadmin.controller.category;
 
-import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.dto.category.CategoryEditRequest;
-import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.category.CategoryParentChildResponse;
 import com.ddangme.dmadmin.dto.category.CategoryRequest;
 import com.ddangme.dmadmin.service.category.CategoryService;
