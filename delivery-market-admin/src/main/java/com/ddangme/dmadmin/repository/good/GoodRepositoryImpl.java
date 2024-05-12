@@ -3,6 +3,8 @@ package com.ddangme.dmadmin.repository.good;
 
 import com.ddangme.dmadmin.dto.good.response.*;
 import com.ddangme.dmadmin.model.admin.QAdmin;
+import com.ddangme.dmadmin.model.constants.SaleStatus;
+import com.ddangme.dmadmin.model.good.Good;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static com.ddangme.dmadmin.model.good.QCategory.category;
 import static com.ddangme.dmadmin.model.good.QGood.good;
@@ -105,5 +108,18 @@ public class GoodRepositoryImpl implements GoodRepositoryCustom {
                         .and(good.category.id.eq(categoryId)));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public Optional<Good> searchSaleGoodByGoodId(Long goodId) {
+        Good result = queryFactory
+                .selectFrom(good)
+                .where(good.id.eq(goodId)
+                        .and(good.deletedAt.isNull())
+                        .and(good.saleStatus.notIn(SaleStatus.END)))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
+
     }
 }

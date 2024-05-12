@@ -3,6 +3,7 @@ package com.ddangme.dmadmin.controller.good;
 import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.dto.good.request.GoodRequest;
 import com.ddangme.dmadmin.dto.good.response.GoodResponse;
+import com.ddangme.dmadmin.dto.good.response.GoodSaleDetailResponse;
 import com.ddangme.dmadmin.dto.good.response.GoodSaleResponse;
 import com.ddangme.dmadmin.service.FileService;
 import com.ddangme.dmadmin.service.good.GoodService;
@@ -44,6 +45,10 @@ public class GoodApiController {
         return ResponseEntity.ok().body(goodService.searchGoodsInCategoryId(pageable, categoryId));
     }
 
+    @GetMapping("/detail/{goodId}")
+    public ResponseEntity<GoodSaleDetailResponse> searchGoodDetail(@PathVariable Long goodId) {
+        return ResponseEntity.ok(goodService.findGoodDetailByGoodId(goodId));
+    }
 
     @PostMapping("/add")
     public ResponseEntity<Void> add(GoodRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
@@ -68,4 +73,5 @@ public class GoodApiController {
 
         return ResponseEntity.ok().build();
     }
+
 }

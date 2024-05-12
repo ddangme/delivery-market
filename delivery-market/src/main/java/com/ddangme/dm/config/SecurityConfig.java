@@ -32,7 +32,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .mvcMatchers("/css/**", "/js/**", "/img/**", "/error/**", "/", "/sign-up", "/api/id-duplicate-check", "/api/email/**",
-                                "/member/find/**", "/api/member/find/**")
+                                "/member/find/**", "/api/member/find/**", "/api/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

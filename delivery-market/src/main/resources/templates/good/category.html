@@ -7,17 +7,23 @@
 <div class="left-margin-content-area">
     <div class="row row-cols-1 row-cols-md-4 g-4">
         <div th:each="good: ${goods}">
-            <div class="col border-light" th:id="${good.id}"  style="cursor: pointer">
-                <div class="card">
+            <div class="col border-light">
+                <div class="card" th:id="${good.id}" style="cursor: pointer">
                     <img th:src="|/api/goods/images/${good.photo}|" class="card-img-top" alt="..." height="334.688px" width="260px">
                     <div class="card-body">
-                        <p class="card-text" th:text="${good.name}"></p>
-                        <p class="card-text" th:text="${good.summary}"></p>
-                        <p class="card-text" th:text="${good.price}"></p>
-                        <p class="card-text" th:text="${good.discountPrice}"></p>
-                        <p class="card-text" th:text="${good.discountPercent}"></p>
-                        <p class="card-text" th:text="${good.saleStatus}"></p>
-                        <a type="button" href="/byte">장바구니</a>
+                        <div class="row">
+                            <p class="mb-0" th:text="${good.name}"></p>
+                            <p class="fw-light" th:text="${good.summary}"></p>
+                            <p th:if="${good.discountPrice == null}" class="fw-bolder" th:text="${good.price} + 원"></p>
+                            <div th:if="${good.discountPrice != null}">
+                                <p th:if="${good.discountPrice != null}" class="fw-lighter mb-0 text-decoration-line-through" th:text="${good.price} + 원"></p>
+                                <p th:if="${good.discountPrice != null}" class="fw-bolder">
+                                    <span style="color: rgb(250, 98, 47);" th:text="${good.discountPercent} + '%'"></span>
+                                    <span> </span>
+                                    <span th:text="${good.discountPrice + '원'}"></span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

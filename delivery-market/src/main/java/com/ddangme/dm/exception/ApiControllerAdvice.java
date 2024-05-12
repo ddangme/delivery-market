@@ -18,7 +18,7 @@ public class ApiControllerAdvice {
         log.error("[BAD_REQUEST_HANDLER] exception", exception);
 
         return ResponseEntity.status(exception.getErrorCode().getStatus())
-                .body(exception.getErrorCode().name());
+                .body(exception.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)

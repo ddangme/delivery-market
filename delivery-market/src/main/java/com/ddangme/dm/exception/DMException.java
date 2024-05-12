@@ -12,15 +12,7 @@ public class DMException extends RuntimeException {
 
     public DMException(ErrorCode errorCode) {
         this.errorCode = errorCode;
-        this.message = null;
+        this.message = errorCode.getMessage();
     }
 
-    @Override
-    public String getMessage() {
-        if (message == null) {
-            return errorCode.getMessage();
-        }
-
-        return String.format("%s, %s", errorCode.getMessage(), message);
-    }
 }

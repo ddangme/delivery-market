@@ -1,11 +1,11 @@
 package com.ddangme.dmadmin.repository.good;
 
-import com.ddangme.dmadmin.dto.good.response.GoodListResponse;
-import com.ddangme.dmadmin.dto.good.response.GoodOptionResponse;
-import com.ddangme.dmadmin.dto.good.response.GoodResponse;
-import com.ddangme.dmadmin.dto.good.response.GoodSaleResponse;
+import com.ddangme.dmadmin.dto.good.response.*;
+import com.ddangme.dmadmin.model.good.Good;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Optional;
 
 public interface GoodRepositoryCustom {
 
@@ -14,4 +14,7 @@ public interface GoodRepositoryCustom {
     Page<GoodResponse> searchForMember(Pageable pageable);
 
     Page<GoodSaleResponse> searchGoodsInCategoryId(Pageable pageable, Long categoryId);
+
+    Optional<Good> searchSaleGoodByGoodId(Long goodId);
+
 }

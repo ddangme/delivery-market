@@ -6,6 +6,7 @@ import com.ddangme.dmadmin.dto.good.request.GoodOptionRequest;
 import com.ddangme.dmadmin.dto.good.request.GoodRequest;
 import com.ddangme.dmadmin.dto.good.response.GoodListResponse;
 import com.ddangme.dmadmin.dto.good.response.GoodResponse;
+import com.ddangme.dmadmin.dto.good.response.GoodSaleDetailResponse;
 import com.ddangme.dmadmin.dto.good.response.GoodSaleResponse;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
@@ -70,6 +71,14 @@ public class GoodService {
         goodRepository.save(good);
         fileService.transferTo(uploadFile, file);
     }
+
+    public GoodSaleDetailResponse findGoodDetailByGoodId(Long goodId) {
+        Good good = goodRepository.searchSaleGoodByGoodId(goodId)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOOD));
+
+        return GoodSaleDetailResponse.fromEntity(good);
+    }
+
 
     public GoodResponse findByGoodId(Long goodId) {
         Good good = goodRepository.findById(goodId)
