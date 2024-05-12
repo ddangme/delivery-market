@@ -5,6 +5,8 @@ import com.ddangme.dm.dto.PageResponseCustom;
 import com.ddangme.dm.dto.good.GoodSaleDetailResponse;
 import com.ddangme.dm.dto.good.GoodResponse;
 import com.ddangme.dm.dto.good.GoodSaleResponse;
+import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.exception.ErrorCode;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -65,10 +68,14 @@ public class GoodService {
                 .build()
                 .toUri();
 
-        ResponseEntity<GoodSaleDetailResponse> responseEntity = restTemplate.exchange(
-                uri, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
+        try {
+            ResponseEntity<GoodSaleDetailResponse> responseEntity = restTemplate.exchange(
+                    uri, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
 
-        return responseEntity.getBody();
+            return responseEntity.getBody();
+        } catch (HttpClientErrorException.NotFound e) {
+            throw new DMException(ErrorCode.NOT_FOUND_GOOD, e.getMessage());
+        }
     }
 
 }

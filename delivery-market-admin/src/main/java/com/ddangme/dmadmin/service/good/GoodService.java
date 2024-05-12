@@ -73,7 +73,7 @@ public class GoodService {
     }
 
     public GoodSaleDetailResponse findGoodDetailByGoodId(Long goodId) {
-        Good good = goodRepository.findById(goodId)
+        Good good = goodRepository.searchSaleGoodByGoodId(goodId)
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_GOOD));
 
         return GoodSaleDetailResponse.fromEntity(good);

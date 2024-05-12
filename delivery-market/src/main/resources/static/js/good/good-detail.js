@@ -118,6 +118,10 @@ $(document).ready(function() {
                 $listItem.append($row);
                 $('#choice-options ul').append($listItem);
             })
+        },
+        error: function(xhr, status) {
+            alert(xhr.responseText);
+            window.history.back();
         }
     });
 
