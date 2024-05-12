@@ -70,7 +70,7 @@ public class MemberInfoController {
 
         if (bindingResult.hasErrors()) {
             log.error(bindingResult.toString());
-            return "member/modify-info";
+            return "member/my-page/modify-info";
         }
 
         memberService.modifyMember(request, principal.getId());
