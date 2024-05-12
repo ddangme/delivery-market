@@ -2,7 +2,7 @@ package com.ddangme.dm.service.good;
 
 import com.ddangme.dm.dto.AdminURL;
 import com.ddangme.dm.dto.PageResponseCustom;
-import com.ddangme.dm.dto.good.GoodDetailResponse;
+import com.ddangme.dm.dto.good.GoodSaleDetailResponse;
 import com.ddangme.dm.dto.good.GoodResponse;
 import com.ddangme.dm.dto.good.GoodSaleResponse;
 import com.google.gson.Gson;
@@ -59,13 +59,13 @@ public class GoodService {
         return responseEntity.getBody();
     }
 
-    public GoodDetailResponse findGoodDetail(Long goodId) {
+    public GoodSaleDetailResponse findGoodDetail(Long goodId) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(AdminURL.GOOD_DETAIL.getUrl() + goodId)
                 .build()
                 .toUri();
 
-        ResponseEntity<GoodDetailResponse> responseEntity = restTemplate.exchange(
+        ResponseEntity<GoodSaleDetailResponse> responseEntity = restTemplate.exchange(
                 uri, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
 
         return responseEntity.getBody();
