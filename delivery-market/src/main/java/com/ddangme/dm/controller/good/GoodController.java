@@ -30,26 +30,12 @@ public class GoodController {
 
     private final FileService fileService;
     private final GoodService goodService;
-    private final CategoryService categoryService;
     private final PaginationService paginationService;
-
-//    @GetMapping("/categories/{categoryId}")
-//    public String goodInCategories(@PathVariable Long categoryId) {
-////        CategoryResponse categories =  categoryService.getGoodInCategory(categoryId);
-////        log.info("categories={}", categories);
-//        goodService.getGoods
-//                ();
-//
-//        return "good/good";
-//    }
 
     @GetMapping("/categories/{categoryId}")
     public String findGoodsInCategory(
-            @PageableDefault(size = 1) Pageable pageable, @PathVariable Long categoryId,
-            Model model) {
-        log.info("pageable={}", pageable);
+            @PageableDefault(size = 1) Pageable pageable, @PathVariable Long categoryId, Model model) {
         PageResponseCustom<List<GoodSaleResponse>> goods = goodService.findGoodsInCategory(pageable, categoryId);
-        log.info("goods={}", goods);
         List<Integer> pages = paginationService.getPaginationLength(goods.getNumber(), goods.getTotalPages());
         model.addAttribute("goods", goods.getContent());
         model.addAttribute("categoryId", categoryId);
@@ -61,11 +47,10 @@ public class GoodController {
 
     @GetMapping("/goods")
     public String goods(@PageableDefault(size = 1) Pageable pageable, Model model) {
-        Page<GoodResponse> goods = goodService.getGoods(pageable);
-        List<Integer> pages = paginationService.getPaginationLength(pageable.getPageNumber(), getTotalPage(pageable, goods.getTotalElements()));
-
-        model.addAttribute("pageable", pageable);
-        model.addAttribute("goods", goods);
+        PageResponseCustom<List<GoodResponse>> goods = goodService.getGoods(pageable);
+        List<Integer> pages = paginationService.getPaginationLength(pageable.getPageNumber(), goods.getTotalPages());
+        model.addAttribute("goods", goods.getContent());
+        model.addAttribute("page", goods.getPage());
         model.addAttribute("pages", pages);
 
         return "good/good";
@@ -77,7 +62,4 @@ public class GoodController {
         return new UrlResource("file:" + fileService.getFullPath(filename));
     }
 
-    private static int getTotalPage(Pageable pageable, Long totalElements) {
-        return (int) Math.ceil((double) totalElements / (double) pageable.getPageSize());
-    }
 }

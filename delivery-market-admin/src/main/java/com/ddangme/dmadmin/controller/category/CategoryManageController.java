@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-public class CategoryController {
+public class CategoryManageController {
 
     private final CategoryService categoryService;
     private final PaginationService paginationService;

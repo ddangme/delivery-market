@@ -26,7 +26,7 @@ public class MemberApiController {
 
 
     @PostMapping("/api/id-duplicate-check")
-    public ResponseEntity<?> idDuplicateCheck(@RequestBody String loginId) {
+    public ResponseEntity<Void> idDuplicateCheck(@RequestBody String loginId) {
         if (memberService.findByLoginId(loginId).isPresent()) {
             throw new DMException(ErrorCode.DUPLICATED_LOGIN_ID);
         }
@@ -34,7 +34,7 @@ public class MemberApiController {
     }
 
     @PostMapping("/api/email")
-    public ResponseEntity<?> sendMail(@RequestBody String email, HttpSession session) throws MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<Void> sendMail(@RequestBody String email, HttpSession session) throws MessagingException, UnsupportedEncodingException {
         String authCode = emailService.sendEmail(email);
         session.setAttribute("dm-auth-code", authCode);
         session.setMaxInactiveInterval(180);
@@ -44,7 +44,7 @@ public class MemberApiController {
     }
 
     @PostMapping("/api/email/auth-code")
-    public ResponseEntity<?> checkAuthCode(@RequestBody String authCode, HttpSession session) {
+    public ResponseEntity<Void> checkAuthCode(@RequestBody String authCode, HttpSession session) {
         String saveAuthCode = (String) session.getAttribute("dm-auth-code");
 
         if (saveAuthCode == null) {

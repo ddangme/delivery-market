@@ -18,7 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -146,6 +149,21 @@ public class CategoryService {
 
             category.delete(admin);
         }
+    }
+
+    @Transactional
+    public void delete(Long categoryId, AdminDTO adminDTO) {
+        if (categoryId == null) {
+            throw new DMAdminException(ErrorCode.NOT_CHOICE_CATEGORY);
+        }
+
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CATEGORY));
+
+        Admin admin = findAdmin(adminDTO);
+        category.getChildCategories()
+                .forEach(child -> child.delete(admin));
+        category.delete(admin);
     }
 
     private Admin findAdmin(AdminDTO dto) {

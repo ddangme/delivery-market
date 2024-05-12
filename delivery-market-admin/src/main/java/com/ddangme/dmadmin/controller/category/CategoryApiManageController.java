@@ -1,14 +1,13 @@
 package com.ddangme.dmadmin.controller.category;
 
-import com.ddangme.dmadmin.dto.Response;
 import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.dto.category.CategoryEditRequest;
-import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.category.CategoryParentChildResponse;
 import com.ddangme.dmadmin.dto.category.CategoryRequest;
 import com.ddangme.dmadmin.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,29 +17,28 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/categories")
-public class CategoryApiController {
-
+public class CategoryApiManageController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public Response<Void> addCategory(CategoryRequest request) {
+    public ResponseEntity<Void> addCategory(CategoryRequest request) {
         log.info("request={}", request);
 
         categoryService.save(request.toDTO());
-        return Response.success();
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
-    public Response<Void> delCategory(@AuthenticationPrincipal AdminPrincipal principal,
-                                      @RequestBody List<Long> categoryIds) {
-        log.info("ids={}", categoryIds);
-        categoryService.delete(categoryIds, principal.toDTO());
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Void> delCategory(@AuthenticationPrincipal AdminPrincipal principal,
+                                            @PathVariable Long categoryId) {
+        log.info("id={}", categoryId);
+        categoryService.delete(categoryId, principal.toDTO());
 
-        return Response.success();
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/edit/{parentId}")
-    public Response<Void> editCategory(@AuthenticationPrincipal AdminPrincipal principal,
+    public ResponseEntity<Void> editCategory(@AuthenticationPrincipal AdminPrincipal principal,
                                        @PathVariable Long parentId,
                                        CategoryEditRequest request) {
         log.info("categoryId={}", parentId);
@@ -50,26 +48,11 @@ public class CategoryApiController {
         categoryService.edit(request.toDTO(parentId));
         categoryService.saveChildCategory(request.toNewDTO(), parentId);
 
-        return Response.success();
-    }
-
-    @GetMapping("/{parentId}")
-    public Response<List<CategoryIdNameResponse>> findChildCategory(@PathVariable Long parentId) {
-        log.info("parentId={}", parentId);
-
-        return Response.success(categoryService.findChild(parentId));
-    }
-
-    @GetMapping("/parents/{childId}")
-    public Response<CategoryParentChildResponse> findByChildId(@PathVariable Long childId) {
-        log.info("childId={}", childId);
-
-        return Response.success(categoryService.findByChildId(childId));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public Response<List<CategoryParentChildResponse>> findAll() {
-
-        return Response.success(categoryService.findAll());
+    public ResponseEntity<List<CategoryParentChildResponse>> findAll() {
+        return ResponseEntity.ok(categoryService.findAll());
     }
 }

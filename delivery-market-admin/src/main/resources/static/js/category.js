@@ -40,18 +40,15 @@ $(document).ready(function() {
 
         var formData = new FormData($('#add-category-form')[0]);
 
-        // AJAX 요청 보내기
         $.ajax({
-            url: '/api/categories', // 데이터를 보낼 엔드포인트 URL
-            type: 'POST', // POST 방식으로 요청
-            data: formData, // FormData 객체를 데이터로 전송
-            processData: false, // 데이터 처리 여부 (FormData를 사용할 때는 false로 설정)
-            contentType: false, // 컨텐츠 타입 (FormData를 사용할 때는 false로 설정)
+            url: '/api/categories',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function(response) {
-                if (response.resultCode === "SUCCESS") {
-                    window.location.href = '/categories';
-                    alert("카테고리가 추가되었습니다.");
-                }
+                window.location.href = '/categories';
+                alert("카테고리가 추가되었습니다.");
             },
             error: function(xhr, status) {
                 alert(xhr.responseText);
@@ -70,6 +67,28 @@ $(document).ready(function() {
     });
 
 
+    $('#delete-all-category').click(function() {
+        if (!confirm("상위 카테고리와 하위 카테고리를 모두 삭제하시겠습니까?")) {
+            return;
+        }
+
+        var id = $('#categoryId').val();
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/categories/' + id,
+            contentType: 'application/json',
+            success: function(response) {
+                alert("카테고리가 삭제되었습니다.");
+                window.location.href = '/categories';
+            },
+            error: function(xhr, status) {
+                alert(xhr.responseText);
+            }
+        });
+
+    })
+
+
     $('#edit-category-btn').click(function () {
         if (!confirm("저장하시겠습니까?")) {
             return;
@@ -81,12 +100,12 @@ $(document).ready(function() {
             type: 'POST', // HTTP 요청 방식
             url: '/api/categories/edit/' + $('#categoryId').val(), // 서버 URL
             data: formData,
-            processData: false, // 데이터 처리 여부 (FormData를 사용할 때는 false로 설정)
-            contentType: false, // 컨텐츠 타입 (FormData를 사용할 때는 false로 설정)
+            processData: false,
+            contentType: false,
             success: function(response) {
                 alert("저장되었습니다.");
             },
-            error: function(xhr, status, error) {
+            error: function(xhr, status) {
                 alert(xhr.responseText);
             }
         });

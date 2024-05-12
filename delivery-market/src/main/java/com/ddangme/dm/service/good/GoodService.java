@@ -32,24 +32,18 @@ public class GoodService {
     private final RestTemplate restTemplate;
     private final Gson gson;
 
-    public Page<GoodResponse> getGoods(Pageable pageable)  {
-        URI uri = UriComponentsBuilder.fromHttpUrl(AdminURL.GET_ALL_GOODS.getUrl())
+    public PageResponseCustom<List<GoodResponse>> getGoods(Pageable pageable) {
+        URI uri = UriComponentsBuilder
+                .fromHttpUrl(AdminURL.GET_ALL_GOODS.getUrl())
                 .queryParam("page", pageable.getPageNumber())
                 .queryParam("size", pageable.getPageSize())
                 .build()
                 .toUri();
 
-        ResponseEntity<String> responseEntity = restTemplate
-                .exchange(uri, HttpMethod.GET, null, String.class);
+        ResponseEntity<PageResponseCustom<List<GoodResponse>>> responseEntity = restTemplate
+                .exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
 
-        JsonObject result = gson.fromJson(responseEntity.getBody(), JsonObject.class)
-                .getAsJsonObject("result");
-        List<GoodResponse> content = gson.fromJson(result.getAsJsonArray("content"), new TypeToken<List<GoodResponse>>(){}.getType());
-        Pageable pageableResponse = gson.fromJson(result.get("pageable"), PageRequest.class);
-
-        long totalElements = result.getAsJsonPrimitive("totalElements").getAsLong();
-
-        return new PageImpl<>(content, pageableResponse, totalElements);
+        return responseEntity.getBody();
     }
 
     public PageResponseCustom<List<GoodSaleResponse>> findGoodsInCategory(Pageable pageable, Long categoryId) {
