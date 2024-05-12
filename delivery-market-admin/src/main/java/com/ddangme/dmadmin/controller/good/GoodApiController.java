@@ -44,6 +44,10 @@ public class GoodApiController {
         return ResponseEntity.ok().body(goodService.searchGoodsInCategoryId(pageable, categoryId));
     }
 
+    @GetMapping("/detail/{goodId}")
+    public ResponseEntity<GoodResponse> searchGoodDetail(@PathVariable Long goodId) {
+        return ResponseEntity.ok(goodService.findByGoodId(goodId));
+    }
 
     @PostMapping("/add")
     public ResponseEntity<Void> add(GoodRequest request, @RequestParam(required=false) MultipartFile photo) throws IOException {
@@ -68,4 +72,5 @@ public class GoodApiController {
 
         return ResponseEntity.ok().build();
     }
+
 }

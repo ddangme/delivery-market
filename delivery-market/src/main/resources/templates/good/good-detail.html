@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+<div th:replace="~{/fragments/navbars :: navbars}"></div>
+<div class="content-area" style="margin-top: 100px">
+    <div class="row" style="margin-left: 200px; margin-right: 200px">
+        <div class="col-5">
+<!--            <img th:src="|/api/goods/images/${good.photo}|" class="card-img-top" alt="..." height="551.992px" width="430px">-->
+            <img src="/img/test.jpeg" class="card-img-top" alt="..." height="551.992px" width="430px">
+        </div>
+        <div class="col-7">
+            <div class="row">
+                <div class="col-12 mb-0">
+                    <h5>[KF365] 대추방울토마토 750g</h5>
+                </div>
+                <div class="col-12">
+                    <p style="color: gray">믿고 먹을 수 있는 상품을 합리적인 가격에</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/good/good-list.js"></script>
+</body>
+</html>

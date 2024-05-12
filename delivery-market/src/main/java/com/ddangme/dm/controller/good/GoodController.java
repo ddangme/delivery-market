@@ -1,6 +1,7 @@
 package com.ddangme.dm.controller.good;
 
 import com.ddangme.dm.dto.PageResponseCustom;
+import com.ddangme.dm.dto.good.GoodDetailResponse;
 import com.ddangme.dm.dto.good.GoodResponse;
 import com.ddangme.dm.dto.good.GoodSaleResponse;
 import com.ddangme.dm.service.FileService;
@@ -60,6 +61,14 @@ public class GoodController {
     @GetMapping("/api/goods/images/{filename}")
     public Resource loadImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:" + fileService.getFullPath(filename));
+    }
+
+    @GetMapping("/goods/{goodId}")
+    public String goodsDetail(@PathVariable Long goodId) {
+        log.info("goodId={}", goodId);
+        GoodDetailResponse goodDetail = goodService.findGoodDetail(goodId);
+        log.info("goodDetail={}", goodDetail);
+        return "good/good-detail";
     }
 
 }

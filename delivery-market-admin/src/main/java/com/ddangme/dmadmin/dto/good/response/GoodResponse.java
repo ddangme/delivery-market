@@ -27,8 +27,8 @@ public class GoodResponse {
     private SaleStatus saleStatus;
     private String photo;
 
-    private GoodDetailResponse goodsDetail;
-    private List<GoodOptionResponse> goodsOptions;
+    private GoodDetailResponse goodDetail;
+    private List<GoodOptionResponse> goodOptions;
 
     @QueryProjection
     public GoodResponse(Long id, String name, String summary, Long price, Long discountPrice, Integer discountPercent, SaleStatus saleStatus, String photo) {
