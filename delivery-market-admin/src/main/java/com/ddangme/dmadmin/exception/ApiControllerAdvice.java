@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ApiControllerAdvice {
 
     @ExceptionHandler(DMAdminException.class)
-    public ResponseEntity<?> badRequestHandler(DMAdminException exception) {
+    public ResponseEntity<String> badRequestHandler(DMAdminException exception) {
         log.error("Error occurs", exception);
 
         return ResponseEntity.status(exception.getErrorCode().getStatus())
@@ -19,7 +19,7 @@ public class ApiControllerAdvice {
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> exceptionHandler(RuntimeException exception) {
+    public ResponseEntity<String> exceptionHandler(RuntimeException exception) {
         log.error("Error occurs", exception);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
