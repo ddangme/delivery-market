@@ -23,24 +23,24 @@ public class CategoryApiManageController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public Response<Void> addCategory(CategoryRequest request) {
+    public ResponseEntity<Void> addCategory(CategoryRequest request) {
         log.info("request={}", request);
 
         categoryService.save(request.toDTO());
-        return Response.success();
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
-    public Response<Void> delCategory(@AuthenticationPrincipal AdminPrincipal principal,
-                                      @RequestBody List<Long> categoryIds) {
-        log.info("ids={}", categoryIds);
-        categoryService.delete(categoryIds, principal.toDTO());
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Void> delCategory(@AuthenticationPrincipal AdminPrincipal principal,
+                                            @PathVariable Long categoryId) {
+        log.info("id={}", categoryId);
+        categoryService.delete(categoryId, principal.toDTO());
 
-        return Response.success();
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/edit/{parentId}")
-    public Response<Void> editCategory(@AuthenticationPrincipal AdminPrincipal principal,
+    public ResponseEntity<Void> editCategory(@AuthenticationPrincipal AdminPrincipal principal,
                                        @PathVariable Long parentId,
                                        CategoryEditRequest request) {
         log.info("categoryId={}", parentId);
@@ -50,14 +50,7 @@ public class CategoryApiManageController {
         categoryService.edit(request.toDTO(parentId));
         categoryService.saveChildCategory(request.toNewDTO(), parentId);
 
-        return Response.success();
-    }
-
-    @GetMapping("/{parentId}")
-    public Response<List<CategoryIdNameResponse>> findChildCategory(@PathVariable Long parentId) {
-        log.info("parentId={}", parentId);
-
-        return Response.success(categoryService.findChild(parentId));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
