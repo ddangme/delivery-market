@@ -33,10 +33,10 @@ public class GoodApiController {
     private final FileService fileService;
 
     @GetMapping
-    public Response<Page<GoodResponse>> searchForMember(
+    public ResponseEntity<Page<GoodResponse>> searchForMember(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        return Response.success(goodService.searchForMember(pageable));
+        return ResponseEntity.ok(goodService.searchForMember(pageable));
     }
 
     @GetMapping("/{categoryId}")

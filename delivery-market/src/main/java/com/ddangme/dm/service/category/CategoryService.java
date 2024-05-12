@@ -31,19 +31,12 @@ public class CategoryService {
                 .build()
                 .toUri();
 
-
-
-
-        ResponseEntity<Response<List<CategoryResponse>>> responseEntity =
+        ResponseEntity<List<CategoryResponse>> responseEntity =
                 restTemplate.exchange(uri,
                         HttpMethod.GET,
                         null,
                         new ParameterizedTypeReference<>() {});
 
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return Objects.requireNonNull(responseEntity.getBody()).getResult();
-        } else {
-            return findAll();
-        }
+        return responseEntity.getBody();
     }
 }

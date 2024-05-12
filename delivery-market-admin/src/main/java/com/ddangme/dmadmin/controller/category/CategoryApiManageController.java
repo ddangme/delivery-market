@@ -9,6 +9,7 @@ import com.ddangme.dmadmin.dto.category.CategoryRequest;
 import com.ddangme.dmadmin.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/categories")
-public class CategoryApiController {
-
+public class CategoryApiManageController {
     private final CategoryService categoryService;
 
     @PostMapping
@@ -60,16 +60,8 @@ public class CategoryApiController {
         return Response.success(categoryService.findChild(parentId));
     }
 
-    @GetMapping("/parents/{childId}")
-    public Response<CategoryParentChildResponse> findByChildId(@PathVariable Long childId) {
-        log.info("childId={}", childId);
-
-        return Response.success(categoryService.findByChildId(childId));
-    }
-
     @GetMapping
-    public Response<List<CategoryParentChildResponse>> findAll() {
-
-        return Response.success(categoryService.findAll());
+    public ResponseEntity<List<CategoryParentChildResponse>> findAll() {
+        return ResponseEntity.ok(categoryService.findAll());
     }
 }

@@ -41,7 +41,6 @@
                        th:href="@{/categories/{categoryId}/(page=${page.number + 1}, categoryId=${categoryId})}"
                        th:class="'page-link' + (${page.number} >= ${page.totalPages - 1} ? ' disabled' : '')"></a>
                 </li>
-
             </ul>
         </nav>
     </div>
