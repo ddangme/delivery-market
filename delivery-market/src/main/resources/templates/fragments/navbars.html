@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div class="navbars-fixed-area" th:fragment="navbars">
-    <script src="/js/category-list.js"></script>
-
     <div class="p-2 bg-body-tertiary border-bottom">
 
 
@@ -15,18 +13,6 @@
             </div>
 
             <ul data-bs-spy="scroll" class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li>
-                    <div class="btn-group dropend">
-                        <a class="btn" data-bs-toggle="dropdown">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-                            </svg>
-                            카테고리
-                        </a>
-                        <ul class="dropdown-menu" id="categories" style="max-height: 500px; overflow-y: auto;">
-                        </ul>
-                    </div>
-                </li>
                 <li><a href="/goods" class="nav-link link-body-emphasis px-4">전체 상품</a></li>
                 <li><a href="#" class="nav-link link-body-emphasis px-4">FAQs</a></li>
                 <li><a href="#" class="nav-link link-body-emphasis px-4">About</a></li>

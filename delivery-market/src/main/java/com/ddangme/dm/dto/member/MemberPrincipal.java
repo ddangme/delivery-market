@@ -46,6 +46,17 @@ public class MemberPrincipal implements UserDetails, OAuth2User {
         return MemberPrincipal.of(dto.getId(), dto.getLoginId(), dto.getPassword(), dto.getName(), dto.getMemberStatus(), dto.getBenefitLevel());
     }
 
+    public MemberDTO toDTO() {
+        return new MemberDTO(
+                id,
+                loginId,
+                password,
+                name,
+                memberStatus,
+                benefitLevel
+        );
+    }
+
     @Override public String getUsername() { return name; }
     @Override public String getPassword() { return password; }
     @Override public Collection<? extends GrantedAuthority> getAuthorities() {

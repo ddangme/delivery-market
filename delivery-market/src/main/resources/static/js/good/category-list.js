@@ -3,7 +3,7 @@ $(document).ready(function(){
 
     var currentUrl = window.location.href;
     $.ajax({
-        url: '/api' + currentUrl.substring(currentUrl.lastIndexOf('/goods')),
+        url: '/api' + currentUrl.substring(currentUrl.lastIndexOf('/categories')),
         method: 'GET',
         success: function(response) {
             // 각 데이터 항목에 대한 처리
@@ -102,7 +102,7 @@ $(document).ready(function(){
         if (pageInfo.pageNumber <= 0) {
             previousPageLink.addClass('disabled').attr('href', '#');
         } else {
-            previousPageLink.removeClass('disabled').attr('href', '/goods?page=' + (pageInfo.pageNumber - 1));
+            previousPageLink.removeClass('disabled').attr('href', '/categories?page=' + (pageInfo.pageNumber - 1));
         }
 
 // 페이지 번호 링크 설정
@@ -110,7 +110,7 @@ $(document).ready(function(){
         for (var i = 0; i < pageInfo.totalPages; i++) {
             var pageNumber = i + 1;
             var pageItem = $('<li class="page-item"></li>');
-            var pageLink = $('<a class="page-link" href="/goods?page=' + i + '">' + pageNumber + '</a>');
+            var pageLink = $('<a class="page-link" href="/categories?page=' + i + '">' + pageNumber + '</a>');
             if (i === pageInfo.pageNumber) {
                 pageLink.addClass('disabled');
             }
@@ -123,7 +123,7 @@ $(document).ready(function(){
         if (pageInfo.pageNumber >= pageInfo.totalPages - 1) {
             nextPageLink.addClass('disabled').attr('href', '#');
         } else {
-            nextPageLink.removeClass('disabled').attr('href', '/goods?page=' + (pageInfo.pageNumber + 1));
+            nextPageLink.removeClass('disabled').attr('href', '/categories?page=' + (pageInfo.pageNumber + 1));
         }
     }
 });
