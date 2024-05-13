@@ -1,9 +1,12 @@
 package com.ddangme.dm.controller.good;
 
 import com.ddangme.dm.dto.good.GoodResponse;
+import com.ddangme.dm.dto.good.GoodSaleDetailResponse;
+import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.service.FileService;
 import com.ddangme.dm.service.good.GoodApiService;
 import com.ddangme.dm.service.good.GoodService;
+import com.ddangme.dm.service.good.PickService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -12,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +34,7 @@ public class GoodApiController {
 
     private final GoodApiService goodApiService;
     private final GoodService goodService;
+    private final PickService pickService;
     private final FileService fileService;
 
     @GetMapping
@@ -39,7 +44,7 @@ public class GoodApiController {
     }
 
     @GetMapping("/{goodId}")
-    public ResponseEntity goodsDetailData(@PathVariable Long goodId) {
+    public ResponseEntity<GoodSaleDetailResponse> goodsDetailData(@PathVariable Long goodId) {
         return ResponseEntity.ok(goodApiService.findGoodDetail(goodId));
     }
 
@@ -56,6 +61,21 @@ public class GoodApiController {
         byte[] base64ImageBytes = Base64.getEncoder().encode(imageBytes);
         return ResponseEntity.ok().body(base64ImageBytes);
     }
+
+    @PostMapping("/pick/{goodId}")
+    public ResponseEntity<Boolean> pick(@PathVariable Long goodId,
+                                     @AuthenticationPrincipal MemberPrincipal principal) {
+        log.info("goodId={}", goodId);
+        return ResponseEntity.ok().body(pickService.pick(goodId, principal.getId()));
+    }
+
+    @PostMapping("/find/pick/{goodId}")
+    public ResponseEntity<Boolean> findPick(@PathVariable Long goodId,
+                                     @AuthenticationPrincipal MemberPrincipal principal) {
+        log.info("goodId={}", goodId);
+        return ResponseEntity.ok().body(pickService.findPick(goodId, principal.getId()));
+    }
+
 
 
 }

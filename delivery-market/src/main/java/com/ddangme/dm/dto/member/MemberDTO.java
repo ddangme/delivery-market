@@ -48,6 +48,15 @@ public class MemberDTO {
 
     private LocalDateTime deletedAt;
 
+    public MemberDTO(Long id, String loginId, String password, String name, MemberStatus memberStatus, BenefitLevel benefitLevel) {
+        this.id = id;
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.memberStatus = memberStatus;
+        this.benefitLevel = benefitLevel;
+    }
+
     public static MemberDTO fromEntity(Member entity) {
         return new MemberDTO(
             entity.getId(),

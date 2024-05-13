@@ -21,4 +21,5 @@ public class GoodService {
         return goodRepository.findSaleStatusGood(pageable);
     }
 
+
 }

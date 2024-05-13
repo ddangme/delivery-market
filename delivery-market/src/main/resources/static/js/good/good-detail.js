@@ -1,15 +1,29 @@
-$(document).ready(function() {
+const pickTrueSvc = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16" style="color: red">
+  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+</svg>`;
+
+const pickFalseSvc = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16" style="color: red">
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                        </svg>`;
+
+$(document).ready(function () {
     function addCommas(number) {
         if (number !== null) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     }
 
+    var parts = window.location.href.split('/');
+
+    // 배열의 마지막 요소를 가져와서 숫자를 추출합니다.
+    var lastPart = parts[parts.length - 1];
+    var numberPattern = /\d+/g;
+    var goodId = lastPart.match(numberPattern);
 
     $.ajax({
         url: '/api/goods/' + window.location.href.split('/').pop(),
         method: 'GET',
-        success: function(data) {
+        success: function (data) {
             data.price = addCommas(data.price);
             data.discountPrice = addCommas(data.discountPrice);
 
@@ -27,7 +41,6 @@ $(document).ready(function() {
             $.get(imageUrl, function(data) {
                 // 이미지를 받아오는 데 성공했을 때 실행되는 함수
                 var imgElement = document.getElementById("good-main-photo");
-                console.log(imgElement);
                 var imageType = "image/jpeg"; // 이미지 타입에 따라 적절히 변경해야 합니다.
                 var base64Image = "data:" + imageType + ";base64," + data; // Base64로 인코딩된 이미지 데이터
                 imgElement.src = base64Image; // 이미지 태그의 src 속성에 설정하여 화면에 표시
@@ -129,8 +142,6 @@ $(document).ready(function() {
         }
     });
 
-
-
     function updateTotalPrice() {
         var totalPrice = 0;
         $('.list-group-item:not([hidden])').each(function() {
@@ -138,9 +149,7 @@ $(document).ready(function() {
             if ($(this).find('.option-discount-price').length) {
                 price = parseInt($(this).find('.option-discount-price').text().replace('원', '').replace(',', ''));
             }
-            console.log(price);
             var amount = parseInt($(this).find('.option-amount').val());
-            console.log(amount);
             totalPrice += price * amount;
         });
         $('#total-price').text(addCommas(totalPrice));
@@ -171,4 +180,39 @@ $(document).ready(function() {
         $(this).closest('li').find('.option-amount').val('0');
         updateTotalPrice();
     });
+
+    $(document).on('click', '#btn-pick', function () {
+
+        var url = "/api/goods/pick/" + goodId;
+        $.ajax({
+            url: url,
+            method: 'POST',
+            success: function (pickStatus) {
+                changeBtnPick(pickStatus);
+            },
+            error: function() {
+                changeBtnPick(false);
+            }
+        })
+    })
+
+    $.ajax({
+        url: "/api/goods/find/pick/" + goodId,
+        method: 'POST',
+        success: function (pickStatus) {
+            changeBtnPick(pickStatus);
+        },
+        error: function () {
+            changeBtnPick(false);
+        },
+    })
 });
+
+
+function changeBtnPick(pickStatus) {
+    if (pickStatus) {
+        $('#btn-pick').html(pickTrueSvc);
+    } else {
+        $('#btn-pick').html(pickFalseSvc);
+    }
+}
