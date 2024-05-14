@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,15 +64,20 @@ public class GoodApiController {
     @PostMapping("/pick/{goodId}")
     public ResponseEntity<Boolean> pick(@PathVariable Long goodId,
                                      @AuthenticationPrincipal MemberPrincipal principal) {
-        log.info("goodId={}", goodId);
         return ResponseEntity.ok().body(pickService.pick(goodId, principal.getId()));
     }
 
-    @PostMapping("/find/pick/{goodId}")
+    @GetMapping("/find/pick/{goodId}")
     public ResponseEntity<Boolean> findPick(@PathVariable Long goodId,
                                      @AuthenticationPrincipal MemberPrincipal principal) {
-        log.info("goodId={}", goodId);
         return ResponseEntity.ok().body(pickService.findPick(goodId, principal.getId()));
+    }
+
+    @GetMapping("/cart/{goodId}")
+    public ResponseEntity<Boolean> cart(@PathVariable Long goodId,
+                                        @AuthenticationPrincipal MemberPrincipal principal) {
+        log.info("goodId={}", goodId);
+        return ResponseEntity.ok().build();
     }
 
 

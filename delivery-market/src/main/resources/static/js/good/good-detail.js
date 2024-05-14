@@ -196,6 +196,18 @@ $(document).ready(function () {
         })
     })
 
+    $(document).on('click', '#btn-cart', function () {
+        var url = "/api/goods/cart/" + goodId;
+        $.ajax({
+            url: url,
+            method: 'POST',
+            success: function () {
+            },
+            error: function() {
+            }
+        })
+    })
+
     $.ajax({
         url: "/api/goods/find/pick/" + goodId,
         method: 'POST',
