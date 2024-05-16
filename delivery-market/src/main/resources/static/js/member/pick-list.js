@@ -19,14 +19,11 @@ const goodDiv = $(`
                     <span class="text-decoration-line-through good-original-price" style="color: gray"></span>
                 </p>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                         <button type="button" class="btn btn-secondary btn-sm w-100 delete-pick">삭제</button>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <button type="button" class="w-100 btn btn-warning btn-sm">구매</button>
-                    </div>
-                    <div class="col-4">
-                        <button type="button" class="w-100 btn btn-success btn-sm">장바구니</button>
                     </div>
                 </div>
             </div>
@@ -77,6 +74,7 @@ $(document).ready(function () {
                         }
                     });
                 });
+
                 goodList.append(append);
             });
         },
