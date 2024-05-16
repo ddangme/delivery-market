@@ -10,7 +10,7 @@ $(document).ready(function(){
             $(".place-holder-area").remove();
             response.content.forEach(function(dataItem) {
                 let photoSrc = null;
-                var imageUrl = "/api/goods/images/entity/" + dataItem.photo;
+                var imageUrl = "/images/" + dataItem.photo;
 
                 // 이미지를 가져오는 함수 호출
                 fetchImage(imageUrl, function(data) {

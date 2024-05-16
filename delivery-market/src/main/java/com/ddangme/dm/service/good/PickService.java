@@ -1,6 +1,6 @@
 package com.ddangme.dm.service.good;
 
-import com.ddangme.dm.dto.member.MemberDTO;
+import com.ddangme.dm.dto.good.PickedGoodResponse;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.good.Good;
@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -27,10 +28,10 @@ public class PickService {
 
     @Transactional
     public boolean pick(Long goodId, Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
-        Good good = goodRepository.findById(goodId)
-                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_GOOD));
+        Member member = findMember(memberId);
+        checkPickCount(memberId);
+
+        Good good = findGood(goodId);
 
         Optional<Pick> pick = pickRepository.findByMemberIdAndGoodId(member.getId(), goodId);
 
@@ -44,14 +45,44 @@ public class PickService {
     }
 
     public boolean findPick(Long goodId, Long memberId) {
-        memberRepository.findById(memberId)
-                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
-        goodRepository.findById(goodId)
-                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_GOOD));
+        findMember(memberId);
+        findGood(goodId);
 
         Optional<Pick> findPick = pickRepository.findByMemberIdAndGoodId(memberId, goodId);
 
         return findPick.isPresent();
     }
+
+    public List<PickedGoodResponse> findPickedGood(Long memberId) {
+        findMember(memberId);
+        return pickRepository.findByMemberId(memberId)
+                .stream().map(PickedGoodResponse::fromEntity)
+                .toList();
+    }
+
+
+    @Transactional
+    public void deletePick(Long memberId, Long goodId) {
+        Optional<Pick> pick = pickRepository.findByMemberIdAndGoodId(memberId, goodId);
+        pick.ifPresent(pickRepository::delete);
+    }
+
+    public void checkPickCount(Long memberId) {
+        if (pickRepository.countByMemberId(memberId) >= 100) {
+            throw new DMException(ErrorCode.MAX_PICK_EXCEEDED);
+        }
+    }
+
+    private Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+    }
+
+
+    private Good findGood(Long goodId) {
+        return goodRepository.findById(goodId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_GOOD));
+    }
+
 
 }
