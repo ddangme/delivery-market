@@ -1,9 +1,8 @@
 package com.ddangme.dm.repository.good;
 
-import com.ddangme.dm.dto.good.GoodResponse;
-import com.ddangme.dm.dto.good.QGoodResponse;
+import com.ddangme.dm.dto.good.response.GoodResponse;
+import com.ddangme.dm.dto.good.response.QGoodResponse;
 import com.ddangme.dm.model.constants.SaleStatus;
-import com.ddangme.dm.model.good.Good;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;

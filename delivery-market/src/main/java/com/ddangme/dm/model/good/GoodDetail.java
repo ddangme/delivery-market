@@ -18,6 +18,10 @@ public class GoodDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "good_id")
+    private Good good;
+
     private String origin;
 
     @Enumerated(EnumType.STRING)

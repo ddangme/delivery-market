@@ -18,7 +18,7 @@ $(document).ready(function () {
     // 배열의 마지막 요소를 가져와서 숫자를 추출합니다.
     var lastPart = parts[parts.length - 1];
     var numberPattern = /\d+/g;
-    var goodId = lastPart.match(numberPattern);
+    var goodId = lastPart.match(numberPattern)[0];
 
     $.ajax({
         url: '/api/goods/' + window.location.href.split('/').pop(),
@@ -190,23 +190,14 @@ $(document).ready(function () {
             success: function (pickStatus) {
                 changeBtnPick(pickStatus);
             },
-            error: function() {
+            error: function () {
                 changeBtnPick(false);
             }
         })
-    })
+    });
 
     $(document).on('click', '#btn-cart', function () {
-        var url = "/api/goods/cart/" + goodId;
-        $.ajax({
-            url: url,
-            method: 'POST',
-            success: function () {
-            },
-            error: function() {
-            }
-        })
-    })
+    });
 
     $.ajax({
         url: "/api/goods/find/pick/" + goodId,
@@ -217,9 +208,45 @@ $(document).ready(function () {
         error: function () {
             changeBtnPick(false);
         },
-    })
+    });
+
+    $('#btn-cart').on('click', function () {
+        const options = extractOptions();
+        console.log(JSON.stringify(options));
+        $.ajax({
+            url: "/api/goods/cart",
+            method: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(options),
+            success: function (message) {
+                alert(message);
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        })
+    });
 });
 
+function extractOptions() {
+    let options = [];
+
+    $('#choice-options .list-group-item').each(function() {
+        const optionId = $(this).attr('id');
+        const count = $(this).find('.option-amount').val();
+
+        const option = {
+            optionId: optionId,
+            count: count
+        };
+
+        if (count !== "0") {
+            options.push(option);
+        }
+    });
+
+    return options;
+}
 
 function changeBtnPick(pickStatus) {
     if (pickStatus) {

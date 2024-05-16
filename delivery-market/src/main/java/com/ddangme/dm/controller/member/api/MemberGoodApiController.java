@@ -1,8 +1,10 @@
 package com.ddangme.dm.controller.member.api;
 
 
-import com.ddangme.dm.dto.good.PickedGoodResponse;
+import com.ddangme.dm.dto.good.request.CartRequest;
+import com.ddangme.dm.dto.good.response.PickedGoodResponse;
 import com.ddangme.dm.dto.member.MemberPrincipal;
+import com.ddangme.dm.service.good.CartService;
 import com.ddangme.dm.service.good.PickService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import java.util.List;
 public class MemberGoodApiController {
 
     private final PickService pickService;
+    private final CartService cartService;
 
     @GetMapping("/my-page/pick/list")
     public ResponseEntity<List<PickedGoodResponse>> pickList(@AuthenticationPrincipal MemberPrincipal principal) {
@@ -43,10 +46,10 @@ public class MemberGoodApiController {
         return ResponseEntity.ok().body(pickService.findPick(goodId, principal.getId()));
     }
 
-    @GetMapping("/goods/cart/{goodId}")
-    public ResponseEntity<Boolean> cart(@PathVariable Long goodId,
+    @PostMapping("/goods/cart")
+    public ResponseEntity<String> cart(@RequestBody List<CartRequest> requests,
                                         @AuthenticationPrincipal MemberPrincipal principal) {
-        log.info("goodId={}", goodId);
-        return ResponseEntity.ok().build();
+        log.info("requests={}", requests);
+        return ResponseEntity.ok(cartService.save(principal.getId(), requests));
     }
 }

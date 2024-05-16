@@ -1,8 +1,7 @@
 package com.ddangme.dm.controller.good;
 
-import com.ddangme.dm.dto.good.GoodResponse;
-import com.ddangme.dm.dto.good.GoodSaleDetailResponse;
-import com.ddangme.dm.service.good.GoodApiService;
+import com.ddangme.dm.dto.good.response.GoodResponse;
+import com.ddangme.dm.dto.good.response.GoodSaleDetailResponse;
 import com.ddangme.dm.service.good.GoodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/goods")
 public class GoodApiController {
 
-    private final GoodApiService goodApiService;
     private final GoodService goodService;
 
     @GetMapping
@@ -32,7 +30,7 @@ public class GoodApiController {
 
     @GetMapping("/{goodId}")
     public ResponseEntity<GoodSaleDetailResponse> goodsDetailData(@PathVariable Long goodId) {
-        return ResponseEntity.ok(goodApiService.findGoodDetail(goodId));
+        return ResponseEntity.ok(goodService.findGoodDetail(goodId));
     }
 
 }
