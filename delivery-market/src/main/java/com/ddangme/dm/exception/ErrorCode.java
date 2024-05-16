@@ -19,8 +19,7 @@ public enum ErrorCode {
     IS_NOT_ADDRESS_OWNER(HttpStatus.UNAUTHORIZED, "Is not address owner."),
     CANNOT_DELETE_DEFAULT_ADDRESS(HttpStatus.FORBIDDEN, "The default address cannot be deleted."),
     ADMIN_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "admin api error"),
-
-
+    MAX_PICK_EXCEEDED(HttpStatus.BAD_REQUEST, "상품 찜은 최대 100개까지 가능합니다."),
     GOODS_LOADING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "상품 리스트 조회에 실패하였습니다."),
     ;
 

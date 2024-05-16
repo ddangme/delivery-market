@@ -1,4 +1,4 @@
-package com.ddangme.dm.controller.member;
+package com.ddangme.dm.controller.member.api;
 
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.service.address.AddressService;

@@ -3,6 +3,19 @@
 <div class="sidebar-area bg-body-tertiary" th:fragment="sidebar">
     <ul class="list-unstyled ps-0 pt-3">
         <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#favorite-menu" aria-expanded="true">
+                자주찾는 메뉴
+            </button>
+            <div class="collapse show" id="favorite-menu">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="/my-page/pick/list" class="link-body-emphasis d-inline-flex text-decoration-none rounded">찜한 상품</a></li>
+                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Weekly</a></li>
+                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Monthly</a></li>
+                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Annually</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
                 내 정보 관리
             </button>
@@ -10,19 +23,6 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                     <li><a href="/my-page/address" class="link-body-emphasis d-inline-flex text-decoration-none rounded">배송지 관리</a></li>
                     <li><a href="/my-page/info/modify" class="link-body-emphasis d-inline-flex text-decoration-none rounded">개인정보 관리</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                Dashboard
-            </button>
-            <div class="collapse" id="dashboard-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
-                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Weekly</a></li>
-                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Monthly</a></li>
-                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Annually</a></li>
                 </ul>
             </div>
         </li>

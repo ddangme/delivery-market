@@ -36,7 +36,7 @@ $(document).ready(function () {
                 $('#good-discount-price').html('<h4 class="mb-0"><span style="color: rgb(250, 98, 47);">' + data.discountPercent + '%  </span><span>' + data.discountPrice + '원</span></h4><p class="text-decoration-line-through" style="color: gray">' + data.price + '원</p>');
                 $('#good-price').remove();
             }
-            var imageUrl = "/api/goods/images/entity/" + data.photo;
+            var imageUrl = "/images/" + data.photo;
 
             $.get(imageUrl, function(data) {
                 // 이미지를 받아오는 데 성공했을 때 실행되는 함수
@@ -210,7 +210,7 @@ $(document).ready(function () {
 
     $.ajax({
         url: "/api/goods/find/pick/" + goodId,
-        method: 'POST',
+        method: 'GET',
         success: function (pickStatus) {
             changeBtnPick(pickStatus);
         },

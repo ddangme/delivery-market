@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+<div th:replace="~{/fragments/navbars :: navbars}"></div>
+<div th:replace="~{/fragments/sidebar :: sidebar}"></div>
+<div class="left-margin-content-area">
+    <div class="row" style="margin-left: 200px; margin-right: 200px">
+        <div class="border-bottom">
+            <span class="fs-3">찜한 상품</span>
+            <span class="fs-6" style="color: gray">찜한 상품은 최대 100개까지 저장됩니다.</span>
+        </div>
+        <div class="mt-3">
+            <span class="fs-6">전체</span>
+            <span class="fs-6 good-count"></span>
+            <span class="fs-6">개</span>
+        </div>
+        <div class="row" id="good-list">
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="/js/member/pick-list.js"></script>
