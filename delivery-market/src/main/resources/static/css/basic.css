@@ -47,7 +47,7 @@
     line-height: 1;
 }
 
-.navbars-fixed-area {
+.navbar-fixed-area {
     position:fixed;
     top:0;
     right:0;
@@ -64,7 +64,7 @@
     z-index: 1000;
     background-color: white;
     width: 250px;
-    margin: 80px 10px 10px;
+    margin: 65px 10px 10px;
 }
 
 
