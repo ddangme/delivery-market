@@ -33,10 +33,10 @@ public class Good {
 
     private String photoStoreFileName;
 
-    @OneToOne
+    @OneToOne(mappedBy = "good")
     private GoodDetail goodDetail;
 
-    @OneToMany
+    @OneToMany(mappedBy = "good")
     private List<GoodOption> goodOptions;
 
 }

@@ -18,6 +18,10 @@ public class GoodOption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "good_id")
+    private Good good;
+
     private String name;
     private Long price;
     private Long discountPrice;
