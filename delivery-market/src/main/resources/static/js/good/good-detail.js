@@ -210,7 +210,7 @@ $(document).ready(function () {
 
     $.ajax({
         url: "/api/goods/find/pick/" + goodId,
-        method: 'POST',
+        method: 'GET',
         success: function (pickStatus) {
             changeBtnPick(pickStatus);
         },
