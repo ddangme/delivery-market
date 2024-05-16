@@ -1,2 +1,0 @@
-INSERT INTO MEMBER VALUES(1, '대한민국', '어딘가', '12345', 'BASIC', now(), 0, now(), null, 'test@test.com', 'ssilver121',
-                          'USER', 'NORMAL', '박상은', '{noop}qwer1234', '01012341234', 0, now());
