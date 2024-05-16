@@ -211,34 +211,13 @@ $(document).ready(function () {
     });
 
     $('#btn-cart').on('click', function () {
-        let options = [];
-
-        $('#choice-options .list-group-item').each(function() {
-            const optionId = $(this).attr('id');
-            const count = $(this).find('.option-amount').val();
-
-            const option = {
-                optionId: optionId,
-                count: count
-            };
-
-            if (count !== "0") {
-                options.push(option);
-            }
-
-        });
-
-        const data = {
-            goodId: goodId,
-            options: options,
-        };
-
-        console.log(JSON.stringify(data));
+        const options = extractOptions();
+        console.log(JSON.stringify(options));
         $.ajax({
             url: "/api/goods/cart",
             method: 'POST',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data),
+            data: JSON.stringify(options),
             success: function (message) {
                 alert(message);
             },
@@ -247,10 +226,27 @@ $(document).ready(function () {
             }
         })
     });
-
-
 });
 
+function extractOptions() {
+    let options = [];
+
+    $('#choice-options .list-group-item').each(function() {
+        const optionId = $(this).attr('id');
+        const count = $(this).find('.option-amount').val();
+
+        const option = {
+            optionId: optionId,
+            count: count
+        };
+
+        if (count !== "0") {
+            options.push(option);
+        }
+    });
+
+    return options;
+}
 
 function changeBtnPick(pickStatus) {
     if (pickStatus) {

@@ -1,5 +1,9 @@
 package com.ddangme.dm.dto.good.response;
 
+import com.ddangme.dm.model.good.Good;
+import com.ddangme.dm.model.good.GoodDetail;
+import com.ddangme.dm.model.good.GoodOption;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
@@ -7,6 +11,7 @@ import java.util.List;
 
 @ToString
 @Data
+@AllArgsConstructor
 public class GoodSaleDetailResponse {
 
     private Long id;
@@ -17,13 +22,14 @@ public class GoodSaleDetailResponse {
     private Integer discountPercent;
     private String saleStatus;
     private String photo;
-    private GoodDetail goodDetail;
-    private List<GoodOption> goodOptions;
+    private GoodDetailResponse goodDetail;
+    private List<GoodOptionResponse> goodOptions;
 
 
     @ToString
     @Data
-    static class GoodDetail {
+    @AllArgsConstructor
+    static class GoodDetailResponse {
         private Long id;
         private String origin;
         private String packagingType;
@@ -32,11 +38,25 @@ public class GoodSaleDetailResponse {
         private String guidelines;
         private String expiryDate;
         private String description;
+
+        public static GoodDetailResponse fromEntity(GoodDetail entity) {
+            return new GoodDetailResponse(
+                    entity.getId(),
+                    entity.getOrigin(),
+                    entity.getPackagingType().getType(),
+                    entity.getWeightVolume(),
+                    entity.getAllergyInfo(),
+                    entity.getGuidelines(),
+                    entity.getExpiryDate(),
+                    entity.getDescription()
+            );
+        }
     }
 
     @ToString
     @Data
-    static class GoodOption {
+    @AllArgsConstructor
+    static class GoodOptionResponse {
 
         private Long id;
         private String name;
@@ -45,5 +65,35 @@ public class GoodSaleDetailResponse {
         private Integer discountPercent;
         private Long amount;
         private String saleStatus;
+
+        public static GoodOptionResponse fromEntity(GoodOption entity) {
+            return new GoodOptionResponse(
+                    entity.getId(),
+                    entity.getName(),
+                    entity.getPrice(),
+                    entity.getDiscountPrice(),
+                    entity.getDiscountPercent(),
+                    entity.getAmount(),
+                    entity.getSaleStatus().getStatus()
+            );
+        }
     }
+
+    public static GoodSaleDetailResponse fromEntity(Good entity) {
+        return new GoodSaleDetailResponse(
+                entity.getId(),
+                entity.getName(),
+                entity.getSummary(),
+                entity.getPrice(),
+                entity.getDiscountPrice(),
+                entity.getDiscountPercent(),
+                entity.getSaleStatus().getStatus(),
+                entity.getPhotoStoreFileName(),
+                GoodDetailResponse.fromEntity(entity.getGoodDetail()),
+                entity.getGoodOptions()
+                        .stream().map(GoodOptionResponse::fromEntity)
+                        .toList()
+        );
+    }
+
 }
