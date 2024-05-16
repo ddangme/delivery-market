@@ -2,6 +2,7 @@ package com.ddangme.dm.controller.member.api;
 
 
 import com.ddangme.dm.dto.good.request.CartRequest;
+import com.ddangme.dm.dto.good.response.CartResponse;
 import com.ddangme.dm.dto.good.response.PickedGoodResponse;
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.service.good.CartService;
@@ -47,9 +48,11 @@ public class MemberGoodApiController {
     }
 
     @PostMapping("/goods/cart")
-    public ResponseEntity<String> cart(@RequestBody List<CartRequest> requests,
-                                        @AuthenticationPrincipal MemberPrincipal principal) {
+    public ResponseEntity<CartResponse> cart(@RequestBody List<CartRequest> requests,
+                                             @AuthenticationPrincipal MemberPrincipal principal) {
         log.info("requests={}", requests);
-        return ResponseEntity.ok(cartService.save(principal.getId(), requests));
+        String message = cartService.save(principal.getId(), requests);
+        Integer count = cartService.getCartCount(principal.getId());
+        return ResponseEntity.ok(new CartResponse(count, message));
     }
 }
