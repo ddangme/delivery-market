@@ -27,6 +27,26 @@
     position: fixed; top:0; bottom: 0; left: 0; z-index: 1000;
 }
 
+.cart-icon {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-badge {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background-color: darkslategray;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 1;
+}
+
 .navbars-fixed-area {
     position:fixed;
     top:0;

@@ -1,17 +1,14 @@
 package com.ddangme.dm.service.good;
 
 import com.ddangme.dm.dto.good.request.CartRequest;
-import com.ddangme.dm.dto.good.request.OptionRequest;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.good.Cart;
-import com.ddangme.dm.model.good.Good;
 import com.ddangme.dm.model.good.GoodOption;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.repository.MemberRepository;
 import com.ddangme.dm.repository.good.CartRepository;
 import com.ddangme.dm.repository.good.GoodOptionRepository;
-import com.ddangme.dm.repository.good.GoodRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,6 +29,9 @@ public class CartService {
 
     @Transactional
     public String save(Long memberId, List<CartRequest> requests) {
+        if (requests == null || requests.isEmpty()) {
+            throw new DMException(ErrorCode.NOT_CHOICE_OPTION);
+        }
         Member member = findMember(memberId);
         boolean existedCart = saveCartOrAddCount(memberId, requests, member);
 
@@ -60,6 +60,10 @@ public class CartService {
             message += "\n이미 담은 상품의 수량을 추가했습니다.";
         }
         return message;
+    }
+
+    public Integer getCartCount(Long memberId) {
+        return cartRepository.countByMemberId(memberId);
     }
 
     private Optional<Cart> findCart(Long memberId, Long optionId) {

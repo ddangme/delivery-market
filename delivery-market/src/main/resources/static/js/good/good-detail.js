@@ -196,9 +196,6 @@ $(document).ready(function () {
         })
     });
 
-    $(document).on('click', '#btn-cart', function () {
-    });
-
     $.ajax({
         url: "/api/goods/find/pick/" + goodId,
         method: 'GET',
@@ -218,11 +215,14 @@ $(document).ready(function () {
             method: 'POST',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(options),
-            success: function (message) {
-                alert(message);
+            success: function (response) {
+                console.log(response);
+                $('.cart-badge').text(response.count);
+                alert(response.message);
             },
             error: function (xhr) {
                 alert(xhr.responseText);
+                console.log(xhr.responseText);
             }
         })
     });
