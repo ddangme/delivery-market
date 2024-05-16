@@ -6,6 +6,7 @@ import com.ddangme.dmadmin.dto.category.CategoryRequest;
 import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.good.Category;
+import com.ddangme.dmadmin.repository.admin.AdminRepository;
 import com.ddangme.dmadmin.repository.category.CategoryRepository;
 import com.ddangme.dmadmin.service.category.CategoryService;
 import org.junit.jupiter.api.DisplayName;
