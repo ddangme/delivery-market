@@ -1,4 +1,4 @@
-package com.ddangme.dm.dto.good;
+package com.ddangme.dm.dto.good.response;
 
 import lombok.Data;
 import lombok.ToString;
