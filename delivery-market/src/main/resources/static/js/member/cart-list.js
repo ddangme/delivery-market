@@ -40,7 +40,7 @@ const listDiv = $(`<div class="vstack gap-3">
                         </label>
                     </div>
                     <div class="p-2 ms-auto">
-                        <span style="cursor: pointer">선택 삭제</span>
+                        <span class="check-delete" style="cursor: pointer">선택 삭제</span>
                     </div>
                 </div>
                 <div class="border-bottom my-0"></div>
@@ -120,7 +120,7 @@ const listDiv = $(`<div class="vstack gap-3">
                         </label>
                     </div>
                     <div class="p-2 ms-auto">
-                        <span style="cursor: pointer">선택 삭제</span>
+                        <span class="check-delete" style="cursor: pointer">선택 삭제</span>
                     </div>
                 </div>
             </div>`);
@@ -142,9 +142,35 @@ $(document).ready(function () {
         if ($checkbox.length > 0) {
             $checkbox.remove();
         }
+
+        addCheckDeleteEvent(listArea.find('.check-delete'));
     });
 
 });
+
+function addCheckDeleteEvent($btn) {
+    $btn.on('click', function () {
+        if (!confirm("삭제하시겠습니까?")) {
+            return;
+        }
+        var cartIds = [];
+
+        $('.accordion .form-check-input:checked').each(function() {
+            var cartId = $(this).parent().parent().attr('id');
+            if (cartId) {
+                cartIds.push(cartId);
+            }
+        });
+
+        if (cartIds.length === 0) {
+            alert('선택된 상품이 없습니다.');
+        } else {
+            deleteCarts(cartIds);
+        }
+
+        console.log(cartIds);
+    });
+}
 
 function addAllCheckEvent($check) {
     $check.on('click', function() {
@@ -220,31 +246,50 @@ function addCheckEvent($check) {
 function addCloseBtn($btn, div) {
     $btn.on('click', function() {
         const cartIds = [div.attr('id')];
-        $.ajax({
-            url: "/api/goods/cart",
-            type: "DELETE",
-            contentType: "application/json",
-            data: JSON.stringify(cartIds),
-            success: function(response) {
-                if (div.parent().parent().parent().attr('id') !== "stop-div") {
-                    if (div.find('.form-check-input').prop('checked')) {
-                        var currentCount = parseInt($('#check-count').text());
-                        $('.check-count').empty().text(currentCount - 1);
-                    }
-                    var currentSaleCount = parseInt($('#sale-status-count').text());
-                    $('.sale-status-count').empty().text(currentSaleCount - 1);
-                }
+        deleteCart(cartIds, div);
+    });
+}
 
-                if (div.parent().children().length === 1) {
-                    div.parent().parent().parent().remove();
-                } else {
-                    div.remove();
+function deleteCarts(cartIds) {
+    $.ajax({
+        url: "/api/goods/cart",
+        type: "DELETE",
+        contentType: "application/json",
+        data: JSON.stringify(cartIds),
+        success: function() {
+            location.reload();
+        },
+        error: function(xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    });
+}
+
+function deleteCart(cartIds, div) {
+    $.ajax({
+        url: "/api/goods/cart",
+        type: "DELETE",
+        contentType: "application/json",
+        data: JSON.stringify(cartIds),
+        success: function() {
+            if (div.parent().parent().parent().attr('id') !== "stop-div") {
+                if (div.find('.form-check-input').prop('checked')) {
+                    var currentCount = parseInt($('#check-count').text());
+                    $('.check-count').empty().text(currentCount - 1);
                 }
-            },
-            error: function(xhr, status, error) {
-                alert(xhr.responseText);
+                var currentSaleCount = parseInt($('#sale-status-count').text());
+                $('.sale-status-count').empty().text(currentSaleCount - 1);
             }
-        });
+
+            if (div.parent().children().length === 1) {
+                div.parent().parent().parent().remove();
+            } else {
+                div.remove();
+            }
+        },
+        error: function(xhr, status, error) {
+            alert(xhr.responseText);
+        }
     });
 }
 
