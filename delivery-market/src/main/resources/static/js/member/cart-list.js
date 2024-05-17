@@ -220,6 +220,7 @@ function addList (data, $list, $div) {
             addMinusBtn(area.find('.minus-btn'), area.find('.option-count'));
             addPlusBtn(area.find('.plus-btn'), area.find('.option-count'));
             addCloseBtn(area.find('.btn-close'), area);
+            countEvent(area.find('.option-count'));
             setImage(item.photo, area.find('.good-photo'))
             if (item.discountPrice === null) {
                 area.find('.good-original-price').remove();
@@ -233,11 +234,36 @@ function addList (data, $list, $div) {
     }
 }
 
+function countEvent($input) {
+    $input.on('change', function () {
+        if ($input.val() < 1) {
+            $input.val(1);
+        }
+        changeCount($input.val(), $input.parent().parent().parent().attr('id'));
+    });
+}
+
 function addMinusBtn($btn, $input) {
     $btn.on('click', function() {
         var currentAmount = parseInt($input.val());
         if (currentAmount > 1) {
             $input.val(currentAmount - 1);
+        }
+        changeCount($input.val(), $input.parent().parent().parent().attr('id'));
+    });
+}
+
+function changeCount(count, id) {
+    $.ajax({
+        url: "/api/goods/cart/change/count",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            id: id,
+            count: count
+        }),
+        error: function(xhr, status, error) {
+            alert(xhr.responseText);
         }
     });
 }
@@ -246,6 +272,7 @@ function addPlusBtn($btn, $input) {
     $btn.on('click', function() {
         var currentAmount = parseInt($input.val());
         $input.val(currentAmount + 1);
+        changeCount($input.val(), $input.parent().parent().parent().attr('id'));
     });
 }
 

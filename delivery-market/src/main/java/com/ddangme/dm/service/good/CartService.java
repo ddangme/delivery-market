@@ -1,6 +1,7 @@
 package com.ddangme.dm.service.good;
 
 import com.ddangme.dm.dto.cart.CartListProjection;
+import com.ddangme.dm.dto.cart.request.CartChangeCountRequest;
 import com.ddangme.dm.dto.cart.request.CartRequest;
 import com.ddangme.dm.dto.cart.response.CartListResponse;
 import com.ddangme.dm.exception.DMException;
@@ -109,6 +110,15 @@ public class CartService {
     private Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+    }
+
+    @Transactional
+    public void changeCartCount(Long memberId, CartChangeCountRequest request) {
+        findMember(memberId);
+        Cart cart = cartRepository.findById(request.getId())
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CART));
+
+        cart.changeCount(request.getCount());
     }
 
 }
