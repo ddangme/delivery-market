@@ -28,22 +28,30 @@ public class Cart {
     @ToString.Exclude
     private GoodOption option;
 
-    private Long count;
+    private Integer count;
 
     private Boolean status;
 
-    private Cart(Member member, GoodOption option, Long count) {
+    public void changeCount(Integer newCount) {
+        this.count = newCount;
+    }
+
+    public void changeCheckStatus(Boolean status) {
+        this.status = status;
+    }
+
+    private Cart(Member member, GoodOption option, Integer count) {
         this.member = member;
         this.option = option;
         this.count = count;
         this.status = true;
     }
 
-    public static Cart create(Member member, GoodOption option, Long count) {
+    public static Cart create(Member member, GoodOption option, Integer count) {
         return new Cart(member, option, count);
     }
 
-    public void addCount(Long count) {
+    public void addCount(Integer count) {
         this.count += count;
     }
 }

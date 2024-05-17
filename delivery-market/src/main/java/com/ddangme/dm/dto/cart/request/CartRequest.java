@@ -1,4 +1,4 @@
-package com.ddangme.dm.dto.good.request;
+package com.ddangme.dm.dto.cart.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,6 @@ import java.util.List;
 public class CartRequest {
 
     private Long optionId;
-    private Long count;
+    private Integer count;
 
 }

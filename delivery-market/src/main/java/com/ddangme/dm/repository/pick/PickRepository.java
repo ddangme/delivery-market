@@ -1,4 +1,4 @@
-package com.ddangme.dm.repository.good;
+package com.ddangme.dm.repository.pick;
 
 import com.ddangme.dm.model.good.Pick;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+<div th:replace="~{/fragments/navbar :: navbar}"></div>
+<div class="content-area">
+    <div class="row" style="margin-left: 180px; margin-right: 180px">
+        <div class="text-center my-3">
+            <span class="fs-3">장바구니</span>
+        </div>
+        <div class="col-9 mt-3" id="cart-area">
+
+        </div>
+        <div class="col-3 mt-3">
+            주소 영역
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
+<script src="/js/member/cart-list.js"></script>

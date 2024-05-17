@@ -11,8 +11,8 @@ $(document).ready(function() {
             method: 'GET',
             success: function(data) {
                 $('#childCategoryId').empty();
-                if (data.result.length > 0) {
-                    $.each(data.result, function(index, item) {
+                if (data.length > 0) {
+                    $.each(data, function(index, item) {
                         $('#childCategoryId').append($('<option>', {
                             value: item.id,
                             text: item.name
@@ -91,10 +91,8 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(response) {
-                if (response.resultCode === "SUCCESS") {
-                    window.location.href = '/goods';
-                    alert("상품이 추가되었습니다.");
-                }
+                window.location.href = '/goods';
+                alert("상품이 추가되었습니다.");
             },
             error: function(xhr, status) {
                 alert(xhr.responseText);

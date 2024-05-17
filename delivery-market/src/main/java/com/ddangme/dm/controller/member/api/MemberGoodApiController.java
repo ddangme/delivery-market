@@ -1,10 +1,14 @@
 package com.ddangme.dm.controller.member.api;
 
 
-import com.ddangme.dm.dto.good.request.CartRequest;
-import com.ddangme.dm.dto.good.response.CartResponse;
-import com.ddangme.dm.dto.good.response.PickedGoodResponse;
+import com.ddangme.dm.dto.cart.request.CartChangeCheckRequest;
+import com.ddangme.dm.dto.cart.request.CartChangeCountRequest;
+import com.ddangme.dm.dto.cart.request.CartRequest;
+import com.ddangme.dm.dto.cart.response.CartListResponse;
+import com.ddangme.dm.dto.cart.response.CartResponse;
 import com.ddangme.dm.dto.member.MemberPrincipal;
+import com.ddangme.dm.dto.pick.PickedGoodResponse;
+import com.ddangme.dm.service.FileService;
 import com.ddangme.dm.service.good.CartService;
 import com.ddangme.dm.service.good.PickService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -23,6 +28,7 @@ public class MemberGoodApiController {
 
     private final PickService pickService;
     private final CartService cartService;
+    private final FileService fileService;
 
     @GetMapping("/my-page/pick/list")
     public ResponseEntity<List<PickedGoodResponse>> pickList(@AuthenticationPrincipal MemberPrincipal principal) {
@@ -54,5 +60,39 @@ public class MemberGoodApiController {
         String message = cartService.save(principal.getId(), requests);
         Integer count = cartService.getCartCount(principal.getId());
         return ResponseEntity.ok(new CartResponse(count, message));
+    }
+
+    @GetMapping("/goods/cart/list")
+    public ResponseEntity<CartListResponse> findCartList(@AuthenticationPrincipal MemberPrincipal principal) throws IOException {
+        return ResponseEntity.ok(cartService.findCartByPackagingType(principal.getId()));
+    }
+
+    @DeleteMapping("/goods/cart")
+    public ResponseEntity<Void> deleteCart(@AuthenticationPrincipal MemberPrincipal principal
+            , @RequestBody List<Long> cartIds) {
+        log.info("cartIds={}", cartIds);
+        cartService.deleteCart(principal.getId(), cartIds);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/goods/cart/change/count")
+    public ResponseEntity<Void> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
+                                                @RequestBody CartChangeCountRequest request) {
+        cartService.changeCartCount(principal.getId(), request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/goods/cart/change/check-status")
+    public ResponseEntity<Void> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
+                                                @RequestBody CartChangeCheckRequest request) {
+        cartService.changeCartCheckStatus(principal.getId(), request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/goods/cart/change/all-check-status")
+    public ResponseEntity<Void> changeAllCartCount(@AuthenticationPrincipal MemberPrincipal principal,
+                                                @RequestBody Boolean checkStatus) {
+        cartService.changeAllCartCheckStatus(principal.getId(), checkStatus);
+        return ResponseEntity.ok().build();
     }
 }

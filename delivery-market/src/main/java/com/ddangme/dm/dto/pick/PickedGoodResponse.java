@@ -1,4 +1,4 @@
-package com.ddangme.dm.dto.good.response;
+package com.ddangme.dm.dto.pick;
 
 import com.ddangme.dm.model.good.Pick;
 import lombok.AllArgsConstructor;

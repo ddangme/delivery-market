@@ -1,6 +1,6 @@
 package com.ddangme.dm.service.good;
 
-import com.ddangme.dm.dto.good.response.PickedGoodResponse;
+import com.ddangme.dm.dto.pick.PickedGoodResponse;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.good.Good;
@@ -8,7 +8,7 @@ import com.ddangme.dm.model.good.Pick;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.repository.MemberRepository;
 import com.ddangme.dm.repository.good.GoodRepository;
-import com.ddangme.dm.repository.good.PickRepository;
+import com.ddangme.dm.repository.pick.PickRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
