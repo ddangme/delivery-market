@@ -1,7 +1,7 @@
 package com.ddangme.dm.repository.cart;
 
-import com.ddangme.dm.dto.good.CartProjection;
-import com.ddangme.dm.dto.good.QCartProjection;
+import com.ddangme.dm.dto.cart.CartListProjection;
+import com.ddangme.dm.dto.cart.QCartListProjection;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
@@ -21,9 +21,9 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     }
 
     @Override
-    public List<CartProjection> findByMemberId(Long memberId) {
+    public List<CartListProjection> findByMemberId(Long memberId) {
         return queryFactory
-                .select(new QCartProjection(
+                .select(new QCartListProjection(
                         cart.id.as("id"),
                         cart.option.id.as("optionId"),
                         goodOption.name.as("optionName"),
@@ -32,7 +32,9 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                         good.photoStoreFileName.as("photo"),
                         goodDetail.packagingType.as("packagingType"),
                         goodOption.saleStatus.as("saleStatus"),
-                        cart.status.as("checkStatus")))
+                        cart.status.as("checkStatus"),
+                        good.price.as("price"),
+                        good.discountPrice.as("discountPrice")))
                 .from(cart)
                 .innerJoin(goodOption).on(cart.option.id.eq(goodOption.id))
                 .innerJoin(good).on(goodOption.good.id.eq(good.id))

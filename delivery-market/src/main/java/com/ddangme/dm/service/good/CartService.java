@@ -1,19 +1,23 @@
 package com.ddangme.dm.service.good;
 
-import com.ddangme.dm.dto.good.request.CartRequest;
+import com.ddangme.dm.dto.cart.CartListProjection;
+import com.ddangme.dm.dto.cart.request.CartRequest;
+import com.ddangme.dm.dto.cart.response.CartListResponse;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.good.Cart;
 import com.ddangme.dm.model.good.GoodOption;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.repository.MemberRepository;
-import com.ddangme.dm.repository.good.CartRepository;
+import com.ddangme.dm.repository.cart.CartRepository;
 import com.ddangme.dm.repository.good.GoodOptionRepository;
+import com.ddangme.dm.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +30,7 @@ public class CartService {
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
     private final GoodOptionRepository optionRepository;
+    private final FileService fileService;
 
     @Transactional
     public String save(Long memberId, List<CartRequest> requests) {
@@ -64,6 +69,17 @@ public class CartService {
 
     public Integer getCartCount(Long memberId) {
         return cartRepository.countByMemberId(memberId);
+    }
+
+    public CartListResponse findCartByPackagingType(Long memberId) throws IOException {
+        List<CartListProjection> projections = cartRepository.findByMemberId(memberId);
+
+        CartListResponse response = new CartListResponse();
+        for (CartListProjection projection : projections) {
+            response.add(projection);
+        }
+
+        return response;
     }
 
     private Optional<Cart> findCart(Long memberId, Long optionId) {

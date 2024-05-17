@@ -22,4 +22,8 @@ public class MemberGoodController {
         return "/member/my-page/pick-list";
     }
 
+    @GetMapping("/cart/list")
+    public String cartList() {
+        return "/member/my-page/cart-list";
+    }
 }

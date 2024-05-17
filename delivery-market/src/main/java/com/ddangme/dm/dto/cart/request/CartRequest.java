@@ -1,4 +1,4 @@
-package com.ddangme.dm.dto.good.request;
+package com.ddangme.dm.dto.cart.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

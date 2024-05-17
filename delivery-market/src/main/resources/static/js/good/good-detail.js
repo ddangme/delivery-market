@@ -41,8 +41,7 @@ $(document).ready(function () {
             $.get(imageUrl, function(data) {
                 // 이미지를 받아오는 데 성공했을 때 실행되는 함수
                 var imgElement = document.getElementById("good-main-photo");
-                var imageType = "image/jpeg"; // 이미지 타입에 따라 적절히 변경해야 합니다.
-                var base64Image = "data:" + imageType + ";base64," + data; // Base64로 인코딩된 이미지 데이터
+                var base64Image = "data:" + "image/jpeg" + ";base64," + data; // Base64로 인코딩된 이미지 데이터
                 imgElement.src = base64Image; // 이미지 태그의 src 속성에 설정하여 화면에 표시
             }).fail(function(xhr, status, error) {
                 // 이미지를 받아오는 데 실패했을 때 실행되는 함수

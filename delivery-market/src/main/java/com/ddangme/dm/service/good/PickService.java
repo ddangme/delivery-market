@@ -1,6 +1,6 @@
 package com.ddangme.dm.service.good;
 
-import com.ddangme.dm.dto.good.response.PickedGoodResponse;
+import com.ddangme.dm.dto.pick.PickedGoodResponse;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.good.Good;

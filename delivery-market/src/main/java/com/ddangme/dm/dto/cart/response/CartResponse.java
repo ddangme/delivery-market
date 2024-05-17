@@ -1,4 +1,4 @@
-package com.ddangme.dm.dto.good.response;
+package com.ddangme.dm.dto.cart.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

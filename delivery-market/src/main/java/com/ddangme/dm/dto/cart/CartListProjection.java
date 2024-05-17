@@ -1,15 +1,12 @@
-package com.ddangme.dm.dto.good;
+package com.ddangme.dm.dto.cart;
 
 import com.ddangme.dm.model.constants.PackagingType;
 import com.ddangme.dm.model.constants.SaleStatus;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@ToString
-public class CartProjection {
-
+@Data
+public class CartListProjection {
     private Long id;
     private Long optionId;
     private String optionName;
@@ -19,9 +16,11 @@ public class CartProjection {
     private PackagingType packagingType;
     private SaleStatus saleStatus;
     private Boolean checkStatus;
+    private Long price;
+    private Long discountPrice;
 
     @QueryProjection
-    public CartProjection(Long id, Long optionId, String optionName, String goodName, Integer count, String photo, PackagingType packagingType, SaleStatus saleStatus, Boolean checkStatus) {
+    public CartListProjection(Long id, Long optionId, String optionName, String goodName, Integer count, String photo, PackagingType packagingType, SaleStatus saleStatus, Boolean checkStatus, Long price, Long discountPrice) {
         this.id = id;
         this.optionId = optionId;
         this.optionName = optionName;
@@ -31,5 +30,11 @@ public class CartProjection {
         this.packagingType = packagingType;
         this.saleStatus = saleStatus;
         this.checkStatus = checkStatus;
+        this.price = price;
+        this.discountPrice = discountPrice;
+    }
+
+    public boolean isCheck() {
+        return checkStatus;
     }
 }

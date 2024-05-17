@@ -87,6 +87,6 @@ $(document).ready(function () {
 
 function setImage(photo, $element) {
     $.get("/images/" + photo, function (data) {
-        $element.attr('src', "data:" + "image/jpeg" + ";base64," + data);
+        $element.attr('src', "data:image/jpeg;base64," + data);
     });
 }

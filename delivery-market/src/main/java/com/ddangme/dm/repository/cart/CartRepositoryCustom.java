@@ -1,11 +1,12 @@
 package com.ddangme.dm.repository.cart;
 
-import com.ddangme.dm.dto.good.CartProjection;
+
+import com.ddangme.dm.dto.cart.CartListProjection;
 
 import java.util.List;
 
 public interface CartRepositoryCustom {
 
-    List<CartProjection> findByMemberId(Long memberId);
+    List<CartListProjection> findByMemberId(Long memberId);
 
 }
