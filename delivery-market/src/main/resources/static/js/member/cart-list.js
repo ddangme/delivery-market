@@ -33,9 +33,9 @@ const listDiv = $(`<div class="vstack gap-3">
                         <label class="form-check-label" for="all-check-top">
                             전체 선택
                             <span>(</span>
-                            <span class="check-count"></span>
+                            <span class="check-count" id="check-count"></span>
                             <span>/</span>
-                            <span class="sale-status-count"></span>
+                            <span class="sale-status-count" id="sale-status-count"></span>
                             <span>)</span>
                         </label>
                     </div>
@@ -127,30 +127,55 @@ const listDiv = $(`<div class="vstack gap-3">
 
 $(document).ready(function () {
     $.get("/api/goods/cart/list", function (data) {
-        console.log(data);
         let listArea = listDiv.clone();
+        $('#cart-area').append(listArea);
         listArea.find('.check-count').text(data.checkCount);
         listArea.find('.sale-status-count').text(data.saleStatusCount);
+        addAllCheckEvent(listArea.find('#all-check-top'));
+        addAllCheckEvent(listArea.find('#all-check-bottom'));
+        addList(data.refrigerated, listArea.find('#refrigerated-list'), listArea.find('#refrigerated-div'));
+        addList(data.frozen, listArea.find('#frozen-list'), listArea.find('#frozen-div'));
+        addList(data.roomTemperature, listArea.find('#room-temperature-list'), listArea.find('#room-temperature-div'));
+        addList(data.stop, listArea.find('#stop-list'), listArea.find('#stop-div'));
 
-        addList(data.refrigerated, listArea.find('#refrigerated-list'), listArea, listArea.find('#refrigerated-div'));
-        addList(data.frozen, listArea.find('#frozen-list'), listArea, listArea.find('#frozen-div'));
-        addList(data.roomTemperature, listArea.find('#room-temperature-list'), listArea, listArea.find('#room-temperature-div'));
-        addList(data.stop, listArea.find('#stop-list'), listArea, listArea.find('#stop-div'));
+        var $checkbox = $('#stop-div').find('.form-check-input');
+        if ($checkbox.length > 0) {
+            $checkbox.remove();
+        }
     });
 
 });
 
-function addList (data, $list, listArea, $div) {
+function addAllCheckEvent($check) {
+    $check.on('click', function() {
+        if ($check.prop('checked')) {
+            $('#all-check-top').prop('checked', true);
+            $('#all-check-bottom').prop('checked', true);
+            $('.form-check-input').prop('checked', true);
+            $('.check-count').text($('#sale-status-count').text());
+        } else {
+            $('#all-check-top').prop('checked', false);
+            $('#all-check-bottom').prop('checked', false);
+            $('.form-check-input').prop('checked', false);
+            $('.check-count').text(0);
+        }
+    });
+}
+
+function addList (data, $list, $div) {
     if (data.length === 0) {
         $div.remove();
     } else {
         data.forEach(function (item) {
             let area = goodDiv.clone();
+            area.find('.form-check-input').prop('checked', item.checkStatus);
             area.find('.option-name').text(item.optionName);
             area.find('.good-name').text(item.goodName);
             area.find('.option-count').val(item.count);
+            addCheckEvent(area.find('.form-check-input'));
             addMinusBtn(area.find('.minus-btn'), area.find('.option-count'));
             addPlusBtn(area.find('.plus-btn'), area.find('.option-count'));
+            addCloseBtn(area.find('.btn-close'), area);
             setImage(item.photo, area.find('.good-photo'))
             if (item.discountPrice === null) {
                 area.find('.good-original-price').remove();
@@ -162,7 +187,6 @@ function addList (data, $list, listArea, $div) {
             $list.append(area);
         });
     }
-    $('#cart-area').append(listArea);
 }
 
 function addMinusBtn($btn, $input) {
@@ -181,6 +205,36 @@ function addPlusBtn($btn, $input) {
     });
 }
 
+function addCheckEvent($check) {
+    $check.on('click', function () {
+        var currentCount = parseInt($('#check-count').text());
+        if ($check.prop('checked')) {
+            $('.check-count').empty().text(currentCount + 1);
+        } else {
+            $('.check-count').empty().text(currentCount - 1);
+        }
+    });
+}
+
+function addCloseBtn($btn, div) {
+    $btn.on('click', function() {
+
+        if (div.parent().parent().parent().attr('id') !== "stop-div") {
+            if (div.find('.form-check-input').prop('checked')) {
+                var currentCount = parseInt($('#check-count').text());
+                $('.check-count').empty().text(currentCount - 1);
+            }
+            var currentSaleCount = parseInt($('#sale-status-count').text());
+            $('.sale-status-count').empty().text(currentSaleCount - 1);
+        }
+
+        if (div.parent().children().length === 1) {
+            div.parent().parent().parent().remove();
+        } else {
+            div.remove();
+        }
+    });
+}
 
 function setImage(photo, $element) {
     $.get("/images/" + photo, function (data) {
