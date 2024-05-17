@@ -123,14 +123,19 @@ public class CartService {
     }
 
     @Transactional
-    public void changeCartCheckStatus(Long memberId, List<CartChangeCheckRequest> requests) {
+    public void changeCartCheckStatus(Long memberId, CartChangeCheckRequest request) {
         findMember(memberId);
-        for (CartChangeCheckRequest request : requests) {
-            Cart cart = cartRepository.findById(request.getId())
-                    .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CART));
+        Cart cart = cartRepository.findById(request.getId())
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CART));
 
-            cart.changeCheckStatus(request.getCheckStatus());
-        }
+        cart.changeCheckStatus(request.getCheckStatus());
     }
 
+
+    @Transactional
+    public void changeAllCartCheckStatus(Long memberId, Boolean checkStatus) {
+        findMember(memberId);
+        cartRepository.findIdAndCountByMemberId(memberId)
+                .forEach(cart -> cart.changeCheckStatus(checkStatus));
+    }
 }

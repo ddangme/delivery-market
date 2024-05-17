@@ -192,11 +192,13 @@ function addCheckDeleteEvent($btn) {
 function addAllCheckEvent($check) {
     $check.on('click', function() {
         if ($check.prop('checked')) {
+            changeAllCheckStatus(true);
             $('#all-check-top').prop('checked', true);
             $('#all-check-bottom').prop('checked', true);
             $('.form-check-input').prop('checked', true);
             $('.check-count').text($('#sale-status-count').text());
         } else {
+            changeAllCheckStatus(false);
             $('#all-check-top').prop('checked', false);
             $('#all-check-bottom').prop('checked', false);
             $('.form-check-input').prop('checked', false);
@@ -206,22 +208,23 @@ function addAllCheckEvent($check) {
 }
 
 function changeCheckStatus(id, checkStatus) {
-    console.log(id);
-    console.log(checkStatus);
-
-    const request = [
-        { id: id, checkStatus: checkStatus}
-    ];
-
-    sendCheckStatusList(request);
-}
-
-function sendCheckStatusList(request) {
     $.ajax({
         url: "/api/goods/cart/change/check-status",
         type: "POST",
         contentType: "application/json",
-        data: JSON.stringify(request)
+        data: JSON.stringify({
+            id: id,
+            checkStatus: checkStatus
+        })
+    });
+}
+
+function changeAllCheckStatus(checkStatus) {
+    $.ajax({
+        url: "/api/goods/cart/change/all-check-status",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(checkStatus)
     });
 }
 

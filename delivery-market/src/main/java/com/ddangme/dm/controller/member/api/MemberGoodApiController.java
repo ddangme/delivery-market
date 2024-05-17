@@ -84,8 +84,15 @@ public class MemberGoodApiController {
 
     @PostMapping("/goods/cart/change/check-status")
     public ResponseEntity<Void> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
-                                                @RequestBody List<CartChangeCheckRequest> requests) {
-        cartService.changeCartCheckStatus(principal.getId(), requests);
+                                                @RequestBody CartChangeCheckRequest request) {
+        cartService.changeCartCheckStatus(principal.getId(), request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/goods/cart/change/all-check-status")
+    public ResponseEntity<Void> changeAllCartCount(@AuthenticationPrincipal MemberPrincipal principal,
+                                                @RequestBody Boolean checkStatus) {
+        cartService.changeAllCartCheckStatus(principal.getId(), checkStatus);
         return ResponseEntity.ok().build();
     }
 }
