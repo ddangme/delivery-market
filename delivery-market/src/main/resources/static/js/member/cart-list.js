@@ -167,8 +167,6 @@ function addCheckDeleteEvent($btn) {
         } else {
             deleteCarts(cartIds);
         }
-
-        console.log(cartIds);
     });
 }
 

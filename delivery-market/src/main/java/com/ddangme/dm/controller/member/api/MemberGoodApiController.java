@@ -68,6 +68,7 @@ public class MemberGoodApiController {
     @DeleteMapping("/goods/cart")
     public ResponseEntity<Void> deleteCart(@AuthenticationPrincipal MemberPrincipal principal
             , @RequestBody List<Long> cartIds) {
+        log.info("cartIds={}", cartIds);
         cartService.deleteCart(principal.getId(), cartIds);
         return ResponseEntity.ok().build();
     }

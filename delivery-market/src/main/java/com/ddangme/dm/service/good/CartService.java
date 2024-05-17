@@ -71,7 +71,7 @@ public class CartService {
         return cartRepository.countByMemberId(memberId);
     }
 
-    public CartListResponse findCartByPackagingType(Long memberId) throws IOException {
+    public CartListResponse findCartByPackagingType(Long memberId) {
         List<CartListProjection> projections = cartRepository.findByMemberId(memberId);
 
         CartListResponse response = new CartListResponse();
@@ -85,6 +85,10 @@ public class CartService {
     @Transactional
     public void deleteCart(Long memberId, List<Long> cartIds) {
         findMember(memberId);
+
+        if (cartIds.isEmpty()) {
+            throw new DMException(ErrorCode.NOT_CHOICE_CART);
+        }
 
         for (Long cartId : cartIds) {
             Cart cart = cartRepository.findById(cartId)
