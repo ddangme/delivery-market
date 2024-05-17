@@ -144,9 +144,28 @@ $(document).ready(function () {
         }
 
         addCheckDeleteEvent(listArea.find('.check-delete'));
+        checkCheckbox();
     });
 
 });
+
+function checkCheckbox() {
+    var allChecked = true;
+    $('.accordion .form-check-input').each(function() {
+        if (!$(this).prop('checked')) {
+            allChecked = false;
+            return false;
+        }
+    });
+
+    if (allChecked) {
+        $("#all-check-top").prop('checked', true);
+        $("#all-check-bottom").prop('checked', true);
+    } else {
+        $("#all-check-top").prop('checked', false);
+        $("#all-check-bottom").prop('checked', false);
+    }
+}
 
 function addCheckDeleteEvent($btn) {
     $btn.on('click', function () {
@@ -238,6 +257,7 @@ function addCheckEvent($check) {
         } else {
             $('.check-count').empty().text(currentCount - 1);
         }
+        checkCheckbox();
     });
 }
 
