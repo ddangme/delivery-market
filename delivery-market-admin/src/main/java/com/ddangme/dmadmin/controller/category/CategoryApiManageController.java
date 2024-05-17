@@ -2,6 +2,7 @@ package com.ddangme.dmadmin.controller.category;
 
 import com.ddangme.dmadmin.dto.admin.AdminPrincipal;
 import com.ddangme.dmadmin.dto.category.CategoryEditRequest;
+import com.ddangme.dmadmin.dto.category.CategoryIdNameResponse;
 import com.ddangme.dmadmin.dto.category.CategoryParentChildResponse;
 import com.ddangme.dmadmin.dto.category.CategoryRequest;
 import com.ddangme.dmadmin.service.category.CategoryService;
@@ -35,6 +36,13 @@ public class CategoryApiManageController {
         categoryService.delete(categoryId, principal.toDTO());
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{parentId}")
+    public ResponseEntity<List<CategoryIdNameResponse>> findChildCategory(@PathVariable Long parentId) {
+        log.info("parentId={}", parentId);
+
+        return ResponseEntity.ok(categoryService.findChild(parentId));
     }
 
     @PostMapping("/edit/{parentId}")

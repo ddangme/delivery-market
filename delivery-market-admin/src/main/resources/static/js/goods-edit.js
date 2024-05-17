@@ -15,8 +15,8 @@ $(document).ready(function () {
             method: 'GET',
             success: function(data) {
                 $('#childCategoryId').empty();
-                if (data.result.length > 0) {
-                    $.each(data.result, function(index, item) {
+                if (data.length > 0) {
+                    $.each(data, function(index, item) {
                         $('#childCategoryId').append($('<option>', {
                             value: item.id,
                             text: item.name
