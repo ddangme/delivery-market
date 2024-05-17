@@ -1,6 +1,7 @@
 package com.ddangme.dm.service.good;
 
 import com.ddangme.dm.dto.cart.CartListProjection;
+import com.ddangme.dm.dto.cart.request.CartChangeCheckRequest;
 import com.ddangme.dm.dto.cart.request.CartChangeCountRequest;
 import com.ddangme.dm.dto.cart.request.CartRequest;
 import com.ddangme.dm.dto.cart.response.CartListResponse;
@@ -119,6 +120,17 @@ public class CartService {
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CART));
 
         cart.changeCount(request.getCount());
+    }
+
+    @Transactional
+    public void changeCartCheckStatus(Long memberId, List<CartChangeCheckRequest> requests) {
+        findMember(memberId);
+        for (CartChangeCheckRequest request : requests) {
+            Cart cart = cartRepository.findById(request.getId())
+                    .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CART));
+
+            cart.changeCheckStatus(request.getCheckStatus());
+        }
     }
 
 }

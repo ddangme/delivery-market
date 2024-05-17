@@ -1,6 +1,7 @@
 package com.ddangme.dm.controller.member.api;
 
 
+import com.ddangme.dm.dto.cart.request.CartChangeCheckRequest;
 import com.ddangme.dm.dto.cart.request.CartChangeCountRequest;
 import com.ddangme.dm.dto.cart.request.CartRequest;
 import com.ddangme.dm.dto.cart.response.CartListResponse;
@@ -78,6 +79,13 @@ public class MemberGoodApiController {
     public ResponseEntity<Void> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
                                                 @RequestBody CartChangeCountRequest request) {
         cartService.changeCartCount(principal.getId(), request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/goods/cart/change/check-status")
+    public ResponseEntity<Void> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
+                                                @RequestBody List<CartChangeCheckRequest> requests) {
+        cartService.changeCartCheckStatus(principal.getId(), requests);
         return ResponseEntity.ok().build();
     }
 }

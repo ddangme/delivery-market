@@ -36,6 +36,10 @@ public class Cart {
         this.count = newCount;
     }
 
+    public void changeCheckStatus(Boolean status) {
+        this.status = status;
+    }
+
     private Cart(Member member, GoodOption option, Integer count) {
         this.member = member;
         this.option = option;

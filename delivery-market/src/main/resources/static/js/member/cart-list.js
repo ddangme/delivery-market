@@ -205,6 +205,26 @@ function addAllCheckEvent($check) {
     });
 }
 
+function changeCheckStatus(id, checkStatus) {
+    console.log(id);
+    console.log(checkStatus);
+
+    const request = [
+        { id: id, checkStatus: checkStatus}
+    ];
+
+    sendCheckStatusList(request);
+}
+
+function sendCheckStatusList(request) {
+    $.ajax({
+        url: "/api/goods/cart/change/check-status",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(request)
+    });
+}
+
 function addList (data, $list, $div) {
     if (data.length === 0) {
         $div.remove();
@@ -285,6 +305,7 @@ function addCheckEvent($check) {
             $('.check-count').empty().text(currentCount - 1);
         }
         checkCheckbox();
+        changeCheckStatus($check.parent().parent().attr('id'), $check.prop('checked'));
     });
 }
 
