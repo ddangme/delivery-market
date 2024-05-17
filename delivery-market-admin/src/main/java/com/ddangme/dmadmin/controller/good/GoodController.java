@@ -34,7 +34,7 @@ public class GoodController {
 
     @GetMapping
     public String list(Model model,
-                       @PageableDefault(size = 1, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
+                       @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
         Page<GoodListResponse> goods = goodService.search(pageable);
         List<Integer> pages = paginationService.getPaginationLength(pageable.getPageNumber(), goods.getTotalPages());
 
