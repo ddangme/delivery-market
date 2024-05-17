@@ -82,6 +82,17 @@ public class CartService {
         return response;
     }
 
+    @Transactional
+    public void deleteCart(Long memberId, List<Long> cartIds) {
+        findMember(memberId);
+
+        for (Long cartId : cartIds) {
+            Cart cart = cartRepository.findById(cartId)
+                    .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CART));
+            cartRepository.delete(cart);
+        }
+    }
+
     private Optional<Cart> findCart(Long memberId, Long optionId) {
         return cartRepository.findByMemberIdAndOptionId(memberId, optionId);
     }
@@ -95,4 +106,5 @@ public class CartService {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
+
 }

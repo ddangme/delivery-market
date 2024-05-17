@@ -11,6 +11,7 @@ public enum ErrorCode {
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "Login Id or Password not founded."),
     NOT_FOUND_ACCOUNT(HttpStatus.NOT_FOUND, "This Account does not exist"),
     NOT_FOUND_GOOD(HttpStatus.NOT_FOUND, "존재하지 않는 상품입니다."),
+    NOT_FOUND_CART(HttpStatus.BAD_REQUEST, "존재하지 않는 장바구니 상품입니다."),
     NOT_FOUND_OPTION(HttpStatus.NOT_FOUND, "존재하지 않는 상품의 옵션입니다."),
     NOT_CHOICE_OPTION(HttpStatus.BAD_REQUEST, "선택된 옵션이 없습니다."),
     DUPLICATED_LOGIN_ID(HttpStatus.CONFLICT, "Login ID is duplicated."),

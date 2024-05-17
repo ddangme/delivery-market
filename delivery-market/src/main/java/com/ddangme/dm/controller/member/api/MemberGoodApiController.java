@@ -64,4 +64,11 @@ public class MemberGoodApiController {
     public ResponseEntity<CartListResponse> findCartList(@AuthenticationPrincipal MemberPrincipal principal) throws IOException {
         return ResponseEntity.ok(cartService.findCartByPackagingType(principal.getId()));
     }
+
+    @DeleteMapping("/goods/cart")
+    public ResponseEntity<Void> deleteCart(@AuthenticationPrincipal MemberPrincipal principal
+            , @RequestBody List<Long> cartIds) {
+        cartService.deleteCart(principal.getId(), cartIds);
+        return ResponseEntity.ok().build();
+    }
 }

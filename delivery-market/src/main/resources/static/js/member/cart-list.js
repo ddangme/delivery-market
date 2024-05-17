@@ -168,6 +168,7 @@ function addList (data, $list, $div) {
     } else {
         data.forEach(function (item) {
             let area = goodDiv.clone();
+            area.attr('id', item.id);
             area.find('.form-check-input').prop('checked', item.checkStatus);
             area.find('.option-name').text(item.optionName);
             area.find('.good-name').text(item.goodName);
@@ -179,10 +180,10 @@ function addList (data, $list, $div) {
             setImage(item.photo, area.find('.good-photo'))
             if (item.discountPrice === null) {
                 area.find('.good-original-price').remove();
-                area.find('.good-result-price').text(item.price);
+                area.find('.good-result-price').text(item.price.toLocaleString());
             } else {
-                area.find('.good-result-price').text(item.discountPrice);
-                area.find('.good-original-price').text(item.price);
+                area.find('.good-result-price').text(item.discountPrice.toLocaleString());
+                area.find('.good-original-price').text(item.price.toLocaleString());
             }
             $list.append(area);
         });
@@ -218,21 +219,32 @@ function addCheckEvent($check) {
 
 function addCloseBtn($btn, div) {
     $btn.on('click', function() {
+        const cartIds = [div.attr('id')];
+        $.ajax({
+            url: "/api/goods/cart",
+            type: "DELETE",
+            contentType: "application/json",
+            data: JSON.stringify(cartIds),
+            success: function(response) {
+                if (div.parent().parent().parent().attr('id') !== "stop-div") {
+                    if (div.find('.form-check-input').prop('checked')) {
+                        var currentCount = parseInt($('#check-count').text());
+                        $('.check-count').empty().text(currentCount - 1);
+                    }
+                    var currentSaleCount = parseInt($('#sale-status-count').text());
+                    $('.sale-status-count').empty().text(currentSaleCount - 1);
+                }
 
-        if (div.parent().parent().parent().attr('id') !== "stop-div") {
-            if (div.find('.form-check-input').prop('checked')) {
-                var currentCount = parseInt($('#check-count').text());
-                $('.check-count').empty().text(currentCount - 1);
+                if (div.parent().children().length === 1) {
+                    div.parent().parent().parent().remove();
+                } else {
+                    div.remove();
+                }
+            },
+            error: function(xhr, status, error) {
+                alert(xhr.responseText);
             }
-            var currentSaleCount = parseInt($('#sale-status-count').text());
-            $('.sale-status-count').empty().text(currentSaleCount - 1);
-        }
-
-        if (div.parent().children().length === 1) {
-            div.parent().parent().parent().remove();
-        } else {
-            div.remove();
-        }
+        });
     });
 }
 
