@@ -28,7 +28,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/my-page")
-public class MemberInfoController {
+public class MyPageController {
 
     private final MemberService memberService;
     private final AddressService addressService;
@@ -101,5 +101,15 @@ public class MemberInfoController {
         addressService.editAddress(request, principal.getId());
 
         return "redirect:/my-page/address";
+    }
+
+    @GetMapping("/pick/list")
+    public String pickList() {
+        return "/member/my-page/pick-list";
+    }
+
+    @GetMapping("/cart/list")
+    public String cartList() {
+        return "/member/my-page/cart-list";
     }
 }
