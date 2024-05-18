@@ -1,9 +1,11 @@
 package com.ddangme.dm.service.good;
 
+import com.ddangme.dm.dto.cart.CartChangeCountProjection;
 import com.ddangme.dm.dto.cart.CartListProjection;
 import com.ddangme.dm.dto.cart.request.CartChangeCheckRequest;
 import com.ddangme.dm.dto.cart.request.CartChangeCountRequest;
 import com.ddangme.dm.dto.cart.request.CartRequest;
+import com.ddangme.dm.dto.cart.response.CartChangeCountResponse;
 import com.ddangme.dm.dto.cart.response.CartListResponse;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
@@ -19,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +79,7 @@ public class CartService {
 
         CartListResponse response = new CartListResponse();
         for (CartListProjection projection : projections) {
+            projection.calculateTotalPrice();
             response.add(projection);
         }
 
@@ -114,12 +116,14 @@ public class CartService {
     }
 
     @Transactional
-    public void changeCartCount(Long memberId, CartChangeCountRequest request) {
+    public CartChangeCountResponse changeCartCount(Long memberId, CartChangeCountRequest request) {
         findMember(memberId);
         Cart cart = cartRepository.findById(request.getId())
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CART));
 
         cart.changeCount(request.getCount());
+        return CartChangeCountResponse.of(
+                cartRepository.findByOptionPriceInCart(request.getId()), request.getCount());
     }
 
     @Transactional
@@ -138,4 +142,5 @@ public class CartService {
         cartRepository.findIdAndCountByMemberId(memberId)
                 .forEach(cart -> cart.changeCheckStatus(checkStatus));
     }
+
 }

@@ -34,6 +34,13 @@ public class CartListProjection {
         this.discountPrice = discountPrice;
     }
 
+    public void calculateTotalPrice() {
+        this.price = price * count;
+        if (discountPrice != null) {
+            this.discountPrice = discountPrice * count;
+        }
+    }
+
     public boolean isCheck() {
         return checkStatus;
     }

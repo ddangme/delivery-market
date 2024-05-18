@@ -1,4 +1,4 @@
-package com.ddangme.dm.controller.good;
+package com.ddangme.dm.controller.good.api;
 
 import com.ddangme.dm.dto.good.response.GoodResponse;
 import com.ddangme.dm.dto.good.response.GoodSaleDetailResponse;
