@@ -17,7 +17,8 @@ const goodDiv = $(`
                     </div>
                     <div class="col-2">
                         <div class="vstack text-end">
-                            <p class="mb-0 good-result-price"></p>
+                            <p class="mb-0 good-price"></p>
+                            <p class="mb-0 good-discount-price"></p>
                             <p class="text-decoration-line-through good-original-price" style="color: gray"></p>
                         </div>
                     </div>
@@ -136,7 +137,7 @@ $(document).ready(function () {
         addList(data.refrigerated, listArea.find('#refrigerated-list'), listArea.find('#refrigerated-div'));
         addList(data.frozen, listArea.find('#frozen-list'), listArea.find('#frozen-div'));
         addList(data.roomTemperature, listArea.find('#room-temperature-list'), listArea.find('#room-temperature-div'));
-        addList(data.stop, listArea.find('#stop-list'), listArea.find('#stop-div'));
+        addStopList(data.stop, listArea.find('#stop-list'), listArea.find('#stop-div'));
 
         var $checkbox = $('#stop-div').find('.form-check-input');
         if ($checkbox.length > 0) {
@@ -145,6 +146,9 @@ $(document).ready(function () {
 
         addCheckDeleteEvent(listArea.find('.check-delete'));
         checkCheckbox();
+        calculateTotalPrice();
+
+
     });
 
 });
@@ -204,6 +208,7 @@ function addAllCheckEvent($check) {
             $('.form-check-input').prop('checked', false);
             $('.check-count').text(0);
         }
+        calculateTotalPrice();
     });
 }
 
@@ -246,12 +251,39 @@ function addList (data, $list, $div) {
             countEvent(area.find('.option-count'));
             setImage(item.photo, area.find('.good-photo'))
             if (item.discountPrice === null) {
+                area.find('.good-price').text(item.price.toLocaleString() + "원");
+                area.find('.good-discount-price').remove();
                 area.find('.good-original-price').remove();
-                area.find('.good-result-price').text(item.price.toLocaleString() + "원");
             } else {
-                area.find('.good-result-price').text(item.discountPrice.toLocaleString() +"원");
+                area.find('.good-price').remove();
+                area.find('.good-discount-price').text(item.discountPrice.toLocaleString() +"원");
                 area.find('.good-original-price').text(item.price.toLocaleString() + "원");
             }
+            $list.append(area);
+        });
+    }
+}
+
+function addStopList (data, $list, $div) {
+    if (data.length === 0) {
+        $div.remove();
+    } else {
+        data.forEach(function (item) {
+            let area = goodDiv.clone();
+            area.attr('id', item.id);
+            area.find('.form-check-input').prop('checked', item.checkStatus);
+            area.find('.option-name').text(item.optionName);
+            area.find('.good-name').text(item.goodName);
+            area.find('.option-count').val(item.count);
+            area.find('.form-check-input').remove();
+            area.find('.option-count').remove();
+            area.find('.minus-btn').remove();
+            area.find('.plus-btn').remove();
+            addCloseBtn(area.find('.btn-close'), area);
+            setImage(item.photo, area.find('.good-photo'))
+            area.find('.good-price').remove();
+            area.find('.good-discount-price').remove();
+            area.find('.good-original-price').remove();
             $list.append(area);
         });
     }
@@ -273,6 +305,7 @@ function addMinusBtn($btn, $input) {
             $input.val(currentAmount - 1);
         }
         changeCount($input.val(), $input.parent().parent().parent().attr('id'));
+
     });
 }
 
@@ -289,16 +322,46 @@ function changeCount(count, id) {
             const cartElement = $(`#${data.cartId}`);
 
             if (data.discountPrice === null) {
-                cartElement.find('.good-result-price').text(data.price.toLocaleString() + "원");
+                cartElement.find('.good-price').text(data.price.toLocaleString() + "원");
             } else {
-                cartElement.find('.good-result-price').text(data.discountPrice.toLocaleString() + "원");
+                cartElement.find('.good-discount-price').text(data.discountPrice.toLocaleString() + "원");
                 cartElement.find('.good-original-price').text(data.price.toLocaleString() + "원");
             }
+            calculateTotalPrice();
         },
         error: function(xhr, status, error) {
             alert(xhr.responseText);
         }
     });
+}
+
+function calculateTotalPrice() {
+    let totalSum = 0;
+    let originalprice = 0;
+    $('.row.align-items-center').each(function() {
+        const isChecked = $(this).find('.form-check-input').is(':checked');
+        if (isChecked) {
+            if ($(this).find('.good-price').length > 0) {
+                const priceText = $(this).find('.good-price').text();
+                totalSum += parseInt(priceText.replace(/[^0-9]/g, ''));
+                originalprice += parseInt(priceText.replace(/[^0-9]/g, ''));
+            } else if ($(this).find('.good-discount-price').length > 0) {
+                const priceText = $(this).find('.good-discount-price').text();
+                totalSum += parseInt(priceText.replace(/[^0-9]/g, ''));
+                originalprice += parseInt($(this).find('.good-original-price').text().replace(/[^0-9]/g, ''));
+            }
+        }
+    });
+
+    $('#total-price').text(totalSum.toLocaleString() + " 원");
+    if (totalSum >= 40000) {
+        $('#delivery-price').text(0 + " 원");
+        $('#total-pay-price').text(totalSum.toLocaleString() + " 원");
+    } else {
+        $('#total-pay-price').text((totalSum + 3000).toLocaleString() + " 원");
+    }
+
+    $('#total-discount-price').text((originalprice - totalSum).toLocaleString() + " 원");
 }
 
 function addPlusBtn($btn, $input) {
@@ -319,6 +382,7 @@ function addCheckEvent($check) {
         }
         checkCheckbox();
         changeCheckStatus($check.parent().parent().attr('id'), $check.prop('checked'));
+        calculateTotalPrice();
     });
 }
 
@@ -326,6 +390,7 @@ function addCloseBtn($btn, div) {
     $btn.on('click', function() {
         const cartIds = [div.attr('id')];
         deleteCart(cartIds, div);
+        calculateTotalPrice();
     });
 }
 
@@ -365,6 +430,7 @@ function deleteCart(cartIds, div) {
             } else {
                 div.remove();
             }
+            calculateTotalPrice();
         },
         error: function(xhr, status, error) {
             alert(xhr.responseText);
