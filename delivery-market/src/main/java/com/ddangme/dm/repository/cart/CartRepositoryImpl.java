@@ -1,6 +1,8 @@
 package com.ddangme.dm.repository.cart;
 
+import com.ddangme.dm.dto.cart.CartChangeCountProjection;
 import com.ddangme.dm.dto.cart.CartListProjection;
+import com.ddangme.dm.dto.cart.QCartChangeCountProjection;
 import com.ddangme.dm.dto.cart.QCartListProjection;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -33,13 +35,26 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                         goodDetail.packagingType.as("packagingType"),
                         goodOption.saleStatus.as("saleStatus"),
                         cart.status.as("checkStatus"),
-                        good.price.as("price"),
-                        good.discountPrice.as("discountPrice")))
+                        goodOption.price.as("price"),
+                        goodOption.discountPrice.as("discountPrice")))
                 .from(cart)
                 .innerJoin(goodOption).on(cart.option.id.eq(goodOption.id))
                 .innerJoin(good).on(goodOption.good.id.eq(good.id))
                 .innerJoin(goodDetail).on(good.id.eq(goodDetail.good.id))
                 .where(cart.member.id.eq(memberId))
                 .fetch();
+    }
+
+    @Override
+    public CartChangeCountProjection findByOptionPriceInCart(Long cartId) {
+        return queryFactory
+                .select(new QCartChangeCountProjection(
+                        cart.id.as("id"),
+                        goodOption.price.as("price"),
+                        goodOption.discountPrice.as("discountPrice")))
+                .from(cart)
+                .innerJoin(goodOption).on(cart.option.id.eq(goodOption.id))
+                .where(cart.id.eq(cartId))
+                .fetchOne();
     }
 }

@@ -126,7 +126,7 @@ const listDiv = $(`<div class="vstack gap-3">
             </div>`);
 
 $(document).ready(function () {
-    $.get("/api/goods/cart/list", function (data) {
+    $.get("/api/cart/list", function (data) {
         let listArea = listDiv.clone();
         $('#cart-area').append(listArea);
         listArea.find('.check-count').text(data.checkCount);
@@ -209,7 +209,7 @@ function addAllCheckEvent($check) {
 
 function changeCheckStatus(id, checkStatus) {
     $.ajax({
-        url: "/api/goods/cart/change/check-status",
+        url: "/api/cart/change/check-status",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify({
@@ -221,7 +221,7 @@ function changeCheckStatus(id, checkStatus) {
 
 function changeAllCheckStatus(checkStatus) {
     $.ajax({
-        url: "/api/goods/cart/change/all-check-status",
+        url: "/api/cart/change/all-check-status",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(checkStatus)
@@ -247,10 +247,10 @@ function addList (data, $list, $div) {
             setImage(item.photo, area.find('.good-photo'))
             if (item.discountPrice === null) {
                 area.find('.good-original-price').remove();
-                area.find('.good-result-price').text(item.price.toLocaleString());
+                area.find('.good-result-price').text(item.price.toLocaleString() + "원");
             } else {
-                area.find('.good-result-price').text(item.discountPrice.toLocaleString());
-                area.find('.good-original-price').text(item.price.toLocaleString());
+                area.find('.good-result-price').text(item.discountPrice.toLocaleString() +"원");
+                area.find('.good-original-price').text(item.price.toLocaleString() + "원");
             }
             $list.append(area);
         });
@@ -278,13 +278,23 @@ function addMinusBtn($btn, $input) {
 
 function changeCount(count, id) {
     $.ajax({
-        url: "/api/goods/cart/change/count",
+        url: "/api/cart/change/count",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify({
             id: id,
             count: count
         }),
+        success: function (data) {
+            const cartElement = $(`#${data.cartId}`);
+
+            if (data.discountPrice === null) {
+                cartElement.find('.good-result-price').text(data.price.toLocaleString() + "원");
+            } else {
+                cartElement.find('.good-result-price').text(data.discountPrice.toLocaleString() + "원");
+                cartElement.find('.good-original-price').text(data.price.toLocaleString() + "원");
+            }
+        },
         error: function(xhr, status, error) {
             alert(xhr.responseText);
         }
@@ -321,7 +331,7 @@ function addCloseBtn($btn, div) {
 
 function deleteCarts(cartIds) {
     $.ajax({
-        url: "/api/goods/cart",
+        url: "/api/cart",
         type: "DELETE",
         contentType: "application/json",
         data: JSON.stringify(cartIds),
@@ -336,7 +346,7 @@ function deleteCarts(cartIds) {
 
 function deleteCart(cartIds, div) {
     $.ajax({
-        url: "/api/goods/cart",
+        url: "/api/cart",
         type: "DELETE",
         contentType: "application/json",
         data: JSON.stringify(cartIds),

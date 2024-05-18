@@ -4,6 +4,7 @@ package com.ddangme.dm.controller.good.api;
 import com.ddangme.dm.dto.cart.request.CartChangeCheckRequest;
 import com.ddangme.dm.dto.cart.request.CartChangeCountRequest;
 import com.ddangme.dm.dto.cart.request.CartRequest;
+import com.ddangme.dm.dto.cart.response.CartChangeCountResponse;
 import com.ddangme.dm.dto.cart.response.CartListResponse;
 import com.ddangme.dm.dto.cart.response.CartResponse;
 import com.ddangme.dm.dto.member.MemberPrincipal;
@@ -20,14 +21,12 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/cart")
 public class CartApiController {
 
     private final CartService cartService;
 
-
-
-    @PostMapping("/goods/cart")
+    @PostMapping
     public ResponseEntity<CartResponse> cart(@RequestBody List<CartRequest> requests,
                                              @AuthenticationPrincipal MemberPrincipal principal) {
         log.info("requests={}", requests);
@@ -36,12 +35,12 @@ public class CartApiController {
         return ResponseEntity.ok(new CartResponse(count, message));
     }
 
-    @GetMapping("/goods/cart/list")
+    @GetMapping("/list")
     public ResponseEntity<CartListResponse> findCartList(@AuthenticationPrincipal MemberPrincipal principal) throws IOException {
         return ResponseEntity.ok(cartService.findCartByPackagingType(principal.getId()));
     }
 
-    @DeleteMapping("/goods/cart")
+    @DeleteMapping
     public ResponseEntity<Void> deleteCart(@AuthenticationPrincipal MemberPrincipal principal
             , @RequestBody List<Long> cartIds) {
         log.info("cartIds={}", cartIds);
@@ -49,21 +48,20 @@ public class CartApiController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/goods/cart/change/count")
-    public ResponseEntity<Void> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
-                                                @RequestBody CartChangeCountRequest request) {
-        cartService.changeCartCount(principal.getId(), request);
-        return ResponseEntity.ok().build();
+    @PostMapping("/change/count")
+    public ResponseEntity<CartChangeCountResponse> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
+                                                                   @RequestBody CartChangeCountRequest request) {
+        return ResponseEntity.ok(cartService.changeCartCount(principal.getId(), request));
     }
 
-    @PostMapping("/goods/cart/change/check-status")
+    @PostMapping("/change/check-status")
     public ResponseEntity<Void> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
                                                 @RequestBody CartChangeCheckRequest request) {
         cartService.changeCartCheckStatus(principal.getId(), request);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/goods/cart/change/all-check-status")
+    @PostMapping("/change/all-check-status")
     public ResponseEntity<Void> changeAllCartCount(@AuthenticationPrincipal MemberPrincipal principal,
                                                 @RequestBody Boolean checkStatus) {
         cartService.changeAllCartCheckStatus(principal.getId(), checkStatus);

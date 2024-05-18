@@ -210,7 +210,7 @@ $(document).ready(function () {
         const options = extractOptions();
         console.log(JSON.stringify(options));
         $.ajax({
-            url: "/api/goods/cart",
+            url: "/api/cart",
             method: 'POST',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(options),
