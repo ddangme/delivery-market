@@ -1,8 +1,7 @@
-package com.ddangme.dmadmin.model.cash;
+package com.ddangme.dm.model.cash;
 
-import com.ddangme.dmadmin.model.admin.Admin;
-import com.ddangme.dmadmin.model.constants.CashStatus;
-import com.ddangme.dmadmin.model.member.Member;
+import com.ddangme.dm.model.constants.CashStatus;
+import com.ddangme.dm.model.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-public class CashRequest {
+public class CashCharging {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +29,6 @@ public class CashRequest {
 
     private Long amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id")
-    @ToString.Exclude
-    private Admin admin;
     private CashStatus status;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
