@@ -9,15 +9,17 @@
         <div class="border-bottom">
             <span class="fs-3">캐시 충전</span>
             <span class="fs-6 text-secondary ms-1">관리자의 승낙 처리 후 충전됩니다.</span>
+            <span class="fs-6 text-secondary ms-1">한 번에 최대 1,000,000원 까지 충전 가능합니다.</span>
         </div>
         <div class="mb-3 mt-5 text-center" style="padding-left: 200px; padding-right: 200px">
-            <form action="/my-page/cash/charging" method="POST">
+            <form action="/api/my-page/cash/charging" method="POST" id="form">
                 <label for="amount">충전 금액</label>
-                <input type="text" class="form-control" id="amount" placeholder="예) 50000">
-                <button type="submit" class="btn w-100 mt-2 bg-success-subtle text-success-emphasis">충전하기</button>
+                <input type="text" class="form-control" id="amount" name="amount" placeholder="예) 50000">
+                <a id="submit" class="btn w-100 mt-2 bg-success-subtle text-success-emphasis">충전하기</a>
             </form>
         </div>
     </div>
 </div>
 </body>
 </html>
+<script src="/js/member/cash.js"></script>
