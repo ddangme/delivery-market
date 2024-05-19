@@ -6,6 +6,7 @@ import com.ddangme.dmadmin.model.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -40,5 +41,10 @@ public class CashCharging {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime requestAt;
+
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @LastModifiedDate
+    private LocalDateTime responseAt;
 
 }

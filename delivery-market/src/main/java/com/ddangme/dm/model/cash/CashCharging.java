@@ -37,6 +37,9 @@ public class CashCharging {
     @CreatedDate
     private LocalDateTime requestAt;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDateTime responseAt;
+
     public static CashCharging create(Member member, Long amount) {
         return new CashCharging(member, amount, CashStatus.ASK);
     }
