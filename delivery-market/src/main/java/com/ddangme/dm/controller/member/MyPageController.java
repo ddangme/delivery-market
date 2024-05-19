@@ -112,4 +112,9 @@ public class MyPageController {
     public String cartList() {
         return "/member/my-page/cart-list";
     }
+
+    @GetMapping("/cash/charging")
+    public String cashCharging() {
+        return "/member/my-page/cash-charging";
+    }
 }

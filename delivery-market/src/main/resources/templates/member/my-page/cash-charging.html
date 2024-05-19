@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+<div th:replace="~{/fragments/navbar :: navbar}"></div>
+<div th:replace="~{/fragments/sidebar :: sidebar}"></div>
+<div class="left-margin-content-area">
+    <div class="row" style="margin-left: 200px; margin-right: 200px">
+        <div class="border-bottom">
+            <span class="fs-3">캐시 충전</span>
+            <span class="fs-6 text-secondary ms-1">관리자의 승낙 처리 후 충전됩니다.</span>
+        </div>
+        <div class="mb-3 mt-5 text-center" style="padding-left: 200px; padding-right: 200px">
+            <form action="/my-page/cash/charging" method="POST">
+                <label for="amount">충전 금액</label>
+                <input type="text" class="form-control" id="amount" placeholder="예) 50000">
+                <button type="submit" class="btn w-100 mt-2 bg-success-subtle text-success-emphasis">충전하기</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
