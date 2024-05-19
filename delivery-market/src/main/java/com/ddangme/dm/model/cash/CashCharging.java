@@ -5,6 +5,7 @@ import com.ddangme.dm.model.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,9 +30,20 @@ public class CashCharging {
 
     private Long amount;
 
+    @Enumerated(EnumType.STRING)
     private CashStatus status;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @CreatedDate
     private LocalDateTime requestAt;
 
+    public static CashCharging create(Member member, Long amount) {
+        return new CashCharging(member, amount, CashStatus.ASK);
+    }
+
+    public CashCharging(Member member, Long amount, CashStatus status) {
+        this.member = member;
+        this.amount = amount;
+        this.status = status;
+    }
 }

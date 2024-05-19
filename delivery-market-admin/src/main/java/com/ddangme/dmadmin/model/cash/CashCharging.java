@@ -34,6 +34,8 @@ public class CashCharging {
     @JoinColumn(name = "admin_id")
     @ToString.Exclude
     private Admin admin;
+
+    @Enumerated(EnumType.STRING)
     private CashStatus status;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
