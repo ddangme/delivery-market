@@ -35,12 +35,13 @@ public class CashManageService {
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_ADMIN_ACCOUNT));
 
-        List<Long> ids = request.getIds();
-        for (Long id : ids) {
-            CashCharging cashCharging = cashRepository.findById(id)
-                    .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CASH_CHARGING));
-            cashCharging.changeStatus(request.getStatus(), admin);
-        }
+        request.getIds()
+                .forEach(id -> findCashCharging(id).changeStatus(request.getStatus(), admin));
+    }
+
+    private CashCharging findCashCharging(Long id) {
+        return cashRepository.findById(id)
+                .orElseThrow(() -> new DMAdminException(ErrorCode.NOT_EXIST_CASH_CHARGING));
     }
 
 
