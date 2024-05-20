@@ -1,6 +1,9 @@
 const currentUrl = window.location.href;
 const trArea = $(`
 <tr>
+    <td>
+        <input class="form-check-input check" type="checkbox">
+    </td>
     <td class="id"></td>
     <td class="amount"></td>
     <td class="status"></td>
@@ -13,6 +16,11 @@ const trArea = $(`
 
 $(document).ready(function () {
     getCashChargingList();
+
+    $('.all-check').change(function() {
+        const isChecked = $(this).is(':checked');
+        $('#cash-charging-list .check').prop('checked', isChecked);
+    });
 });
 
 function getCashChargingList() {
@@ -86,6 +94,12 @@ function addData(content) {
         } else {
             tr.find('.responseAt').text(parseDate(data.responseAt));
         }
+
+
+        tr.find('.check').change(function() {
+            const allChecked = $('#cash-charging-list .check').length === $('#cash-charging-list .check:checked').length;
+            $('.all-check').prop('checked', allChecked);
+        });
 
         $('#cash-charging-list').append(tr);
     })
