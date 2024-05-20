@@ -28,6 +28,8 @@ public enum ErrorCode {
     GOODS_LOADING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "상품 리스트 조회에 실패하였습니다."),
     NOT_FOUND_CASH(HttpStatus.NOT_FOUND, "존재하지 않는 캐시 요청입니다."),
     IS_NON_CANCEL_CASH_CHARGING(HttpStatus.BAD_REQUEST, "상태를 변경할 수 없는 캐시 요청입니다. 관리자에게 문의해 주세요."),
+    IS_NULL_CASH_CHARGING_AMOUNT(HttpStatus.BAD_REQUEST, "충전 금액을 입력해주세요."),
+    MAX_OVER_CASH_CHARGING_AMOUNT(HttpStatus.BAD_REQUEST, "충전 금액은 최대 1,000,000원 까지 가능합니다."),
     ;
 
 

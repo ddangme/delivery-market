@@ -46,7 +46,18 @@ public class CashCharging {
         return new CashCharging(member, amount, CashStatus.ASK);
     }
 
+    private void validateAmount(Long amount) {
+        if (amount == null || amount == 0) {
+            throw new DMException(ErrorCode.IS_NULL_CASH_CHARGING_AMOUNT);
+        }
+
+        if (amount > 1_000_000) {
+            throw new DMException(ErrorCode.MAX_OVER_CASH_CHARGING_AMOUNT);
+        }
+    }
+
     public CashCharging(Member member, Long amount, CashStatus status) {
+        validateAmount(amount);
         this.member = member;
         this.amount = amount;
         this.status = status;
