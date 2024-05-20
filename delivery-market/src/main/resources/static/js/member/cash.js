@@ -18,7 +18,6 @@ function getChargingList() {
         "/api/my-page/cash/list",
         function (response) {
             response.forEach(function (item) {
-                console.log(item);
                 let tr = trArea.clone();
                 tr.attr('id', item.id);
                 tr.find('.amount').text(item.amount.toLocaleString() + " 원");
