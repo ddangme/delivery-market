@@ -16,6 +16,7 @@ public class MemberListResponse {
     private String memberStatus;
     private String benefitLevel;
     private String phone;
+    private String email;
     private Long cash;
     private Long point;
 
@@ -26,6 +27,7 @@ public class MemberListResponse {
                 entity.getMemberStatus().getStatus(),
                 entity.getBenefitLevel().getLevel(),
                 entity.getPhone(),
+                entity.getEmail(),
                 entity.getCash(),
                 entity.getPoint()
         );

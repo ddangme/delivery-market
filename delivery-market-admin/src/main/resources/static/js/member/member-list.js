@@ -10,6 +10,7 @@ const trArea = $(`
     <td class="memberStatus"></td>
     <td class="benefitLevel"></td>
     <td class="phone"></td>
+    <td class="email"></td>
     <td class="cash"></td>
     <td class="point"></td>
 </tr>
@@ -49,6 +50,11 @@ function addData(content) {
             tr.find('.phone').text(data.phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
         } else {
             tr.find('.phone').text("-");
+        }
+        if (data.email !== null) {
+            tr.find('.email').text(data.email);
+        } else {
+            tr.find('.email').text("-");
         }
         tr.find('.cash').text(data.cash.toLocaleString() + " 원");
         tr.find('.point').text(data.point.toLocaleString() + " 원");
