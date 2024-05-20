@@ -1,5 +1,6 @@
 package com.ddangme.dmadmin.controller.member;
 
+import com.ddangme.dmadmin.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/members")
 public class MemberManageController {
 
+    private final MemberRepository memberRepository;
+
     @GetMapping("/cash/list")
     public String cashList() {
         return "/member/cash-list";
@@ -22,4 +25,8 @@ public class MemberManageController {
         return "/member/member-list";
     }
 
+    @GetMapping("/{memberId}")
+    public String memberDetail() {
+        return "/member/member-detail";
+    }
 }
