@@ -55,11 +55,14 @@ public class CashCharging {
         }
 
         this.status = cashStatus;
+        if (status.equals(CashStatus.YES)) {
+            member.addCash(amount);
+        }
         this.admin = admin;
     }
 
     private boolean isNonModifiable() {
-        return status == CashStatus.NO || status == CashStatus.CANCEL || status == CashStatus.YES;
+        return status.equals(CashStatus.NO) || status.equals(CashStatus.CANCEL) || status.equals(CashStatus.YES);
     }
 
 }
