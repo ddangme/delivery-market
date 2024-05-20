@@ -10,10 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/members")
-public class CashController {
+public class MemberManageController {
 
     @GetMapping("/cash/list")
     public String cashList() {
         return "/member/cash-list";
     }
+
+    @GetMapping
+    public String memberList() {
+        return "/member/member-list";
+    }
+
 }

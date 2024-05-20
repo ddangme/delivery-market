@@ -80,7 +80,6 @@ function getCashChargingList() {
         url: '/api/members/cash' + currentUrl.substring(currentUrl.lastIndexOf('/list')),
         type: "GET",
         success: function (response) {
-            console.log(response);
             addData(response.content);
 
             const pageInfo = {
