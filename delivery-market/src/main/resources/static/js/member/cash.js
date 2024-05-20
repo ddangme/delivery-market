@@ -10,7 +10,12 @@ const trArea = $(`
     <td class="status"></td>
     <td class="requestAt"></td>
     <td class="responseAt"></td>
+    <td class="cancel-btn"></td>
 </tr>
+`);
+
+const cancelBtn = $(`
+<a class="btn w-100 bg-secondary-subtle btn-sm">취소하기</a>
 `);
 
 function getChargingList() {
@@ -18,11 +23,28 @@ function getChargingList() {
         "/api/my-page/cash/list",
         function (response) {
             response.forEach(function (item) {
-                console.log(item);
                 let tr = trArea.clone();
                 tr.attr('id', item.id);
                 tr.find('.amount').text(item.amount.toLocaleString() + " 원");
                 tr.find('.status').text(item.status);
+                if (item.status === "요청") {
+                    const btn = cancelBtn.clone();
+                    tr.find('.cancel-btn').append(btn);
+                    btn.click(function () {
+                        const id = btn.parent().parent().attr('id');
+                        $.ajax({
+                            url: "/api/my-page/cash/cancel/" + id,
+                            type: 'POST',
+                            success: function () {
+                                alert("취소 되었습니다.");
+                                location.reload();
+                            },
+                            error: function (xhr) {
+                                alert(xhr.responseText);
+                            },
+                        })
+                    });
+                }
                 changeFontColor(item.status, tr.find('.status'));
                 tr.find('.requestAt').text(parseDate(item.requestAt));
                 if (item.responseAt === null) {
@@ -45,6 +67,8 @@ function changeFontColor(response, $td) {
         $td.addClass('text-danger')
     } else if (response === "보류") {
         $td.addClass('text-warning');
+    } else if (response === "취소") {
+        $td.addClass('text-secondary');
     }
 }
 

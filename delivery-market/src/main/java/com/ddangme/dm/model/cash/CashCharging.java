@@ -1,5 +1,7 @@
 package com.ddangme.dm.model.cash;
 
+import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.constants.CashStatus;
 import com.ddangme.dm.model.member.Member;
 import lombok.Getter;
@@ -48,5 +50,13 @@ public class CashCharging {
         this.member = member;
         this.amount = amount;
         this.status = status;
+    }
+
+    public void cancel() {
+        if (status.equals(CashStatus.ASK)) {
+            this.status = CashStatus.CANCEL;
+        } else {
+            throw new DMException(ErrorCode.IS_NON_CANCEL_CASH_CHARGING);
+        }
     }
 }
