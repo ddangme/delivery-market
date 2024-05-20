@@ -17,6 +17,8 @@ public enum ErrorCode {
     NOT_CHOICE_CATEGORY(HttpStatus.BAD_REQUEST, "선택된 카테고리가 없습니다."),
     NOT_EXIST_ADMIN_ACCOUNT(HttpStatus.UNAUTHORIZED, "존재하지 않는 관리자입니다."),
     ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 계정입니다."),
+    NOT_EXIST_CASH_CHARGING(HttpStatus.NOT_FOUND, "존재하지 않는 캐시 요청입니다."),
+    IS_NON_MODIFIABLE_CASH_CHARGING_STATUS(HttpStatus.BAD_REQUEST, "수정할 수 없는 캐시 요청입니다."),
     
     
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),

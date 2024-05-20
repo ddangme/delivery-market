@@ -44,6 +44,8 @@ function changeFontColor(response, $td) {
         $td.addClass('text-danger')
     } else if (response === "보류") {
         $td.addClass('text-warning');
+    } else if (response === "취소") {
+        $td.addClass('text-secondary');
     }
 }
 

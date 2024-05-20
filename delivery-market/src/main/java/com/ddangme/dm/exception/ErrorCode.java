@@ -10,6 +10,7 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error."),
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "Login Id or Password not founded."),
     NOT_FOUND_ACCOUNT(HttpStatus.NOT_FOUND, "This Account does not exist"),
+    NOT_EXIST_ADDRESS(HttpStatus.NOT_FOUND, "기본 배송지 정보가 없습니다. 등록 후 이용해주세요."),
     NOT_FOUND_GOOD(HttpStatus.NOT_FOUND, "존재하지 않는 상품입니다."),
     NOT_FOUND_CART(HttpStatus.BAD_REQUEST, "존재하지 않는 장바구니 상품입니다."),
     NOT_CHOICE_CART(HttpStatus.BAD_REQUEST, "선택된 상품이 없습니다."),

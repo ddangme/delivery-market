@@ -1,5 +1,7 @@
 package com.ddangme.dmadmin.model.cash;
 
+import com.ddangme.dmadmin.exception.DMAdminException;
+import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.admin.Admin;
 import com.ddangme.dmadmin.model.constants.CashStatus;
 import com.ddangme.dmadmin.model.member.Member;
@@ -46,5 +48,18 @@ public class CashCharging {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @LastModifiedDate
     private LocalDateTime responseAt;
+
+    public void changeStatus(CashStatus cashStatus, Admin admin) {
+        if (isNonModifiable()) {
+            throw new DMAdminException(ErrorCode.IS_NON_MODIFIABLE_CASH_CHARGING_STATUS);
+        }
+
+        this.status = cashStatus;
+        this.admin = admin;
+    }
+
+    private boolean isNonModifiable() {
+        return status == CashStatus.NO || status == CashStatus.CANCEL || status == CashStatus.YES;
+    }
 
 }

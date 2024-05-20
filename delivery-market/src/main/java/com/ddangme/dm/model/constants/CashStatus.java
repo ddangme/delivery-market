@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum CashStatus {
+    CANCEL("취소"),
     ASK("요청"),
     YES("승낙"),
     NO("거절"),

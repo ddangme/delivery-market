@@ -134,7 +134,7 @@ function addPagination(pageInfo) {
 function addData(content) {
     content.forEach(function (data) {
         let tr = trArea.clone();
-        if (data.status === "승낙" || data.status === "거절") {
+        if (data.status === "승낙" || data.status === "거절" || data.status === "취소") {
             tr.find('.form-check-input').prop('disabled', true);
             tr.find('.form-check-input').addClass('bg-dark-subtle');
         } else {
@@ -173,6 +173,8 @@ function changeFontColor(response, $td) {
         $td.addClass('text-danger')
     } else if (response === "보류") {
         $td.addClass('text-warning');
+    } else if (response === "취소") {
+        $td.addClass('text-secondary');
     }
 }
 
