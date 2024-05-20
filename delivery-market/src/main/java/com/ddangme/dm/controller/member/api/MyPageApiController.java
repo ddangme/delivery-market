@@ -42,9 +42,14 @@ public class MyPageApiController {
     @PostMapping("/cash/charging")
     public ResponseEntity<Void> chargingCash(@AuthenticationPrincipal MemberPrincipal principal,
                                              Long amount) {
-
-        log.info("amount={}", amount);
         cashService.cashCharging(principal.getId(), amount);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/cash/cancel/{cashId}")
+    public ResponseEntity<Void> cancel(@AuthenticationPrincipal MemberPrincipal principal
+    , @PathVariable Long cashId) {
+        cashService.cancel(principal.getId(), cashId);
         return ResponseEntity.ok().build();
     }
 }

@@ -41,4 +41,12 @@ public class CashService {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
+
+    @Transactional
+    public void cancel(Long memberId, Long cashId) {
+        findMember(memberId);
+        CashCharging cashCharging = cashRepository.findById(cashId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CASH));
+        cashCharging.cancel();
+    }
 }
