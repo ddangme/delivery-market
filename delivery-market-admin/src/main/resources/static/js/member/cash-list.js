@@ -2,7 +2,7 @@ const currentUrl = window.location.href;
 const trArea = $(`
 <tr>
     <td>
-        <input class="form-check-input check" type="checkbox">
+        <input class="form-check-input" type="checkbox">
     </td>
     <td class="id"></td>
     <td class="amount"></td>
@@ -16,12 +16,64 @@ const trArea = $(`
 
 $(document).ready(function () {
     getCashChargingList();
-
+    changeStatusBtn();
     $('.all-check').change(function() {
         const isChecked = $(this).is(':checked');
         $('#cash-charging-list .check').prop('checked', isChecked);
     });
 });
+
+function changeStatusBtn() {
+    $('#yes-btn').click(function () {
+        if (confirm("상태를 승낙으로 변경하시겠습니까?")) {
+            changeAjax(getCheckedIds(), "YES");
+        }
+    });
+
+    $('#hold-btn').click(function () {
+        if (confirm("상태를 보류로 변경하시겠습니까?")) {
+            changeAjax(getCheckedIds(), "HOLD");
+        }
+    });
+
+    $('#no-btn').click(function () {
+        if (confirm("상태를 거절로 변경하시겠습니까?")) {
+            changeAjax(getCheckedIds(), "NO");
+        }
+    });
+
+}
+
+function getCheckedIds() {
+    let ids = [];
+    $('#cash-charging-list .check:checked').each(function () {
+        const parent = $(this).closest('tr');
+        const id = parent.find('.id').text();
+
+        ids.push(id);
+    });
+
+    return ids;
+}
+
+function changeAjax(ids, status) {
+    $.ajax({
+        url: "/api/members/cash/status-change",
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({
+            ids: ids,
+            status: status
+        }),
+        success: function() {
+            alert("상태가 변경되었습니다.");
+            location.reload();
+        },
+        error: function(xhr) {
+            console.error('상태 변경에 실패하였습니다.\n', xhr.responseText);
+        }
+    })
+}
 
 function getCashChargingList() {
     $.ajax({
@@ -82,6 +134,13 @@ function addPagination(pageInfo) {
 function addData(content) {
     content.forEach(function (data) {
         let tr = trArea.clone();
+        if (data.status === "승낙" || data.status === "거절") {
+            tr.find('.form-check-input').prop('disabled', true);
+            tr.find('.form-check-input').addClass('bg-dark-subtle');
+        } else {
+            tr.find('.form-check-input').addClass('check');
+        }
+
         tr.find('.id').text(data.id);
         tr.find('.amount').text(data.amount.toLocaleString() + "원");
         tr.find('.status').text(data.status);
