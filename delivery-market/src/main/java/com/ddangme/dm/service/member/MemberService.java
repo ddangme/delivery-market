@@ -5,6 +5,8 @@ import com.ddangme.dm.dto.member.MemberFindRequest;
 import com.ddangme.dm.dto.member.ModifyMemberRequest;
 import com.ddangme.dm.dto.member.SignUpRequest;
 import com.ddangme.dm.dto.order.OrderAddressProjection;
+import com.ddangme.dm.dto.order.OrderPayResponse;
+import com.ddangme.dm.dto.order.OrderResponse;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.Address;
@@ -99,4 +101,11 @@ public class MemberService {
         return memberRepository.findAddressListByMemberId(memberId);
     }
 
+    public OrderResponse findOrderInfo(Long memberId) {
+        Member member = findMember(memberId);
+        Address address = member.getMainAddress();
+        OrderPayResponse pay = OrderPayResponse.fromEntity(member);
+
+        return new OrderResponse(address, pay);
+    }
 }

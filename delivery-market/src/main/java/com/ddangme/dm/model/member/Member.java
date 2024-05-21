@@ -1,6 +1,8 @@
 package com.ddangme.dm.model.member;
 
 
+import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.Address;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -75,6 +77,16 @@ public class Member {
     public static Member signUp(String loginId, String password, String name, String email
             , String phone, LocalDate birthday) {
         return new Member(loginId, password, name, email, phone, birthday);
+    }
+
+    public Address getMainAddress() {
+        for (Address value : address) {
+            if (value.isMain()) {
+                return value;
+            }
+        }
+
+        throw new DMException(ErrorCode.NOT_EXIST_MAIN_ADDRESS);
     }
 
     private Member(String loginId, String password, String name) {

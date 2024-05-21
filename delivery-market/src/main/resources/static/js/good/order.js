@@ -1,8 +1,22 @@
 $(document).ready(function () {
-    addGood();
-    addAddress();
     addAddressInModal();
+
+    $.get("/api/order/info", function (response) {
+        addGood(response.good);
+        addAddress(response.address);
+        addPay(response.pay);
+        $('.use-point').text(response.usePoint.toLocaleString());
+        $('.use-cash').text(response.useCash.toLocaleString());
+        $('.total-price').text(response.totalGoodPrice.toLocaleString());
+    });
 });
+
+function addPay(response) {
+    const total = response.point + response.cash;
+    $('.total-member-price').text(total.toLocaleString());
+    $('.point').text(response.point.toLocaleString());
+    $('.cash').text(response.cash.toLocaleString());
+}
 
 const addressModalArea = $(`
 <div class="hstack gap-3 align-items-center mb-4">
@@ -84,35 +98,31 @@ const goodArea = $(`
 </div>
 `);
 
-function addAddress() {
-    $.get("/api/order/address", function (response) {
-        $('#name').text(response.name);
-        $('#phone').text(response.phone);
-        $('#road').text(response.road);
-        $('#detail').text(response.detail);
-        $('.address-id').attr('id', response.id);
-    });
+function addAddress(response) {
+    $('#name').text(response.name);
+    $('#phone').text(response.phone);
+    $('#road').text(response.road);
+    $('#detail').text(response.detail);
+    $('.address-id').attr('id', response.id);
 }
 
-function addGood() {
-    $.get("/api/order/cart/list", function (response) {
-        response.forEach(function (item) {
-            const good = goodArea.clone();
-            good.find('.option-name').text(item.optionName);
-            good.find('.good-name').text(item.goodName);
-            good.find('.option-count').text(item.optionCount);
-            if (item.discountPrice === null) {
-                good.find('.good-price').text(item.price.toLocaleString() + " 원");
-                good.find('.good-discount-price').remove();
-                good.find('.good-original-price').remove();
-            } else {
-                good.find('.good-price').remove();
-                good.find('.good-discount-price').text(item.discountPrice.toLocaleString() + " 원");
-                good.find('.good-original-price').text(item.price.toLocaleString() + " 원");
-            }
-            setImage(item.photo, good.find('.good-photo'));
-            $('#good-area').append(good);
-        });
+function addGood(response) {
+    response.forEach(function (item) {
+        const good = goodArea.clone();
+        good.find('.option-name').text(item.optionName);
+        good.find('.good-name').text(item.goodName);
+        good.find('.option-count').text(item.optionCount);
+        if (item.discountPrice === null) {
+            good.find('.good-price').text(item.price.toLocaleString() + " 원");
+            good.find('.good-discount-price').remove();
+            good.find('.good-original-price').remove();
+        } else {
+            good.find('.good-price').remove();
+            good.find('.good-discount-price').text(item.discountPrice.toLocaleString() + " 원");
+            good.find('.good-original-price').text(item.price.toLocaleString() + " 원");
+        }
+        setImage(item.photo, good.find('.good-photo'));
+        $('#good-area').append(good);
     });
 }
 
