@@ -29,11 +29,6 @@ public class MyPageApiController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/address")
-    public ResponseEntity<String> getMainAddress(@AuthenticationPrincipal MemberPrincipal principal) {
-        return ResponseEntity.ok(addressService.getMainAddress(principal.getId()));
-    }
-
     @GetMapping("/cash/list")
     public ResponseEntity<List<CashListResponse>> cashList(@AuthenticationPrincipal MemberPrincipal principal) {
         return ResponseEntity.ok(cashService.findCashListByMember(principal.getId()));

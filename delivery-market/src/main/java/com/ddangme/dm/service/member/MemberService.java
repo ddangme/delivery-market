@@ -1,21 +1,23 @@
 package com.ddangme.dm.service.member;
 
+import com.ddangme.dm.dto.member.MemberDTO;
 import com.ddangme.dm.dto.member.MemberFindRequest;
 import com.ddangme.dm.dto.member.ModifyMemberRequest;
 import com.ddangme.dm.dto.member.SignUpRequest;
-import com.ddangme.dm.dto.member.MemberDTO;
+import com.ddangme.dm.dto.order.OrderAddressProjection;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.Address;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.repository.AddressRepository;
-import com.ddangme.dm.repository.MemberRepository;
+import com.ddangme.dm.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -73,14 +75,28 @@ public class MemberService {
 
     @Transactional
     public void modifyMember(ModifyMemberRequest request, Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+        Member member = findMember(memberId);
 
         member.modify(encoder.encode(request.getNewPassword()),
                 request.getPhone(),
                 request.getBirthday());
 
         memberRepository.save(member);
+    }
+
+    public OrderAddressProjection findMainAddressByMemberId(Long memberId) {
+        findMember(memberId);
+        return memberRepository.findMainAddressByMemberId(memberId);
+    }
+
+    private Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+    }
+
+    public List<OrderAddressProjection> findAddressListByMemberId(Long memberId) {
+        findMember(memberId);
+        return memberRepository.findAddressListByMemberId(memberId);
     }
 
 }

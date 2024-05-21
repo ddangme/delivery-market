@@ -1,8 +1,10 @@
 package com.ddangme.dm.controller.good.api;
 
 import com.ddangme.dm.dto.member.MemberPrincipal;
+import com.ddangme.dm.dto.order.OrderAddressProjection;
 import com.ddangme.dm.dto.order.OrderCartProjection;
 import com.ddangme.dm.service.good.CartService;
+import com.ddangme.dm.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +22,20 @@ import java.util.List;
 public class OrderApiController {
 
     private final CartService cartService;
+    private final MemberService memberService;
 
     @GetMapping("/cart/list")
-    public ResponseEntity<List<OrderCartProjection>> order(@AuthenticationPrincipal MemberPrincipal principal) {
+    public ResponseEntity<List<OrderCartProjection>> cartList(@AuthenticationPrincipal MemberPrincipal principal) {
         return ResponseEntity.ok(cartService.findCarts(principal.getId()));
+    }
+
+    @GetMapping("/address")
+    public ResponseEntity<OrderAddressProjection> address(@AuthenticationPrincipal MemberPrincipal principal) {
+        return ResponseEntity.ok(memberService.findMainAddressByMemberId(principal.getId()));
+    }
+
+    @GetMapping("/address/list")
+    public ResponseEntity<List<OrderAddressProjection>> addressList(@AuthenticationPrincipal MemberPrincipal principal) {
+        return ResponseEntity.ok(memberService.findAddressListByMemberId(principal.getId()));
     }
 }

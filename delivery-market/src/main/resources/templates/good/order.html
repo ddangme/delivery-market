@@ -8,37 +8,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <p class="fs-5 p-2 mb-0">배송지</p>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" id="modal-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div class="hstack gap-3 align-items-center mb-4">
-                    <div class="p-2">
-                        <input class="form-check-input p-3 rounded-circle" type="checkbox">
-                    </div>
-                    <div class="p-2">
-                        <small class="mb-0 badge bg-warning-subtle text-black mb-2">기본 배송지</small>
-                        <p class="mb-0" id="1">경기도 성남시 분당구 야탑동 현대홈타운 1020동 2903호</p>
-                        <small class="text-secondary">
-                            <span>박상은</span>
-                            <span>|</span>
-                            <span>01012345678</span>
-                        </small>
-                    </div>
-                </div>
-                <div class="hstack gap-3 align-items-center mb-4">
-                    <div class="p-2">
-                        <input class="form-check-input p-3 rounded-circle" type="checkbox">
-                    </div>
-                    <div class="p-2">
-                        <small class="mb-0 badge bg-warning-subtle text-black mb-2" hidden="hidden">기본 배송지</small>
-                        <p class="mb-0" id="2">경기도 성남시 분당구 야탑동 현대홈타운 1020동 2903호</p>
-                        <small class="text-secondary">
-                            <span>박상은</span>
-                            <span>|</span>
-                            <span>01012345678</span>
-                        </small>
-                    </div>
-                </div>
+            <div class="modal-body" id="address-list-area">
             </div>
         </div>
     </div>
@@ -50,34 +22,33 @@
     </div>
     <form>
         <div class="fs-4 border-bottom mt-5 mb-3">배송 정보</div>
-        <div class="row mb-2">
-            <div class="col-4 offset-8">
-                <input id="member-address-btn" class="form-check-input p-2 rounded-circle" type="checkbox">
-                <label class="form-check-label" for="member-address-btn">
-                    회원 기본정보로 설정하기
-                </label>
-            </div>
-        </div>
         <div class="row align-items-center">
             <div class="col-3 mb-3">
-                <label for="name" class="form-label align-middle">받으실 분<span class="ms-1 text-danger">*</span></label>
+                <p>받으실 분
+                    <span class="ms-1 text-danger">*</span>
+                </p>
             </div>
             <div class="col-9 mb-3">
-                <input class="form-control" id="name" name="name">
+                <p id="name"></p>
             </div>
             <div class="col-3 mb-3">
-                <label for="phone" class="form-label align-middle">휴대폰<span class="ms-1 text-danger">*</span></label>
+                <p>휴대폰
+                    <span class="ms-1 text-danger">*</span>
+                </p>
             </div>
             <div class="col-9 mb-3">
-                <input class="form-control" id="phone" name="phone">
+                <p id="phone"></p>
             </div>
             <div class="col-3 mb-3">
-                <label for="phone" class="form-label align-middle">주소<span class="ms-1 text-danger">*</span></label>
+                <label class="form-label align-middle">주소<span class="ms-1 text-danger">*</span></label>
             </div>
             <div class="col-9 mb-3">
-                <small class="mb-0 badge bg-warning-subtle text-black mb-2">기본 배송지</small>
-                <p class="align-middle mb-0" id="1">경기도 성남시 분당구 야탑동 현대아파트 102동 203호</p>
-                <a class="btn bg-primary-subtle btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#add-address-modal">변경</a>
+                <small class="mb-0 badge bg-warning-subtle text-black mb-2 main-badge">기본 배송지</small>
+                <p class="align-middle mb-0 address-id">
+                    <span id="road"></span>
+                    <span id="detail"></span>
+                </p>
+                <a class="btn bg-primary-subtle btn-sm mt-1" id="address-modal-btn" data-bs-toggle="modal" data-bs-target="#add-address-modal">변경</a>
             </div>
         </div>
         <div class="fs-4 border-bottom mt-5 mb-3">결제 정보</div>
