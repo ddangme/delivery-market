@@ -4,6 +4,9 @@ import com.ddangme.dm.dto.cart.CartChangeCountProjection;
 import com.ddangme.dm.dto.cart.CartListProjection;
 import com.ddangme.dm.dto.cart.QCartChangeCountProjection;
 import com.ddangme.dm.dto.cart.QCartListProjection;
+import com.ddangme.dm.dto.order.OrderCartProjection;
+import com.ddangme.dm.dto.order.QOrderCartProjection;
+import com.ddangme.dm.model.constants.SaleStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
@@ -56,5 +59,30 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .innerJoin(goodOption).on(cart.option.id.eq(goodOption.id))
                 .where(cart.id.eq(cartId))
                 .fetchOne();
+    }
+
+    @Override
+    public List<OrderCartProjection> findByMemberIdAtOrder(Long memberId) {
+        return queryFactory
+                .select(new QOrderCartProjection(
+                        cart.id,
+                        good.photoStoreFileName.as("photo"),
+                        goodOption.name.as("optionName"),
+                        good.name.as("goodName"),
+                        cart.count.as("optionCount"),
+                        goodOption.price.as("price"),
+                        goodOption.discountPrice.as("discountPrice")
+                ))
+                .from(cart)
+                .innerJoin(goodOption).on(cart.option.id.eq(goodOption.id))
+                .innerJoin(good).on(goodOption.good.id.eq(good.id))
+                .innerJoin(goodDetail).on(good.id.eq(goodDetail.good.id))
+                .where(cart.member.id.eq(memberId)
+                        .and(cart.status.isTrue())
+                        .and(goodOption.saleStatus.eq(SaleStatus.ON_SALE))
+                        .or(goodOption.saleStatus.eq(SaleStatus.AVAILABLE))
+                        .or(goodOption.saleStatus.eq(SaleStatus.RESTOCKING)))
+                .fetch();
+
     }
 }

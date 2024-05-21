@@ -40,6 +40,10 @@ public class Address {
     @Column(length = 20)
     private String recipientPhone;
 
+    public boolean isMain() {
+        return main;
+    }
+
     public Address(Member member, String road, String detail, Integer zipcode, boolean main) {
         this.member = member;
         this.road = road;

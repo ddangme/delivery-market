@@ -19,7 +19,11 @@ public class GoodController {
     @GetMapping("/goods/{goodId}")
     public String goodsDetail(@PathVariable Long goodId) {
         log.info("goodId={}", goodId);
-        return "good/good-detail";
+        return "/good/good-detail";
     }
 
+    @GetMapping("/order")
+    public String order() {
+        return "/good/order";
+    }
 }

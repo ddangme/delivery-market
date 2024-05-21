@@ -7,7 +7,7 @@ import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.Address;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.repository.AddressRepository;
-import com.ddangme.dm.repository.MemberRepository;
+import com.ddangme.dm.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,8 +26,7 @@ public class AddressService {
     public final AddressRepository addressRepository;
 
     public List<AddressDTO> findAllByMemberId(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+        Member member = findMember(memberId);
         return addressRepository.findAllByMember(member)
                 .stream().map(AddressDTO::fromEntity)
                 .toList();
@@ -35,8 +34,7 @@ public class AddressService {
 
     @Transactional
     public void addAddress(AddressRequest request, Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+        Member member = findMember(memberId);
 
         Address address = new Address(
                 member,
@@ -55,8 +53,7 @@ public class AddressService {
 
     @Transactional
     public void editAddress(AddressRequest request, Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
+        Member member = findMember(memberId);
 
         Address address = addressRepository.findById(request.getId())
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ADDRESS));
@@ -88,6 +85,7 @@ public class AddressService {
 
     }
 
+
     private void setMainAddress(Member member, Address address) {
         Optional<Address> findAddress = addressRepository.findByMemberAndMain(member, true);
 
@@ -118,5 +116,10 @@ public class AddressService {
         }
 
         addressRepository.delete(address);
+    }
+
+    private Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 }

@@ -147,10 +147,8 @@ $(document).ready(function () {
         addCheckDeleteEvent(listArea.find('.check-delete'));
         checkCheckbox();
         calculateTotalPrice();
-
-
     });
-
+    addOrderBtn();
 });
 
 function checkCheckbox() {
@@ -441,5 +439,11 @@ function deleteCart(cartIds, div) {
 function setImage(photo, $element) {
     $.get("/images/" + photo, function (data) {
         $element.attr('src', "data:image/jpeg;base64," + data);
+    });
+}
+
+function addOrderBtn() {
+    $('#order').click(function () {
+        location.href = '/order';
     });
 }

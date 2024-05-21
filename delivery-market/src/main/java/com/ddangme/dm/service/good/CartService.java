@@ -1,21 +1,20 @@
 package com.ddangme.dm.service.good;
 
-import com.ddangme.dm.dto.cart.CartChangeCountProjection;
 import com.ddangme.dm.dto.cart.CartListProjection;
 import com.ddangme.dm.dto.cart.request.CartChangeCheckRequest;
 import com.ddangme.dm.dto.cart.request.CartChangeCountRequest;
 import com.ddangme.dm.dto.cart.request.CartRequest;
 import com.ddangme.dm.dto.cart.response.CartChangeCountResponse;
 import com.ddangme.dm.dto.cart.response.CartListResponse;
+import com.ddangme.dm.dto.order.OrderCartProjection;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.good.Cart;
 import com.ddangme.dm.model.good.GoodOption;
 import com.ddangme.dm.model.member.Member;
-import com.ddangme.dm.repository.MemberRepository;
+import com.ddangme.dm.repository.member.MemberRepository;
 import com.ddangme.dm.repository.cart.CartRepository;
 import com.ddangme.dm.repository.good.GoodOptionRepository;
-import com.ddangme.dm.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,6 @@ public class CartService {
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
     private final GoodOptionRepository optionRepository;
-    private final FileService fileService;
 
     @Transactional
     public String save(Long memberId, List<CartRequest> requests) {
@@ -84,6 +82,11 @@ public class CartService {
         }
 
         return response;
+    }
+
+    public List<OrderCartProjection> findCarts(Long memberId) {
+        findMember(memberId);
+        return cartRepository.findByMemberIdAtOrder(memberId);
     }
 
     @Transactional

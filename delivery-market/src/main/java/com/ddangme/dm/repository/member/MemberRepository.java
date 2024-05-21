@@ -1,4 +1,4 @@
-package com.ddangme.dm.repository;
+package com.ddangme.dm.repository.member;
 
 import com.ddangme.dm.model.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +11,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // TODO: 해당 값으로 조회 할 때 값이 있다면 LoginId만 불러오도록 수정하기
     Optional<Member> findByNameAndEmail(String name, String email);
+
+    Optional<Member> findPointAndCashById(Long id);
 }
