@@ -23,7 +23,7 @@ public class GoodApiController {
     private final GoodService goodService;
 
     @GetMapping
-    public ResponseEntity<Page<GoodResponse>> findSaleStatusGoods(@PageableDefault(size = 1) Pageable pageable) {
+    public ResponseEntity<Page<GoodResponse>> findSaleStatusGoods(Pageable pageable) {
         log.info("controller - /api/goods");
         return ResponseEntity.ok().body(goodService.findSaleStatusGoods(pageable));
     }

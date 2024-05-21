@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+<div th:replace="~{/fragments/navbar :: navbar}"></div>
+<div class="modal fade" id="add-address-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="fs-5 p-2 mb-0">배송지</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="hstack gap-3 align-items-center mb-4">
+                    <div class="p-2">
+                        <input class="form-check-input p-3 rounded-circle" type="checkbox">
+                    </div>
+                    <div class="p-2">
+                        <small class="mb-0 badge bg-warning-subtle text-black mb-2">기본 배송지</small>
+                        <p class="mb-0" id="1">경기도 성남시 분당구 야탑동 현대홈타운 1020동 2903호</p>
+                        <small class="text-secondary">
+                            <span>박상은</span>
+                            <span>|</span>
+                            <span>01012345678</span>
+                        </small>
+                    </div>
+                </div>
+                <div class="hstack gap-3 align-items-center mb-4">
+                    <div class="p-2">
+                        <input class="form-check-input p-3 rounded-circle" type="checkbox">
+                    </div>
+                    <div class="p-2">
+                        <small class="mb-0 badge bg-warning-subtle text-black mb-2" hidden="hidden">기본 배송지</small>
+                        <p class="mb-0" id="2">경기도 성남시 분당구 야탑동 현대홈타운 1020동 2903호</p>
+                        <small class="text-secondary">
+                            <span>박상은</span>
+                            <span>|</span>
+                            <span>01012345678</span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="order-content-area">
+    <p class="fs-3 text-center">주문서</p>
+    <div class="fs-4 border-bottom">주문 상품</div>
+    <div id="good-area">
+    </div>
+    <form>
+        <div class="fs-4 border-bottom mt-5 mb-3">배송 정보</div>
+        <div class="row mb-2">
+            <div class="col-4 offset-8">
+                <input id="member-address-btn" class="form-check-input p-2 rounded-circle" type="checkbox">
+                <label class="form-check-label" for="member-address-btn">
+                    회원 기본정보로 설정하기
+                </label>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 mb-3">
+                <label for="name" class="form-label align-middle">받으실 분<span class="ms-1 text-danger">*</span></label>
+            </div>
+            <div class="col-9 mb-3">
+                <input class="form-control" id="name" name="name">
+            </div>
+            <div class="col-3 mb-3">
+                <label for="phone" class="form-label align-middle">휴대폰<span class="ms-1 text-danger">*</span></label>
+            </div>
+            <div class="col-9 mb-3">
+                <input class="form-control" id="phone" name="phone">
+            </div>
+            <div class="col-3 mb-3">
+                <label for="phone" class="form-label align-middle">주소<span class="ms-1 text-danger">*</span></label>
+            </div>
+            <div class="col-9 mb-3">
+                <small class="mb-0 badge bg-warning-subtle text-black mb-2">기본 배송지</small>
+                <p class="align-middle mb-0" id="1">경기도 성남시 분당구 야탑동 현대아파트 102동 203호</p>
+                <a class="btn bg-primary-subtle btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#add-address-modal">변경</a>
+            </div>
+        </div>
+        <div class="fs-4 border-bottom mt-5 mb-3">결제 정보</div>
+        <div class="row align-items-center mx-5">
+            <p>적립금 · DM 캐시</p>
+            <div class="col-3 offset-3 mb-1">
+                <small>사용 가능 잔액</small>
+            </div>
+            <div class="col-6 mb-1 text-end">
+                5,000
+                <small>원</small>
+            </div>
+            <div class="col-3 offset-3 mb-1">
+                <small>ㄴ 적립금</small>
+            </div>
+            <div class="col-6 mb-1 text-end">
+                1,000
+                <small>원</small>
+            </div>
+            <div class="col-3 offset-3 mb-1">
+                <small>ㄴ DM 캐시</small>
+            </div>
+            <div class="col-6 mb-1 text-end">
+                4,000
+                <small>원</small>
+            </div>
+            <p>총 결제금액</p>
+            <div class="col-3 offset-3 mb-1">
+                <small>ㄴ 적립금</small>
+            </div>
+            <div class="col-6 mb-1 text-end">
+                1,000
+                <small>원</small>
+            </div>
+            <div class="col-3 offset-3 mb-1">
+                <small>ㄴ DM 캐시</small>
+            </div>
+            <div class="col-6 mb-1 text-end">
+                4,000
+                <small>원</small>
+            </div>
+            <a id="submit" class="btn w-100 mt-5 bg-success-subtle text-success-emphasis">결제하기</a>
+        </div>
+    </form>
+
+</div>
+<script src="/js/good/order.js"></script>
+</body>
+</html>
