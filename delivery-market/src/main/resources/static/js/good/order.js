@@ -7,7 +7,10 @@ $(document).ready(function () {
         addPay(response.pay);
         $('.use-point').text(response.usePoint.toLocaleString());
         $('.use-cash').text(response.useCash.toLocaleString());
-        $('.total-price').text(response.totalGoodPrice.toLocaleString());
+        $('.total-good-price').text(response.totalGoodPrice.toLocaleString());
+        $('.total-discount-price').text(response.totalDiscountPrice.toLocaleString());
+        $('.delivery-price').text(response.deliveryPrice.toLocaleString());
+        $('.total-price').text(response.totalPrice.toLocaleString());
     });
 });
 
@@ -43,7 +46,6 @@ function addAddressInModal() {
         if (!$('#address-list-area').find('.align-items-center').length > 0) {
             $.get("/api/order/address/list", function (response) {
                 response.forEach(function (item) {
-                    console.log(item);
                     const address = addressModalArea.clone();
                     if (!item.main) {
                         address.find('.main-address-badge').remove();
@@ -67,7 +69,7 @@ function addCheckListener($check, item) {
         $check.prop('checked', false);
         $('.main-badge').prop('hidden', !item.main)
         $('#name').text(item.name);
-        $('#phone').text(item.phone);
+        $('#phone').text(item.phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
         $('#road').text(item.road);
         $('#detail').text(item.detail);
         $('.address-id').attr('id', item.id);
@@ -100,7 +102,7 @@ const goodArea = $(`
 
 function addAddress(response) {
     $('#name').text(response.name);
-    $('#phone').text(response.phone);
+    $('#phone').text(response.phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
     $('#road').text(response.road);
     $('#detail').text(response.detail);
     $('.address-id').attr('id', response.id);

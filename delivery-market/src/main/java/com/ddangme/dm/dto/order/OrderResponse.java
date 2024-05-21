@@ -1,7 +1,6 @@
 package com.ddangme.dm.dto.order;
 
 import com.ddangme.dm.model.Address;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
@@ -10,57 +9,60 @@ import java.util.List;
 public class OrderResponse {
 
     private List<OrderCartProjection> good;
-    private AddressResponse address;
+    private OrderAddressResponse address;
     private OrderPayResponse pay;
     private Long usePoint;
     private Long useCash;
     private Long totalGoodPrice;
+    private Long totalDiscountPrice;
+    private Long deliveryPrice;
+    private Long totalPrice;
 
     public OrderResponse(Address address, OrderPayResponse pay) {
-        this.address = new AddressResponse(address);
+        this.address = new OrderAddressResponse(address);
         this.pay = pay;
         usePoint = 0L;
         useCash = 0L;
         totalGoodPrice = 0L;
-    }
-
-    @Data
-    @AllArgsConstructor
-    class AddressResponse {
-        private Long id;
-        private String name;
-        private String phone;
-        private String road;
-        private String detail;
-        private Boolean main;
-
-        private AddressResponse(Address address) {
-            this.id = address.getId();
-            this.name = address.getRecipientName();
-            this.phone = address.getRecipientPhone();
-            this.road = address.getRoad();
-            this.detail = address.getDetail();
-            this.main = address.getMain();
-        }
+        totalDiscountPrice = 0L;
+        deliveryPrice = 3000L;
+        totalPrice = 0L;
     }
 
     public void setGood(List<OrderCartProjection> good) {
-        calTotalGoodPrice(good);
-        calUseMoney();
         this.good = good;
+        calTotalGoodPrice();
+        calTotalDiscountPrice();
+        calDeliveryPrice();
+        totalPrice = totalGoodPrice + deliveryPrice;
+        calUseMoney();
     }
 
-    private void calUseMoney() {
-        if (totalGoodPrice > pay.getPoint()) {
-            usePoint = pay.getPoint();
-            useCash = totalGoodPrice - usePoint;
-        } else {
-            usePoint = totalGoodPrice;
+    private void calDeliveryPrice() {
+        if (totalGoodPrice >= 40_000) {
+            deliveryPrice = 0L;
         }
     }
 
-    private void calTotalGoodPrice(List<OrderCartProjection> goods) {
-        for (OrderCartProjection value : goods) {
+    private void calTotalDiscountPrice() {
+        for (OrderCartProjection value : good) {
+            if (value.getDiscountPrice() != null) {
+                totalDiscountPrice += (value.getPrice() - value.getDiscountPrice());
+            }
+        }
+    }
+
+    private void calUseMoney() {
+        if (totalPrice > pay.getPoint()) {
+            usePoint = pay.getPoint();
+            useCash = totalPrice - usePoint;
+        } else {
+            usePoint = totalPrice;
+        }
+    }
+
+    private void calTotalGoodPrice() {
+        for (OrderCartProjection value : good) {
             if (value.getDiscountPrice() == null) {
                 totalGoodPrice += value.getPrice();
             } else {

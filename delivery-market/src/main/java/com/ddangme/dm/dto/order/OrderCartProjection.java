@@ -21,7 +21,7 @@ public class OrderCartProjection {
         this.optionName = optionName;
         this.goodName = goodName;
         this.optionCount = optionCount;
-        this.price = price;
-        this.discountPrice = discountPrice;
+        this.price = price * optionCount;
+        this.discountPrice = discountPrice * optionCount;
     }
 }

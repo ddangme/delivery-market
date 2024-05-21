@@ -2,6 +2,7 @@ package com.ddangme.dm.controller.good.api;
 
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.dto.order.OrderAddressProjection;
+import com.ddangme.dm.dto.order.OrderAddressResponse;
 import com.ddangme.dm.dto.order.OrderCartProjection;
 import com.ddangme.dm.dto.order.OrderResponse;
 import com.ddangme.dm.service.good.CartService;
@@ -27,7 +28,7 @@ public class OrderApiController {
     private final MemberService memberService;
 
     @GetMapping("/address/list")
-    public ResponseEntity<List<OrderAddressProjection>> addressList(@AuthenticationPrincipal MemberPrincipal principal) {
+    public ResponseEntity<List<OrderAddressResponse>> addressList(@AuthenticationPrincipal MemberPrincipal principal) {
         return ResponseEntity.ok(memberService.findAddressListByMemberId(principal.getId()));
     }
 

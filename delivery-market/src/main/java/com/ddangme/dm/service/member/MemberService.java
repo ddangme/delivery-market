@@ -4,7 +4,7 @@ import com.ddangme.dm.dto.member.MemberDTO;
 import com.ddangme.dm.dto.member.MemberFindRequest;
 import com.ddangme.dm.dto.member.ModifyMemberRequest;
 import com.ddangme.dm.dto.member.SignUpRequest;
-import com.ddangme.dm.dto.order.OrderAddressProjection;
+import com.ddangme.dm.dto.order.OrderAddressResponse;
 import com.ddangme.dm.dto.order.OrderPayResponse;
 import com.ddangme.dm.dto.order.OrderResponse;
 import com.ddangme.dm.exception.DMException;
@@ -86,19 +86,16 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public OrderAddressProjection findMainAddressByMemberId(Long memberId) {
-        findMember(memberId);
-        return memberRepository.findMainAddressByMemberId(memberId);
-    }
-
     private Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 
-    public List<OrderAddressProjection> findAddressListByMemberId(Long memberId) {
-        findMember(memberId);
-        return memberRepository.findAddressListByMemberId(memberId);
+    public List<OrderAddressResponse> findAddressListByMemberId(Long memberId) {
+        Member member = findMember(memberId);
+        return member.getAddress()
+                .stream().map(OrderAddressResponse::new)
+                .toList();
     }
 
     public OrderResponse findOrderInfo(Long memberId) {
