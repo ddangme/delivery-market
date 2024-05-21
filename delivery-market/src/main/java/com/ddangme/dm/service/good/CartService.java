@@ -12,7 +12,7 @@ import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.good.Cart;
 import com.ddangme.dm.model.good.GoodOption;
 import com.ddangme.dm.model.member.Member;
-import com.ddangme.dm.repository.MemberRepository;
+import com.ddangme.dm.repository.member.MemberRepository;
 import com.ddangme.dm.repository.cart.CartRepository;
 import com.ddangme.dm.repository.good.GoodOptionRepository;
 import lombok.RequiredArgsConstructor;

@@ -6,7 +6,7 @@ import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.good.Good;
 import com.ddangme.dm.model.good.Pick;
 import com.ddangme.dm.model.member.Member;
-import com.ddangme.dm.repository.MemberRepository;
+import com.ddangme.dm.repository.member.MemberRepository;
 import com.ddangme.dm.repository.good.GoodRepository;
 import com.ddangme.dm.repository.pick.PickRepository;
 import lombok.RequiredArgsConstructor;
