@@ -1,5 +1,6 @@
 package com.ddangme.dm.dto.good.response;
 
+import com.ddangme.dm.model.constants.SaleStatus;
 import com.ddangme.dm.model.good.Good;
 import com.ddangme.dm.model.good.GoodDetail;
 import com.ddangme.dm.model.good.GoodOption;
@@ -7,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ToString
@@ -80,6 +82,12 @@ public class GoodSaleDetailResponse {
     }
 
     public static GoodSaleDetailResponse fromEntity(Good entity) {
+        List<GoodOptionResponse> options = new ArrayList<>();
+        for (GoodOption goodOption : entity.getGoodOptions()) {
+            if (!goodOption.getSaleStatus().equals(SaleStatus.END)) {
+                options.add(GoodOptionResponse.fromEntity(goodOption));
+            }
+        }
         return new GoodSaleDetailResponse(
                 entity.getId(),
                 entity.getName(),
@@ -90,9 +98,7 @@ public class GoodSaleDetailResponse {
                 entity.getSaleStatus().getStatus(),
                 entity.getPhotoStoreFileName(),
                 GoodDetailResponse.fromEntity(entity.getGoodDetail()),
-                entity.getGoodOptions()
-                        .stream().map(GoodOptionResponse::fromEntity)
-                        .toList()
+                options
         );
     }
 
