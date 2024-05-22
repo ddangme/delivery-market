@@ -8,10 +8,12 @@ import lombok.Data;
 @Data
 public class CartListProjection {
     private Long id;
+    private Long goodId;
     private Long optionId;
     private String optionName;
     private String goodName;
     private Integer quantity;
+    private Integer remainQuantity;
     private String photo;
     private PackagingType packagingType;
     private SaleStatus saleStatus;
@@ -20,12 +22,14 @@ public class CartListProjection {
     private Long discountPrice;
 
     @QueryProjection
-    public CartListProjection(Long id, Long optionId, String optionName, String goodName, Integer quantity, String photo, PackagingType packagingType, SaleStatus saleStatus, Boolean checkStatus, Long price, Long discountPrice) {
+    public CartListProjection(Long id, Long goodId, Long optionId, String optionName, String goodName, Integer quantity, Integer remainQuantity, String photo, PackagingType packagingType, SaleStatus saleStatus, Boolean checkStatus, Long price, Long discountPrice) {
         this.id = id;
+        this.goodId = goodId;
         this.optionId = optionId;
         this.optionName = optionName;
         this.goodName = goodName;
         this.quantity = quantity;
+        this.remainQuantity = remainQuantity;
         this.photo = photo;
         this.packagingType = packagingType;
         this.saleStatus = saleStatus;
