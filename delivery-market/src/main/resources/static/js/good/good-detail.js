@@ -11,123 +11,12 @@ const pickFalseSvc = `
 const goodId = window.location.href.split('/').pop();
 
 $(document).ready(function () {
-    $.ajax({
-        url: '/api/goods/' + goodId,
-        method: 'GET',
-        success: function (data) {
-            $('#good-name').text(data.name);
-            $('#good-summary').text(data.summary);
-
-            if (data.discountPrice === null) {
-                $('#discount-area').remove();
-                $('#good-price').text(data.price.toLocaleString() + "원");
-            } else {
-                $('#price-area').remove();
-                $('#discount-percent').text(data.discountPercent + "%");
-                $('#discount-price').text(data.discountPrice.toLocaleString() + "원");
-            }
-            var imageUrl = "/images/" + data.photo;
-
-            $.get(imageUrl, function(data) {
-                // 이미지를 받아오는 데 성공했을 때 실행되는 함수
-                var imgElement = document.getElementById("good-main-photo");
-                var base64Image = "data:" + "image/jpeg" + ";base64," + data; // Base64로 인코딩된 이미지 데이터
-                imgElement.src = base64Image; // 이미지 태그의 src 속성에 설정하여 화면에 표시
-            }).fail(function(xhr, status, error) {
-                // 이미지를 받아오는 데 실패했을 때 실행되는 함수
-                console.error("이미지를 받아오는 중 에러 발생:", status, error);
-            });
-
-            if (data.goodDetail.origin === "") {
-                $('#good-detail-origin').remove();
-            } else {
-                $('#good-detail-origin').html('<h5>원산지: ' + data.goodDetail.origin + '</h5>');
-            }
-            $('#good-detail-packaging-type').html('<div class="col-3"><p class="my-2">포장타입</p></div><div class="col-9"><p class="my-2">' + data.goodDetail.packagingType + '</p></div>');
-            $('#good-detail-weight-volume').html('<div class="col-3"><p class="my-2">중량/용량</p></div><div class="col-9"><p class="my-2">' + data.goodDetail.weightVolume + '</p></div>');
-            if (data.goodDetail.allergyInfo === "") {
-                $('#good-detail-allergyInfo').remove();
-            } else {
-                $('#good-detail-allergyInfo').html('<div class="col-3"><p class="my-2">알레르기 정보</p></div><div class="col-9"><p class="my-2">' + data.goodDetail.allergyInfo + '</p></div>');
-            }
-            if (data.goodDetail.guidelines === "") {
-                $('#good-detail-guidelines').remove();
-            } else {
-                $('#good-detail-guidelines').html('<div class="col-3"><p class="my-2">안내사항</p></div><div class="col-9"><p class="my-2">' + data.goodDetail.guidelines + '</p></div>');
-            }
-            if (data.goodDetail.expiryDate === "") {
-                $('#good-detail-expiry-date').remove();
-            } else {
-                $('#good-detail-expiry-date').html('<div class="col-3"><p class="my-2">소비기한(또는 유통기한)</p></div><div class="col-9"><p class="my-2">' + data.goodDetail.expiryDate + '</p></div>');
-            }
-
-            addOptionList(data.goodOptions);
-
-            $('#good-detail-description').html(data.goodDetail.description);
-        },
-        error: function(xhr) {
-            alert(xhr.responseText);
-            window.history.back();
-        }
-    });
-
-
-    $('#option').on('change', function() {
-        var selectedOptionId = $(this).val();
-        $('.list-group-item').each(function() {
-            if ($(this).attr('id') === selectedOptionId) {
-                if (!$(this).is(':hidden')) {
-                    alert('이미 추가된 옵션입니다.');
-                } else {
-                    $(this).closest('li').find('.option-quantity').val('1');
-                    $(this).removeAttr('hidden');
-                    updateTotalPrice();
-                }
-            }
-        });
-
-        $(this).val('');
-    });
-
-    $(document).on('click', '.btn-close', function() {
-        // 현재 close 버튼이 속한 li 요소를 찾아 hidden 속성을 추가하여 해당 영역을 숨김 처리
-        $(this).closest('li').attr('hidden', true);
-
-        // 해당 영역의 input 요소를 찾아서 값을 1로 설정
-        $(this).closest('li').find('.option-quantity').val('0');
-        updateTotalPrice();
-    });
-
+    getGood();
+    optionClickEvent();
+    closeBtnEvent();
     addPickBtnEvent();
-
-    $.ajax({
-        url: "/api/goods/find/pick/" + goodId,
-        method: 'GET',
-        success: function (pickStatus) {
-            changeBtnPick(pickStatus);
-        },
-        error: function () {
-            changeBtnPick(false);
-        },
-    });
-
-    $('#btn-cart').on('click', function () {
-        const options = extractOptions();
-        $.ajax({
-            url: "/api/cart",
-            method: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(options),
-            success: function (response) {
-                $('.cart-badge').text(response.quantity);
-                alert(response.message);
-            },
-            error: function (xhr) {
-                alert(xhr.responseText);
-                console.log(xhr.responseText);
-            }
-        })
-    });
+    pick();
+    cart();
 });
 
 function extractOptions() {
@@ -170,10 +59,20 @@ function addOptionList(options) {
         } else {
             optionElement.textContent = option.name + " (" + option.discountPrice.toLocaleString() + "원)"
         }
+        if (option.saleStatus === "품절") {
+            optionElement.textContent += " (품절)";
+        } else if (option.saleStatus === "재고 준비 중") {
+            optionElement.textContent += " (재고 준비 중)";
+        }
         selectElement.appendChild(optionElement); // select 요소에 옵션 추가
     });
 
     options.forEach(function(option) {
+        if (option.saleStatus === "품절") {
+            return;
+        } else if (option.saleStatus === "재고 준비 중") {
+            return;
+        }
         var $listItem = $('<li class="list-group-item" hidden id=' + option.id + '></li>');
         var $row = $('<div class="row"></div>');
         var $col10 = $('<div class="col-10"></div>').append('<p>' + option.name + '</p>');
@@ -216,8 +115,8 @@ function addOptionList(options) {
         $col5.append($toolbar);
         $row.append($col10, $col2, $col5, $col3Offset4);
         $listItem.append($row);
-        $('#choice-options ul').append($listItem);
 
+        $('.list-group').append($listItem);
     })
 }
 
@@ -248,5 +147,130 @@ function addPickBtnEvent() {
                 changeBtnPick(false);
             }
         })
+    });
+}
+
+function getGood() {
+    $.ajax({
+        url: '/api/goods/' + goodId,
+        method: 'GET',
+        success: function (data) {
+            $('#good-name').text(data.name);
+            $('#good-summary').text(data.summary);
+
+            if (data.discountPrice === null) {
+                $('#discount-area').remove();
+                $('#good-price').text(data.price.toLocaleString() + "원");
+            } else {
+                $('#price-area').remove();
+                $('#discount-percent').text(data.discountPercent + "%");
+                $('#discount-price').text(data.discountPrice.toLocaleString() + "원");
+            }
+            getImage(data.photo);
+
+            if (data.goodDetail.origin === "") {
+                $('#good-detail-origin-area').remove();
+            } else {
+                $('#good-detail-origin').text(data.goodDetail.origin);
+            }
+
+            $('#good-detail-packaging-type').text(data.goodDetail.packagingType);
+            $('#good-detail-weight-volume').text(data.goodDetail.weightVolume)
+
+            if (data.goodDetail.allergyInfo === "") {
+                $('#good-detail-allergyInfo-area').remove();
+            } else {
+                $('#good-detail-allergyInfo').text(data.goodDetail.allergyInfo);
+            }
+            if (data.goodDetail.guidelines === "") {
+                $('#good-detail-guidelines-area').remove();
+            } else {
+                $('#good-detail-guidelines').text(data.goodDetail.guidelines);
+            }
+            if (data.goodDetail.expiryDate === "") {
+                $('#good-detail-expiry-date-area').remove();
+            } else {
+                $('#good-detail-expiry-date').text(data.goodDetail.expiryDate);
+            }
+            $('#good-detail-description').html(data.goodDetail.description);
+
+            addOptionList(data.goodOptions);
+
+        },
+        error: function(xhr) {
+            alert(xhr.responseText);
+            window.history.back();
+        }
+    });
+}
+
+function getImage(photo) {
+    var imageUrl = "/images/" + photo;
+
+    $.get(imageUrl, function(data) {
+        var imgElement = document.getElementById("good-main-photo");
+        imgElement.src = "data:" + "image/jpeg" + ";base64," + data;
+    }).fail(function(xhr, status, error) {
+        console.error("이미지를 받아오는 중 에러 발생:", status, error);
+    });
+}
+
+function closeBtnEvent() {
+    $(document).on('click', '.btn-close', function() {
+        $(this).closest('li').attr('hidden', true);
+        $(this).closest('li').find('.option-quantity').val('0');
+        updateTotalPrice();
+    });
+}
+
+function pick() {
+    $.ajax({
+        url: "/api/goods/find/pick/" + goodId,
+        method: 'GET',
+        success: function (pickStatus) {
+            changeBtnPick(pickStatus);
+        },
+        error: function () {
+            changeBtnPick(false);
+        },
+    });
+}
+
+function cart() {
+    $('#btn-cart').on('click', function () {
+        const options = extractOptions();
+        $.ajax({
+            url: "/api/cart",
+            method: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(options),
+            success: function (response) {
+                $('.cart-badge').text(response.quantity);
+                alert(response.message);
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+                console.log(xhr.responseText);
+            }
+        })
+    });
+}
+
+function optionClickEvent() {
+    $('#option').on('change', function() {
+        var selectedOptionId = $(this).val();
+        $('.list-group-item').each(function() {
+            if ($(this).attr('id') === selectedOptionId) {
+                if (!$(this).is(':hidden')) {
+                    alert('이미 추가된 옵션입니다.');
+                } else {
+                    $(this).closest('li').find('.option-quantity').val('1');
+                    $(this).removeAttr('hidden');
+                    updateTotalPrice();
+                }
+            }
+        });
+
+        $(this).val('');
     });
 }
