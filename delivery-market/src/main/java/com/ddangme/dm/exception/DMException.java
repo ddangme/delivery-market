@@ -1,10 +1,8 @@
 package com.ddangme.dm.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class DMException extends RuntimeException {
 
     private ErrorCode errorCode;
@@ -13,6 +11,11 @@ public class DMException extends RuntimeException {
     public DMException(ErrorCode errorCode) {
         this.errorCode = errorCode;
         this.message = errorCode.getMessage();
+    }
+
+    public DMException(ErrorCode errorCode, String message) {
+        this.errorCode = errorCode;
+        this.message = message;
     }
 
 }
