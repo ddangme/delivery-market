@@ -2,7 +2,9 @@ const goodDiv = $(`
                 <div class="row align-items-center my-3">
                     <div class="col-2 hstack gap-3">
                         <input class="form-check-input" type="checkbox" value="">
-                        <img class="good-photo" style="width: 67px; height: 87px; cursor: pointer">
+                        <a class="good-photo-href">
+                            <img class="good-photo" style="width: 67px; height: 87px; cursor: pointer">
+                        </a>
                     </div>
                     <div class="col-4 text-wrap">
                         <p class="mb-0 option-name"></p>
@@ -248,6 +250,7 @@ function addList (data, $list, $div) {
             addCloseBtn(area.find('.btn-close'), area);
             countEvent(area.find('.option-quantity'));
             setImage(item.photo, area.find('.good-photo'))
+            area.find('.good-photo-href').attr('href', '/goods/' + item.goodId);
             if (item.discountPrice === null) {
                 area.find('.good-price').text(item.price.toLocaleString() + "원");
                 area.find('.good-discount-price').remove();
@@ -279,6 +282,7 @@ function addStopList (data, $list, $div) {
             area.find('.plus-btn').remove();
             addCloseBtn(area.find('.btn-close'), area);
             setImage(item.photo, area.find('.good-photo'))
+            area.find('.good-photo-href').attr('href', '/goods/' + item.goodId);
             area.find('.good-price').remove();
             area.find('.good-discount-price').remove();
             area.find('.good-original-price').remove();

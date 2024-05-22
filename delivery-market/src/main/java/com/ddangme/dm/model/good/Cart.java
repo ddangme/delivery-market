@@ -1,5 +1,8 @@
 package com.ddangme.dm.model.good;
 
+import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.exception.ErrorCode;
+import com.ddangme.dm.model.constants.SaleStatus;
 import com.ddangme.dm.model.member.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -40,18 +43,26 @@ public class Cart {
         this.status = status;
     }
 
-    private Cart(Member member, GoodOption option, Integer quantity) {
+    public Cart(Member member, GoodOption option, Integer quantity) {
+        checkQuantity(option, quantity);
         this.member = member;
         this.option = option;
         this.quantity = quantity;
         this.status = true;
     }
 
-    public static Cart create(Member member, GoodOption option, Integer count) {
-        return new Cart(member, option, count);
+
+    private void checkQuantity(GoodOption option, Integer buyQuantity) {
+        if (buyQuantity > option.getQuantity()) {
+            throw new DMException(ErrorCode.NOT_FOUND, option.getName() + " 상품의 남은 수량은 " + option.getQuantity() + "개 입니다.");
+        }
+        if (option.getQuantity() == 0 || option.getSaleStatus().equals(SaleStatus.SOLD_OUT)) {
+            throw new DMException(ErrorCode.NOT_FOUND, option.getName() + " 상품은 품절되었습니다.");
+        }
     }
 
-    public void addQuantity(Integer quantity) {
-        this.quantity += quantity;
+    public void addQuantity(Integer buyQuantity) {
+        checkQuantity(option, quantity + buyQuantity);
+        this.quantity += buyQuantity;
     }
 }

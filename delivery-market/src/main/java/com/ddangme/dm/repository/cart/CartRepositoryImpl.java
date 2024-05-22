@@ -30,10 +30,12 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
         return queryFactory
                 .select(new QCartListProjection(
                         cart.id.as("id"),
+                        good.id.as("goodId"),
                         cart.option.id.as("optionId"),
                         goodOption.name.as("optionName"),
                         good.name.as("goodName"),
-                        cart.quantity,
+                        cart.quantity.as("quantity"),
+                        goodOption.quantity.as("remainQuantity"),
                         good.photoStoreFileName.as("photo"),
                         goodDetail.packagingType.as("packagingType"),
                         goodOption.saleStatus.as("saleStatus"),

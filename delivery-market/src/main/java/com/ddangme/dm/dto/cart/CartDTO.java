@@ -8,6 +8,7 @@ import lombok.Data;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class CartDTO {
     private Long id;
+    private Long goodId;
     private Long optionId;
     private String optionName;
     private String goodName;
@@ -20,6 +21,7 @@ public class CartDTO {
     public static CartDTO fromProjection(CartListProjection projection) {
         return new CartDTO(
                 projection.getId(),
+                projection.getGoodId(),
                 projection.getOptionId(),
                 projection.getOptionName(),
                 projection.getGoodName(),

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+    NOT_FOUND(HttpStatus.NOT_FOUND, null),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error."),
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "Login Id or Password not founded."),
     NOT_FOUND_ACCOUNT(HttpStatus.NOT_FOUND, "This Account does not exist"),
@@ -17,6 +18,7 @@ public enum ErrorCode {
     NOT_FOUND_OPTION(HttpStatus.NOT_FOUND, "존재하지 않는 상품의 옵션입니다."),
     NOT_CHOICE_OPTION(HttpStatus.BAD_REQUEST, "선택된 옵션이 없습니다."),
     DUPLICATED_LOGIN_ID(HttpStatus.CONFLICT, "Login ID is duplicated."),
+
     INVALID_VERIFICATION_CODE(HttpStatus.UNAUTHORIZED, "The auth code is not valid."),
     AUTH_CODE_EXPIRED(HttpStatus.FORBIDDEN, "Authentication timed out."),
     INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "Invalid email."),

@@ -18,7 +18,7 @@ public class GoodResponse {
     private Long price;
     private Long discountPrice;
     private Integer discountPercent;
-    private SaleStatus saleStatus;
+    private String saleStatus;
     private String photo;
 
     @QueryProjection
@@ -29,7 +29,7 @@ public class GoodResponse {
         this.price = price;
         this.discountPrice = discountPrice;
         this.discountPercent = discountPercent;
-        this.saleStatus = saleStatus;
+        this.saleStatus = saleStatus.getStatus();
         this.photo = photo;
     }
 }
