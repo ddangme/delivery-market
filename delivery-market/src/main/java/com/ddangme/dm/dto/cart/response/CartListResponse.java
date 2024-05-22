@@ -32,7 +32,7 @@ public class CartListResponse {
         if (projection.isCheck() && isSale(projection)) {
             checkCount++;
         }
-        if (isNotSale(projection)) {
+        if (!isSale(projection)) {
             addStop(CartDTO.fromProjection(projection));
         } else if (projection.getPackagingType().equals(PackagingType.REFRIGERATED)) {
             saleStatusCount++;
@@ -62,20 +62,6 @@ public class CartListResponse {
         stop.add(dto);
     }
 
-    private boolean isNotSale(CartListProjection projection) {
-        if (projection.getSaleStatus().equals(SaleStatus.RESTOCKING)) {
-            return true;
-        }
-        if (projection.getSaleStatus().equals(SaleStatus.END)) {
-            return true;
-        }
-        if (projection.getSaleStatus().equals(SaleStatus.SOLD_OUT)) {
-            return true;
-        }
-
-        return false;
-    }
-
     private boolean isSale(CartListProjection projection) {
         if (projection.getSaleStatus().equals(SaleStatus.RESTOCKING)) {
             return false;
@@ -84,6 +70,9 @@ public class CartListResponse {
             return false;
         }
         if (projection.getSaleStatus().equals(SaleStatus.SOLD_OUT)) {
+            return false;
+        }
+        if (projection.getRemainQuantity() == 0) {
             return false;
         }
 
