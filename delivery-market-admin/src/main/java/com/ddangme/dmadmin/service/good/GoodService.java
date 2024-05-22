@@ -166,7 +166,7 @@ public class GoodService {
                 request.getPrice(),
                 request.getDiscountPrice(),
                 request.getDiscountPercent(),
-                request.getAmount(),
+                request.getQuantity(),
                 request.getSaleStatus()
         );
     }

@@ -74,13 +74,13 @@ $(document).ready(function() {
             var price = optionField.find('.optionPrice').val();
             var discountPrice = optionField.find('.optionDiscountPrice').val();
             var discountPercent = optionField.find('.optionDiscountPercent').val();
-            var amount = optionField.find('.optionAmount').val();
+            var quantity = optionField.find('.optionQuantity').val();
 
             formData.append('goodsOptions[' + index + '].name', name);
             formData.append('goodsOptions[' + index + '].price', price);
             formData.append('goodsOptions[' + index + '].discountPrice', discountPrice);
             formData.append('goodsOptions[' + index + '].discountPercent', discountPercent);
-            formData.append('goodsOptions[' + index + '].amount', amount);
+            formData.append('goodsOptions[' + index + '].quantity', quantity);
             formData.append('goodsOptions[' + index + '].saleStatus', saleStatus);
         });
 

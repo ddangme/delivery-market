@@ -2,13 +2,9 @@ package com.ddangme.dmadmin.dto.good.response;
 
 import com.ddangme.dmadmin.model.constants.SaleStatus;
 import com.ddangme.dmadmin.model.good.GoodOption;
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
 
 @ToString
 @Data
@@ -20,7 +16,7 @@ public class GoodOptionResponse {
     private Long price;
     private Long discountPrice;
     private Integer discountPercent;
-    private Long amount;
+    private Long quantity;
     private SaleStatus saleStatus;
 
     public static GoodOptionResponse fromEntity(GoodOption entity) {
@@ -30,7 +26,7 @@ public class GoodOptionResponse {
                 entity.getPrice(),
                 entity.getDiscountPrice(),
                 entity.getDiscountPercent(),
-                entity.getAmount(),
+                entity.getQuantity(),
                 entity.getSaleStatus()
         );
     }

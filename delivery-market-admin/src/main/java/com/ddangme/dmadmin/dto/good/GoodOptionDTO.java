@@ -17,7 +17,7 @@ public class GoodOptionDTO {
     private Long price;
     private Long discountPrice;
     private Integer discountPercent;
-    private Long amount;
+    private Long quantity;
     private SaleStatus saleStatus;
     private LocalDateTime createdAt;
     private AdminDTO createdBy;
@@ -26,32 +26,12 @@ public class GoodOptionDTO {
     private LocalDateTime deletedAt;
     private AdminDTO deletedBy;
 
-    public GoodOptionDTO(String name, Long price, Long discountPrice, Integer discountPercent, Long amount, SaleStatus saleStatus) {
+    public GoodOptionDTO(String name, Long price, Long discountPrice, Integer discountPercent, Long quantity, SaleStatus saleStatus) {
         this.name = name;
         this.price = price;
         this.discountPrice = discountPrice;
         this.discountPercent = discountPercent;
-        this.amount = amount;
+        this.quantity = quantity;
         this.saleStatus = saleStatus;
     }
-
-//    public static GoodsOptionDTO fromEntity(GoodsOption entity) {
-//        return new GoodsOptionDTO(
-//            entity.getId(),
-//            GoodsDTO.fromEntity(entity.getGoods()),
-//            entity.getName(),
-//            entity.getPrice(),
-//            entity.getDiscountPrice(),
-//            entity.getDiscountPercent(),
-//            entity.getAmount(),
-//            entity.getSaleStatus(),
-//            entity.getCreatedAt(),
-//            AdminDTO.fromEntity(entity.getCreatedBy()),
-//            entity.getUpdatedAt(),
-//            AdminDTO.fromEntity(entity.getUpdatedBy()),
-//            entity.getDeletedAt(),
-//            AdminDTO.fromEntity(entity.getDeletedBy())
-//        );
-//    }
-
 }

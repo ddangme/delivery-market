@@ -28,28 +28,28 @@ public class GoodOption extends AuditingFields {
     private Long price;
     private Long discountPrice;
     private Integer discountPercent;
-    private Long amount;
+    private Long quantity;
 
     @Enumerated(EnumType.STRING)
     private SaleStatus saleStatus;
 
-    public GoodOption(Good good, String name, Long price, Long discountPrice, Integer discountPercent, Long amount, SaleStatus saleStatus) {
+    public GoodOption(Good good, String name, Long price, Long discountPrice, Integer discountPercent, Long quantity, SaleStatus saleStatus) {
         this.good = good;
         this.name = name;
         this.price = price;
         this.discountPrice = discountPrice;
         this.discountPercent = discountPercent;
-        this.amount = amount;
+        this.quantity = quantity;
         this.saleStatus = saleStatus;
     }
 
 
-    public void edit(String name, Long price, Long discountPrice, Integer discountPercent, Long amount, SaleStatus saleStatus) {
+    public void edit(String name, Long price, Long discountPrice, Integer discountPercent, Long quantity, SaleStatus saleStatus) {
         this.name = name;
         this.price = price;
         this.discountPrice = discountPrice;
         this.discountPercent = discountPercent;
-        this.amount = amount;
+        this.quantity = quantity;
         this.saleStatus = saleStatus;
     }
 
