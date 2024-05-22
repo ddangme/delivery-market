@@ -11,7 +11,7 @@ public class CartListProjection {
     private Long optionId;
     private String optionName;
     private String goodName;
-    private Integer count;
+    private Integer quantity;
     private String photo;
     private PackagingType packagingType;
     private SaleStatus saleStatus;
@@ -20,12 +20,12 @@ public class CartListProjection {
     private Long discountPrice;
 
     @QueryProjection
-    public CartListProjection(Long id, Long optionId, String optionName, String goodName, Integer count, String photo, PackagingType packagingType, SaleStatus saleStatus, Boolean checkStatus, Long price, Long discountPrice) {
+    public CartListProjection(Long id, Long optionId, String optionName, String goodName, Integer quantity, String photo, PackagingType packagingType, SaleStatus saleStatus, Boolean checkStatus, Long price, Long discountPrice) {
         this.id = id;
         this.optionId = optionId;
         this.optionName = optionName;
         this.goodName = goodName;
-        this.count = count;
+        this.quantity = quantity;
         this.photo = photo;
         this.packagingType = packagingType;
         this.saleStatus = saleStatus;
@@ -35,9 +35,9 @@ public class CartListProjection {
     }
 
     public void calculateTotalPrice() {
-        this.price = price * count;
+        this.price = price * quantity;
         if (discountPrice != null) {
-            this.discountPrice = discountPrice * count;
+            this.discountPrice = discountPrice * quantity;
         }
     }
 

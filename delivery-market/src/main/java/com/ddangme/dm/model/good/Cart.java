@@ -28,22 +28,22 @@ public class Cart {
     @ToString.Exclude
     private GoodOption option;
 
-    private Integer count;
+    private Integer quantity;
 
     private Boolean status;
 
     public void changeCount(Integer newCount) {
-        this.count = newCount;
+        this.quantity = newCount;
     }
 
     public void changeCheckStatus(Boolean status) {
         this.status = status;
     }
 
-    private Cart(Member member, GoodOption option, Integer count) {
+    private Cart(Member member, GoodOption option, Integer quantity) {
         this.member = member;
         this.option = option;
-        this.count = count;
+        this.quantity = quantity;
         this.status = true;
     }
 
@@ -51,7 +51,7 @@ public class Cart {
         return new Cart(member, option, count);
     }
 
-    public void addCount(Integer count) {
-        this.count += count;
+    public void addQuantity(Integer quantity) {
+        this.quantity += quantity;
     }
 }

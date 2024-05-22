@@ -26,7 +26,7 @@ public class GoodOption {
     private Long price;
     private Long discountPrice;
     private Integer discountPercent;
-    private Long amount;
+    private Integer quantity;
 
     @Enumerated(EnumType.STRING)
     private SaleStatus saleStatus;

@@ -63,7 +63,7 @@ public class GoodSaleDetailResponse {
         private Long price;
         private Long discountPrice;
         private Integer discountPercent;
-        private Long amount;
+        private Integer quantity;
         private String saleStatus;
 
         public static GoodOptionResponse fromEntity(GoodOption entity) {
@@ -73,7 +73,7 @@ public class GoodSaleDetailResponse {
                     entity.getPrice(),
                     entity.getDiscountPrice(),
                     entity.getDiscountPercent(),
-                    entity.getAmount(),
+                    entity.getQuantity(),
                     entity.getSaleStatus().getStatus()
             );
         }

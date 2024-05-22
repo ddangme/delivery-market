@@ -50,18 +50,18 @@ public class CartService {
         for (CartRequest request : requests) {
             Optional<Cart> cart = findCart(memberId, request.getOptionId());
             if (cart.isPresent()) {
-                cart.get().addCount(request.getCount());
+                cart.get().addQuantity(request.getQuantity());
                 existedCart = true;
             } else {
-                Cart newCart = Cart.create(member, findOption(request.getOptionId()), request.getCount());
+                Cart newCart = Cart.create(member, findOption(request.getOptionId()), request.getQuantity());
                 cartRepository.save(newCart);
             }
         }
         return existedCart;
     }
 
-    private String getResultMessage(boolean existedCart, int count) {
-        String message = "장바구니에 " + count + " 개의 상품이 추가되었습니다.";
+    private String getResultMessage(boolean existedCart, int quantity) {
+        String message = "장바구니에 " + quantity + " 개의 상품이 추가되었습니다.";
         if (existedCart) {
             message += "\n이미 담은 상품의 수량을 추가했습니다.";
         }
@@ -124,9 +124,9 @@ public class CartService {
         Cart cart = cartRepository.findById(request.getId())
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CART));
 
-        cart.changeCount(request.getCount());
+        cart.changeCount(request.getQuantity());
         return CartChangeCountResponse.of(
-                cartRepository.findByOptionPriceInCart(request.getId()), request.getCount());
+                cartRepository.findByOptionPriceInCart(request.getId()), request.getQuantity());
     }
 
     @Transactional
