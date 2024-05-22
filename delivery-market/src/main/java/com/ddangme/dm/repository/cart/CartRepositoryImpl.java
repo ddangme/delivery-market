@@ -79,9 +79,10 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .innerJoin(goodDetail).on(good.id.eq(goodDetail.good.id))
                 .where(cart.member.id.eq(memberId)
                         .and(cart.status.isTrue())
-                        .and(goodOption.saleStatus.eq(SaleStatus.ON_SALE))
-                        .or(goodOption.saleStatus.eq(SaleStatus.AVAILABLE))
-                        .or(goodOption.saleStatus.eq(SaleStatus.RESTOCKING)))
+                        .and(
+                                (goodOption.saleStatus.eq(SaleStatus.ON_SALE))
+                                        .or(goodOption.saleStatus.eq(SaleStatus.AVAILABLE))
+                                        .or(goodOption.saleStatus.eq(SaleStatus.RESTOCKING))))
                 .fetch();
 
     }
