@@ -53,7 +53,7 @@ public class CartService {
                 cart.get().addQuantity(request.getQuantity());
                 existedCart = true;
             } else {
-                Cart newCart = Cart.create(member, findOption(request.getOptionId()), request.getQuantity());
+                Cart newCart = new Cart(member, findOption(request.getOptionId()), request.getQuantity());
                 cartRepository.save(newCart);
             }
         }
