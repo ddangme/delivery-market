@@ -12,9 +12,9 @@ import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.good.Cart;
 import com.ddangme.dm.model.good.GoodOption;
 import com.ddangme.dm.model.member.Member;
-import com.ddangme.dm.repository.member.MemberRepository;
 import com.ddangme.dm.repository.cart.CartRepository;
 import com.ddangme.dm.repository.good.GoodOptionRepository;
+import com.ddangme.dm.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -73,6 +73,7 @@ public class CartService {
     }
 
     public CartListResponse findCartByPackagingType(Long memberId) {
+        findMember(memberId);
         List<CartListProjection> projections = cartRepository.findByMemberId(memberId);
 
         CartListResponse response = new CartListResponse();
