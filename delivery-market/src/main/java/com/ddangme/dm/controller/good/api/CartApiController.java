@@ -35,7 +35,7 @@ public class CartApiController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<CartListResponse> findCartList(@AuthenticationPrincipal MemberPrincipal principal) {
+    public ResponseEntity<CartListResponse> findCartByPackagingType(@AuthenticationPrincipal MemberPrincipal principal) {
         CartListResponse carts = cartService.findCartByPackagingType(principal.getId());
 
         return ResponseEntity.ok(carts);
