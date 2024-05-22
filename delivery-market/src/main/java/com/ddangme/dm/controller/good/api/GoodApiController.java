@@ -24,7 +24,6 @@ public class GoodApiController {
 
     @GetMapping
     public ResponseEntity<Page<GoodResponse>> findSaleStatusGoods(Pageable pageable) {
-        log.info("controller - /api/goods");
         return ResponseEntity.ok().body(goodService.findSaleStatusGoods(pageable));
     }
 
