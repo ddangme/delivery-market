@@ -11,7 +11,7 @@ const goodDiv = $(`
                     <div class="col-3">
                         <div class="btn-group me-2 ms-0" role="group" aria-label="First group">
                             <button type="button" class="btn btn-outline-secondary minus-btn">-</button>
-                            <input type="text" class="form-control option-count">
+                            <input type="text" class="form-control option-quantity">
                             <button type="button" class="btn btn-outline-secondary plus-btn">+</button>
                         </div>
                     </div>
@@ -241,12 +241,12 @@ function addList (data, $list, $div) {
             area.find('.form-check-input').prop('checked', item.checkStatus);
             area.find('.option-name').text(item.optionName);
             area.find('.good-name').text(item.goodName);
-            area.find('.option-count').val(item.count);
+            area.find('.option-quantity').val(item.quantity);
             addCheckEvent(area.find('.form-check-input'));
-            addMinusBtn(area.find('.minus-btn'), area.find('.option-count'));
-            addPlusBtn(area.find('.plus-btn'), area.find('.option-count'));
+            addMinusBtn(area.find('.minus-btn'), area.find('.option-quantity'));
+            addPlusBtn(area.find('.plus-btn'), area.find('.option-quantity'));
             addCloseBtn(area.find('.btn-close'), area);
-            countEvent(area.find('.option-count'));
+            countEvent(area.find('.option-quantity'));
             setImage(item.photo, area.find('.good-photo'))
             if (item.discountPrice === null) {
                 area.find('.good-price').text(item.price.toLocaleString() + "원");
@@ -272,9 +272,9 @@ function addStopList (data, $list, $div) {
             area.find('.form-check-input').prop('checked', item.checkStatus);
             area.find('.option-name').text(item.optionName);
             area.find('.good-name').text(item.goodName);
-            area.find('.option-count').val(item.count);
+            area.find('.option-quantity').val(item.quantity);
             area.find('.form-check-input').remove();
-            area.find('.option-count').remove();
+            area.find('.option-quantity').remove();
             area.find('.minus-btn').remove();
             area.find('.plus-btn').remove();
             addCloseBtn(area.find('.btn-close'), area);
@@ -307,14 +307,14 @@ function addMinusBtn($btn, $input) {
     });
 }
 
-function changeCount(count, id) {
+function changeCount(quantity, id) {
     $.ajax({
         url: "/api/cart/change/count",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify({
             id: id,
-            count: count
+            quantity: quantity
         }),
         success: function (data) {
             const cartElement = $(`#${data.cartId}`);

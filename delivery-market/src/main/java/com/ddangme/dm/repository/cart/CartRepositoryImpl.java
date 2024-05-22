@@ -33,7 +33,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                         cart.option.id.as("optionId"),
                         goodOption.name.as("optionName"),
                         good.name.as("goodName"),
-                        cart.count,
+                        cart.quantity,
                         good.photoStoreFileName.as("photo"),
                         goodDetail.packagingType.as("packagingType"),
                         goodOption.saleStatus.as("saleStatus"),
@@ -69,7 +69,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                         good.photoStoreFileName.as("photo"),
                         goodOption.name.as("optionName"),
                         good.name.as("goodName"),
-                        cart.count.as("optionCount"),
+                        cart.quantity.as("optionCount"),
                         goodOption.price.as("price"),
                         goodOption.discountPrice.as("discountPrice")
                 ))

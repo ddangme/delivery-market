@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CartResponse {
 
-    private Integer count;
+    private Integer quantity;
     private String message;
 }

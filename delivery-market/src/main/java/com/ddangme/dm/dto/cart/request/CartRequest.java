@@ -10,6 +10,6 @@ import java.util.List;
 public class CartRequest {
 
     private Long optionId;
-    private Integer count;
+    private Integer quantity;
 
 }

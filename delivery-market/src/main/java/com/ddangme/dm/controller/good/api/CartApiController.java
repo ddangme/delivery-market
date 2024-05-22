@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -27,7 +26,7 @@ public class CartApiController {
     private final CartService cartService;
 
     @PostMapping
-    public ResponseEntity<CartResponse> cart(@RequestBody List<CartRequest> requests,
+    public ResponseEntity<CartResponse> cartSave(@RequestBody List<CartRequest> requests,
                                              @AuthenticationPrincipal MemberPrincipal principal) {
         log.info("requests={}", requests);
         String message = cartService.save(principal.getId(), requests);
@@ -36,8 +35,10 @@ public class CartApiController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<CartListResponse> findCartList(@AuthenticationPrincipal MemberPrincipal principal) throws IOException {
-        return ResponseEntity.ok(cartService.findCartByPackagingType(principal.getId()));
+    public ResponseEntity<CartListResponse> findCartList(@AuthenticationPrincipal MemberPrincipal principal) {
+        CartListResponse carts = cartService.findCartByPackagingType(principal.getId());
+
+        return ResponseEntity.ok(carts);
     }
 
     @DeleteMapping
@@ -49,14 +50,14 @@ public class CartApiController {
     }
 
     @PostMapping("/change/count")
-    public ResponseEntity<CartChangeCountResponse> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
-                                                                   @RequestBody CartChangeCountRequest request) {
+    public ResponseEntity<CartChangeCountResponse> changeOptionQuantity(@AuthenticationPrincipal MemberPrincipal principal,
+                                                                        @RequestBody CartChangeCountRequest request) {
         return ResponseEntity.ok(cartService.changeCartCount(principal.getId(), request));
     }
 
     @PostMapping("/change/check-status")
-    public ResponseEntity<Void> changeCartCount(@AuthenticationPrincipal MemberPrincipal principal,
-                                                @RequestBody CartChangeCheckRequest request) {
+    public ResponseEntity<Void> changeCartStatus(@AuthenticationPrincipal MemberPrincipal principal,
+                                                     @RequestBody CartChangeCheckRequest request) {
         cartService.changeCartCheckStatus(principal.getId(), request);
         return ResponseEntity.ok().build();
     }

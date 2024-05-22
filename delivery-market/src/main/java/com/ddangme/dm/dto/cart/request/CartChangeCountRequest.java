@@ -6,6 +6,6 @@ import lombok.Data;
 public class CartChangeCountRequest {
 
     private Long id;
-    private Integer count;
+    private Integer quantity;
 
 }
