@@ -61,7 +61,8 @@ public class Cart {
         }
     }
 
-    public void addQuantity(Integer quantity) {
-        this.quantity += quantity;
+    public void addQuantity(Integer buyQuantity) {
+        checkQuantity(option, quantity + buyQuantity);
+        this.quantity += buyQuantity;
     }
 }
