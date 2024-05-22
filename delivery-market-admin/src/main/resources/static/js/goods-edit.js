@@ -89,7 +89,7 @@ $(document).ready(function () {
             var optionName = optionField.find('.optionName').val();
             var optionSaleStatus = optionField.find('.optionSaleStatus').val();
             var optionPrice = optionField.find('.optionPrice').val();
-            var optionAmount = optionField.find('.optionAmount').val();
+            var optionQuantity = optionField.find('.optionQuantity').val();
             var optionDiscountPrice = optionField.find('.optionDiscountPrice').val();
             var optionDiscountPercent = optionField.find('.optionDiscountPercent').val();
 
@@ -98,7 +98,7 @@ $(document).ready(function () {
             formData.append('goodsOptions[' + index + '].name', optionName);
             formData.append('goodsOptions[' + index + '].saleStatus', optionSaleStatus);
             formData.append('goodsOptions[' + index + '].price', optionPrice);
-            formData.append('goodsOptions[' + index + '].amount', optionAmount);
+            formData.append('goodsOptions[' + index + '].quantity', optionQuantity);
             formData.append('goodsOptions[' + index + '].discountPrice', optionDiscountPrice);
             formData.append('goodsOptions[' + index + '].discountPercent', optionDiscountPercent);
         });
@@ -110,9 +110,7 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function(response) {
-                if (response.resultCode === "SUCCESS") {
-                    alert("상품이 수정되었습니다.");
-                }
+                alert("상품이 수정되었습니다.");
             },
             error: function(xhr, status) {
                 alert(xhr.responseText);

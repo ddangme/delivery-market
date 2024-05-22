@@ -11,8 +11,8 @@ public class GoodOptionRequest {
     private String name;
     private Long price;
     private Long discountPrice;
-    private Integer discountPercent;;
-    private Long amount;
+    private Integer discountPercent;
+    private Long quantity;
     private SaleStatus saleStatus;
 
     public GoodOption toEntity(Good good) {
@@ -22,7 +22,7 @@ public class GoodOptionRequest {
                 price,
                 discountPrice,
                 discountPercent,
-                amount,
+                quantity,
                 saleStatus
         );
     }

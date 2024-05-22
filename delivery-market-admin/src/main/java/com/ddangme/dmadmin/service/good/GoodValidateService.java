@@ -77,7 +77,7 @@ public class GoodValidateService {
             if (request.getPrice() == null) {
                 throw new DMAdminException(ErrorCode.GOOD_OPTION_PRICE_IS_NULL);
             }
-            if (request.getAmount() == null) {
+            if (request.getQuantity() == null) {
                 throw new DMAdminException(ErrorCode.GOOD_OPTION_AMOUNT_IS_NULL);
             }
         }
