@@ -13,6 +13,7 @@ public class CartDTO {
     private String optionName;
     private String goodName;
     private Integer quantity;
+    private Integer remainQuantity;
     private String photo;
     private Long price;
     private Long discountPrice;
@@ -26,6 +27,7 @@ public class CartDTO {
                 projection.getOptionName(),
                 projection.getGoodName(),
                 projection.getQuantity(),
+                projection.getRemainQuantity(),
                 projection.getPhoto(),
                 projection.getPrice(),
                 projection.getDiscountPrice(),

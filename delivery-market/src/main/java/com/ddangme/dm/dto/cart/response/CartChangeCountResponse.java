@@ -9,14 +9,15 @@ import lombok.Data;
 public class CartChangeCountResponse {
 
     private Long cartId;
+    private Integer quantity;
     private Long price;
     private Long discountPrice;
 
-    public static CartChangeCountResponse of(CartChangeCountProjection projection, Integer count) {
-        Long totalPrice = calculateTotal(projection.getPrice(), count);
-        Long totalDiscountPrice = calculateTotal(projection.getDiscountPrice(), count);
+    public static CartChangeCountResponse of(CartChangeCountProjection projection, Integer quantity) {
+        Long totalPrice = calculateTotal(projection.getPrice(), quantity);
+        Long totalDiscountPrice = calculateTotal(projection.getDiscountPrice(), quantity);
 
-        return new CartChangeCountResponse(projection.getCartId(), totalPrice, totalDiscountPrice);
+        return new CartChangeCountResponse(projection.getCartId(), quantity, totalPrice, totalDiscountPrice);
     }
 
     private static Long calculateTotal(Long price, Integer count) {
