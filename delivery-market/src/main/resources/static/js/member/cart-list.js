@@ -10,12 +10,17 @@ const goodDiv = $(`
                         <p class="mb-0 option-name"></p>
                         <small class="good-name" style="color: gray"></small>
                     </div>
-                    <div class="col-3">
-                        <div class="btn-group me-2 ms-0" role="group" aria-label="First group">
-                            <button type="button" class="btn btn-outline-secondary minus-btn">-</button>
-                            <input type="text" class="form-control option-quantity">
-                            <button type="button" class="btn btn-outline-secondary plus-btn">+</button>
+                    <div class="col-3 text-center">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                            <button type="button" class="btn btn-outline-primary minus-btn">-</button>
+                            <small class="align-middle option-quantity border px-5 py-1"></small>
+                            <button type="button" class="btn btn-outline-primary plus-btn">+</button>
                         </div>
+                        <p class="mb-0 error-message text-danger"></p>
+                        <p class="mb-0 text-secondary remain-quantity-area">
+                            <span>남은 수량 : </span>
+                            <span class="remain-quantity"></span>
+                        </p>
                     </div>
                     <div class="col-2">
                         <div class="vstack text-end">
@@ -243,13 +248,15 @@ function addList (data, $list, $div) {
             area.find('.form-check-input').prop('checked', item.checkStatus);
             area.find('.option-name').text(item.optionName);
             area.find('.good-name').text(item.goodName);
-            area.find('.option-quantity').val(item.quantity);
+            area.find('.option-quantity').text(item.quantity);
             addCheckEvent(area.find('.form-check-input'));
             addMinusBtn(area.find('.minus-btn'), area.find('.option-quantity'));
             addPlusBtn(area.find('.plus-btn'), area.find('.option-quantity'));
             addCloseBtn(area.find('.btn-close'), area);
             countEvent(area.find('.option-quantity'));
             setImage(item.photo, area.find('.good-photo'))
+            area.find('.error-message').remove();
+            area.find('.remain-quantity').text(item.remainQuantity);
             area.find('.good-photo-href').attr('href', '/goods/' + item.goodId);
             if (item.discountPrice === null) {
                 area.find('.good-price').text(item.price.toLocaleString() + "원");
@@ -280,12 +287,14 @@ function addStopList (data, $list, $div) {
             area.find('.option-quantity').remove();
             area.find('.minus-btn').remove();
             area.find('.plus-btn').remove();
+            area.find('.remain-quantity-area').remove();
             addCloseBtn(area.find('.btn-close'), area);
             setImage(item.photo, area.find('.good-photo'))
             area.find('.good-photo-href').attr('href', '/goods/' + item.goodId);
             area.find('.good-price').remove();
             area.find('.good-discount-price').remove();
             area.find('.good-original-price').remove();
+            area.find('.error-message').text('현재 구매 불가능한 상품입니다.');
             $list.append(area);
         });
     }
@@ -293,21 +302,20 @@ function addStopList (data, $list, $div) {
 
 function countEvent($input) {
     $input.on('change', function () {
-        if ($input.val() < 1) {
-            $input.val(1);
+        if ($input.text() < 1) {
+            $input.text(1);
         }
-        changeCount($input.val(), $input.parent().parent().parent().attr('id'));
+        changeCount($input.text(), $input.parent().parent().parent().attr('id'));
     });
 }
 
 function addMinusBtn($btn, $input) {
     $btn.on('click', function() {
-        var currentAmount = parseInt($input.val());
+        var currentAmount = parseInt($input.text());
         if (currentAmount > 1) {
-            $input.val(currentAmount - 1);
+            $input.text(currentAmount - 1);
         }
-        changeCount($input.val(), $input.parent().parent().parent().attr('id'));
-
+        changeCount($input.text(), $input.parent().parent().parent().attr('id'));
     });
 }
 
@@ -368,9 +376,9 @@ function calculateTotalPrice() {
 
 function addPlusBtn($btn, $input) {
     $btn.on('click', function() {
-        var currentAmount = parseInt($input.val());
-        $input.val(currentAmount + 1);
-        changeCount($input.val(), $input.parent().parent().parent().attr('id'));
+        var currentAmount = parseInt($input.text());
+        $input.text(currentAmount + 1);
+        changeCount($input.text(), $input.parent().parent().parent().attr('id'));
     });
 }
 
