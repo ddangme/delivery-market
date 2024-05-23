@@ -18,7 +18,7 @@ const goodDiv = $(`
                         </div>
                         <p class="mb-0 error-message text-danger"></p>
                         <p class="mb-0 text-secondary remain-quantity-area">
-                            <span>남은 수량 : </span>
+                            <span>남은 재고 : </span>
                             <span class="remain-quantity"></span>
                         </p>
                     </div>
@@ -456,6 +456,14 @@ function setImage(photo, $element) {
 
 function addOrderBtn() {
     $('#order').click(function () {
-        location.href = '/order';
+        $.ajax({
+            url: "/api/cart/validate",
+            success: function () {
+                location.href = '/order';
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            },
+        })
     });
 }

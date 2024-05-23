@@ -27,7 +27,7 @@ public class CartApiController {
 
     @PostMapping
     public ResponseEntity<CartResponse> cartSave(@RequestBody List<CartRequest> requests,
-                                             @AuthenticationPrincipal MemberPrincipal principal) {
+                                                 @AuthenticationPrincipal MemberPrincipal principal) {
         log.info("requests={}", requests);
         String message = cartService.save(principal.getId(), requests);
         Integer count = cartService.getCartCount(principal.getId());
@@ -57,15 +57,22 @@ public class CartApiController {
 
     @PostMapping("/change/check-status")
     public ResponseEntity<Void> changeCartStatus(@AuthenticationPrincipal MemberPrincipal principal,
-                                                     @RequestBody CartChangeCheckRequest request) {
+                                                 @RequestBody CartChangeCheckRequest request) {
         cartService.changeCartCheckStatus(principal.getId(), request);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/change/all-check-status")
     public ResponseEntity<Void> changeAllCartCount(@AuthenticationPrincipal MemberPrincipal principal,
-                                                @RequestBody Boolean checkStatus) {
+                                                   @RequestBody Boolean checkStatus) {
         cartService.changeAllCartCheckStatus(principal.getId(), checkStatus);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<Void> validateBeforeOrder(@AuthenticationPrincipal MemberPrincipal principal) {
+        cartService.validate(principal.getId());
+
         return ResponseEntity.ok().build();
     }
 }

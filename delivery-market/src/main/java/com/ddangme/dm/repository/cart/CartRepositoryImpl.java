@@ -1,5 +1,7 @@
 package com.ddangme.dm.repository.cart;
 
+import com.ddangme.dm.dto.address.CartValidateProjection;
+import com.ddangme.dm.dto.address.QCartValidateProjection;
 import com.ddangme.dm.dto.cart.CartChangeCountProjection;
 import com.ddangme.dm.dto.cart.CartListProjection;
 import com.ddangme.dm.dto.cart.QCartChangeCountProjection;
@@ -81,11 +83,30 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .innerJoin(goodDetail).on(good.id.eq(goodDetail.good.id))
                 .where(cart.member.id.eq(memberId)
                         .and(cart.status.isTrue())
+                        .and(goodOption.quantity.eq(0).not())
                         .and(
-                                (goodOption.saleStatus.eq(SaleStatus.ON_SALE))
-                                        .or(goodOption.saleStatus.eq(SaleStatus.AVAILABLE))
-                                        .or(goodOption.saleStatus.eq(SaleStatus.RESTOCKING))))
+                                (goodOption.saleStatus.eq(SaleStatus.AVAILABLE))
+                                        .or(goodOption.saleStatus.eq(SaleStatus.ON_SALE))))
                 .fetch();
 
+    }
+
+    @Override
+    public List<CartValidateProjection> findForValidateByMemberId(Long memberId) {
+        return queryFactory
+                .select(new QCartValidateProjection(
+                        cart.id,
+                        cart.quantity.as("buyQuantity"),
+                        goodOption.quantity.as("remainQuantity")
+                ))
+                .from(cart)
+                .innerJoin(goodOption).on(cart.option.id.eq(goodOption.id))
+                .where(cart.member.id.eq(memberId)
+                        .and(cart.status.isTrue())
+                        .and(goodOption.quantity.eq(0).not())
+                        .and(
+                                (goodOption.saleStatus.eq(SaleStatus.AVAILABLE))
+                                        .or(goodOption.saleStatus.eq(SaleStatus.ON_SALE))))
+                .fetch();
     }
 }

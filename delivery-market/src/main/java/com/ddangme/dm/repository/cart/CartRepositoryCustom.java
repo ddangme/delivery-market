@@ -1,6 +1,7 @@
 package com.ddangme.dm.repository.cart;
 
 
+import com.ddangme.dm.dto.address.CartValidateProjection;
 import com.ddangme.dm.dto.cart.CartChangeCountProjection;
 import com.ddangme.dm.dto.cart.CartListProjection;
 import com.ddangme.dm.dto.order.OrderCartProjection;
@@ -14,5 +15,7 @@ public interface CartRepositoryCustom {
     CartChangeCountProjection findByOptionPriceInCart(Long cartId);
 
     List<OrderCartProjection> findByMemberIdAtOrder(Long memberId);
+
+    List<CartValidateProjection> findForValidateByMemberId(Long memberID);
 
 }
