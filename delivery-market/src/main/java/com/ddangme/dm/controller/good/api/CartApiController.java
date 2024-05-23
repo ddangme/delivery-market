@@ -71,7 +71,7 @@ public class CartApiController {
 
     @GetMapping("/validate")
     public ResponseEntity<Void> validateBeforeOrder(@AuthenticationPrincipal MemberPrincipal principal) {
-        cartService.validate(principal.getId());
+        cartService.validateForOrder(principal.getId());
 
         return ResponseEntity.ok().build();
     }

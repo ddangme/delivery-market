@@ -121,4 +121,10 @@ public class Member {
         this.birthday = birthday;
     }
 
+    public void canBuy(Long usedMoney) {
+        if (point + cash < usedMoney) {
+            throw new DMException(ErrorCode.NOT_ENOUGH_CASH);
+        }
+    }
+
 }

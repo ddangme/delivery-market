@@ -148,15 +148,23 @@ public class CartService {
                 .forEach(cart -> cart.changeCheckStatus(checkStatus));
     }
 
-    public void validate(Long memberId) {
-        findMember(memberId);
+    public void validateForOrder(Long memberId) {
+        Member member = findMember(memberId);
+        Long totalPrice = 0L;
+
         List<CartValidateProjection> projections = cartRepository.findForValidateByMemberId(memberId);
         for (CartValidateProjection projection : projections) {
-            log.info("projection.getBuyQuantity()={}", projection.getBuyQuantity());
-            log.info("projection.getRemainQuantity()={}", projection.getRemainQuantity());
             if (projection.getBuyQuantity() > projection.getRemainQuantity()) {
                 throw new DMException(ErrorCode.EXIST_NON_ORDER_OPTION);
             }
+
+            if (projection.getDiscountPrice() == null || projection.getDiscountPrice() == 0) {
+                totalPrice += projection.getPrice();
+            } else {
+                totalPrice += projection.getDiscountPrice();
+            }
         }
+
+        member.canBuy(totalPrice);
     }
 }

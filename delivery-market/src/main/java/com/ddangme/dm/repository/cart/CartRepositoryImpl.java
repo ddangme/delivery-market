@@ -97,7 +97,9 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .select(new QCartValidateProjection(
                         cart.id,
                         cart.quantity.as("buyQuantity"),
-                        goodOption.quantity.as("remainQuantity")
+                        goodOption.quantity.as("remainQuantity"),
+                        goodOption.price.as("price"),
+                        goodOption.discountPrice.as("discountPrice")
                 ))
                 .from(cart)
                 .innerJoin(goodOption).on(cart.option.id.eq(goodOption.id))
@@ -109,4 +111,5 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                                         .or(goodOption.saleStatus.eq(SaleStatus.ON_SALE))))
                 .fetch();
     }
+
 }
