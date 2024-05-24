@@ -121,10 +121,37 @@ public class Member {
         this.birthday = birthday;
     }
 
-    public void canBuy(Long usedMoney) {
-        if (point + cash < usedMoney) {
+    public void canBuy(Long payMoney) {
+        if (point + cash < payMoney) {
             throw new DMException(ErrorCode.NOT_ENOUGH_CASH);
         }
+    }
+
+    public void usePointAndCash(Long payMoney) {
+        canBuy(payMoney);
+
+        if (payMoney - point > 0) {
+            cash = cash - payMoney - point;
+            point = 0L;
+        } else {
+            point = payMoney - point;
+        }
+    }
+
+    public Long usePoint(Long payMoney) {
+        if (payMoney - point > 0) {
+            payMoney = payMoney - point;
+            point = 0L;
+        } else {
+            point = payMoney - point;
+            payMoney = 0L;
+        }
+
+        return payMoney;
+    }
+
+    public void useCash(Long remainMoney) {
+        cash = cash - remainMoney;
     }
 
 }
