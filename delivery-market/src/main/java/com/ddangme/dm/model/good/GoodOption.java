@@ -1,5 +1,7 @@
 package com.ddangme.dm.model.good;
 
+import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.constants.SaleStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,4 +32,15 @@ public class GoodOption {
 
     @Enumerated(EnumType.STRING)
     private SaleStatus saleStatus;
+
+    public void minusQuantity(Integer buyQuantity) {
+        if (quantity - buyQuantity < 0) {
+            throw new DMException(ErrorCode.EXIST_NON_ORDER_OPTION);
+        }
+        this.quantity -= buyQuantity;
+
+        if (quantity == 0) {
+            saleStatus = SaleStatus.SOLD_OUT;
+        }
+    }
 }

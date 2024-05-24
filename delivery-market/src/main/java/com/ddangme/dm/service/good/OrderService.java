@@ -4,19 +4,26 @@ import com.ddangme.dm.dto.address.CartValidateProjection;
 import com.ddangme.dm.dto.order.request.OrderRequest;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
+import com.ddangme.dm.model.Address;
+import com.ddangme.dm.model.good.Cart;
 import com.ddangme.dm.model.good.GoodOption;
 import com.ddangme.dm.model.member.Member;
+import com.ddangme.dm.model.order.Order;
+import com.ddangme.dm.model.order.OrderAddress;
+import com.ddangme.dm.model.order.OrderGood;
 import com.ddangme.dm.repository.AddressRepository;
 import com.ddangme.dm.repository.cart.CartRepository;
 import com.ddangme.dm.repository.good.GoodOptionRepository;
+import com.ddangme.dm.repository.good.GoodRepository;
 import com.ddangme.dm.repository.member.MemberRepository;
+import com.ddangme.dm.repository.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,6 +35,7 @@ public class OrderService {
     private final CartRepository cartRepository;
     private final AddressRepository addressRepository;
     private final GoodOptionRepository optionRepository;
+    private final OrderRepository orderRepository;
 
     public void validateForOrder(Long memberId) {
         Member member = findMember(memberId);
@@ -57,9 +65,42 @@ public class OrderService {
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 
+    @Transactional
     public void order(OrderRequest request, Long memberId) {
+        Member member = findMember(memberId);
         validateForOrder(memberId);
-        List<Long> buyOptionIds = request.getOptionIds();
 
+        OrderAddress orderAddress = getOrderAddress(request.getAddressId());
+        List<OrderGood> orderGoods = getOrderGoods(request.getCartIds());
+        Order order = new Order(member, orderAddress, orderGoods);
+
+        orderRepository.save(order);
+    }
+
+    private OrderAddress getOrderAddress(Long addressId) {
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ADDRESS));
+
+        return new OrderAddress(
+                address.getRecipientName(),
+                address.getRecipientPhone(),
+                address.getRoad(),
+                address.getDetail(),
+                address.getZipcode()
+        );
+    }
+
+    private List<OrderGood> getOrderGoods(List<Long> cartIds) {
+        List<OrderGood> orderGoods = new ArrayList<>();
+
+        for (Long cartId : cartIds) {
+            Cart cart = cartRepository.findById(cartId)
+                    .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_CART));
+            cartRepository.delete(cart);
+            cart.getOption().minusQuantity(cart.getQuantity());
+            orderGoods.add(new OrderGood(cart.getOption(), cart.getQuantity()));
+        }
+
+        return orderGoods;
     }
 }

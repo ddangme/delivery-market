@@ -9,6 +9,7 @@ import com.ddangme.dm.dto.cart.response.CartListResponse;
 import com.ddangme.dm.dto.cart.response.CartResponse;
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.service.good.CartService;
+import com.ddangme.dm.service.good.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.List;
 public class CartApiController {
 
     private final CartService cartService;
+    private final OrderService orderService;
 
     @PostMapping
     public ResponseEntity<CartResponse> cartSave(@RequestBody List<CartRequest> requests,
@@ -71,8 +73,7 @@ public class CartApiController {
 
     @GetMapping("/validate")
     public ResponseEntity<Void> validateBeforeOrder(@AuthenticationPrincipal MemberPrincipal principal) {
-        cartService.validateForOrder(principal.getId());
-
+        orderService.validateForOrder(principal.getId());
         return ResponseEntity.ok().build();
     }
 }
