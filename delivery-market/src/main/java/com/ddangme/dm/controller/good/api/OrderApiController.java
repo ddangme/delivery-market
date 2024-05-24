@@ -5,15 +5,15 @@ import com.ddangme.dm.dto.order.OrderAddressProjection;
 import com.ddangme.dm.dto.order.OrderAddressResponse;
 import com.ddangme.dm.dto.order.OrderCartProjection;
 import com.ddangme.dm.dto.order.OrderResponse;
+import com.ddangme.dm.dto.order.request.OrderRequest;
 import com.ddangme.dm.service.good.CartService;
+import com.ddangme.dm.service.good.OrderService;
 import com.ddangme.dm.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.Order;
 import java.util.List;
@@ -25,6 +25,7 @@ import java.util.List;
 public class OrderApiController {
 
     private final CartService cartService;
+    private final OrderService orderService;
     private final MemberService memberService;
 
     @GetMapping("/address/list")
@@ -38,6 +39,14 @@ public class OrderApiController {
         response.setGood(cartService.findCarts(principal.getId()));
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> order(@AuthenticationPrincipal MemberPrincipal principal,
+                                      @RequestBody OrderRequest request) {
+        log.info("request={}", request);
+        orderService.order(request, principal.getId());
+        return ResponseEntity.ok(null);
     }
 
 }

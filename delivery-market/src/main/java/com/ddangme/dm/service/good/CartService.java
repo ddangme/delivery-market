@@ -1,5 +1,6 @@
 package com.ddangme.dm.service.good;
 
+import com.ddangme.dm.dto.address.CartValidateProjection;
 import com.ddangme.dm.dto.cart.CartListProjection;
 import com.ddangme.dm.dto.cart.request.CartChangeCheckRequest;
 import com.ddangme.dm.dto.cart.request.CartChangeCountRequest;

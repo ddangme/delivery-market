@@ -9,6 +9,7 @@ import com.ddangme.dm.dto.cart.response.CartListResponse;
 import com.ddangme.dm.dto.cart.response.CartResponse;
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.service.good.CartService;
+import com.ddangme.dm.service.good.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,11 @@ import java.util.List;
 public class CartApiController {
 
     private final CartService cartService;
+    private final OrderService orderService;
 
     @PostMapping
     public ResponseEntity<CartResponse> cartSave(@RequestBody List<CartRequest> requests,
-                                             @AuthenticationPrincipal MemberPrincipal principal) {
+                                                 @AuthenticationPrincipal MemberPrincipal principal) {
         log.info("requests={}", requests);
         String message = cartService.save(principal.getId(), requests);
         Integer count = cartService.getCartCount(principal.getId());
@@ -57,15 +59,21 @@ public class CartApiController {
 
     @PostMapping("/change/check-status")
     public ResponseEntity<Void> changeCartStatus(@AuthenticationPrincipal MemberPrincipal principal,
-                                                     @RequestBody CartChangeCheckRequest request) {
+                                                 @RequestBody CartChangeCheckRequest request) {
         cartService.changeCartCheckStatus(principal.getId(), request);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/change/all-check-status")
     public ResponseEntity<Void> changeAllCartCount(@AuthenticationPrincipal MemberPrincipal principal,
-                                                @RequestBody Boolean checkStatus) {
+                                                   @RequestBody Boolean checkStatus) {
         cartService.changeAllCartCheckStatus(principal.getId(), checkStatus);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<Void> validateBeforeOrder(@AuthenticationPrincipal MemberPrincipal principal) {
+        orderService.validateForOrder(principal.getId());
         return ResponseEntity.ok().build();
     }
 }

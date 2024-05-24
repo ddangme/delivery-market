@@ -1,3 +1,36 @@
+const listGroup = $(`
+<li class="list-group-item" hidden="" id="44">
+    <div class="row">
+        <div class="col-10">
+            <p class="option-name"></p>
+        </div>
+        <div class="col-2">
+            <a type="button" class="w-100 btn-close" aria-label="Close"></a>
+        </div>
+        <div class="col-5 text-center">
+            <div class="btn-toolbar mb-0 text-center" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                    <button type="button" class="btn btn-outline-primary minus-btn">-</button>
+                    <small class="align-middle option-quantity border px-5 py-1"></small>
+                    <button type="button" class="btn btn-outline-primary plus-btn">+</button>
+                </div>
+            </div>
+            <p class="my-0 text-secondary">
+                <span>남은 재고 : </span>
+                <span class="remain-quantity">1</span>
+            </p>
+        </div>
+        <div class="col-7 text-end">
+            <p class="option-price"></p>
+            <p class="option-discount-price-area">
+                <span class="option-discount-price"></span>
+                <br/>
+                <span class="text-decoration-line-through option-original-price text-secondary"></span>
+            </p>
+        </div>
+    </div>
+</li>
+`);
 const pickTrueSvc = `
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16" style="color: red">
     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
@@ -22,9 +55,9 @@ $(document).ready(function () {
 function extractOptions() {
     let options = [];
 
-    $('#choice-options .list-group-item').each(function() {
+    $('#choice-options .list-group-item').each(function () {
         const optionId = $(this).attr('id');
-        const quantity = $(this).find('.option-quantity').val();
+        const quantity = $(this).find('.option-quantity').text();
 
         const option = {
             optionId: optionId,
@@ -51,7 +84,7 @@ function addOptionList(options) {
     var selectElement = document.getElementById("option");
 
     // 각 옵션을 반복하여 select 요소에 추가
-    options.forEach(function(option) {
+    options.forEach(function (option) {
         var optionElement = document.createElement("option");
         optionElement.value = option.id; // 옵션의 id 값을 value로 설정
         if (option.discountPrice === null) {
@@ -67,68 +100,59 @@ function addOptionList(options) {
         selectElement.appendChild(optionElement); // select 요소에 옵션 추가
     });
 
-    options.forEach(function(option) {
+    options.forEach(function (option) {
         if (option.saleStatus === "품절") {
             return;
         } else if (option.saleStatus === "재고 준비 중") {
             return;
         }
-        var $listItem = $('<li class="list-group-item" hidden id=' + option.id + '></li>');
-        var $row = $('<div class="row"></div>');
-        var $col10 = $('<div class="col-10"></div>').append('<p>' + option.name + '</p>');
-        var $col2 = $('<div class="col-2"></div>').append('<a type="button" class="w-100 btn-close" aria-label="Close"></a>');
-        var $col5 = $('<div class="col-5"></div>');
-        var $toolbar = $('<div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups"></div>');
-        var $btnGroup = $('<div class="btn-group me-2 ms-0" role="group" aria-label="First group"></div>');
-        var $minusButton = $('<button type="button" class="btn btn-outline-secondary">-</button>');
-        var $amountInput = $('<input type="text" class="form-control option-quantity" name="optionQuantity" placeholder="" value="0">');
-        var $plusButton = $('<button type="button" class="btn btn-outline-secondary">+</button>');
-        var $col3Offset4 = $('<div class="col-7 text-end"></div>').append('<p><span class="option-discount-price">' + option.discountPrice.toLocaleString() + '원</span><br><span class="text-decoration-line-through option-price" style="color: gray">' + option.price.toLocaleString() + '원</span></p>');
+
+        const list = listGroup.clone();
+        list.attr('id', option.id);
+        list.find('.option-name').text(option.name);
+        list.find('.option-quantity').text(1);
+        list.find('.remain-quantity').text(option.quantity);
         if (option.discountPrice === null) {
-            $col3Offset4 = $('<div class="col-7 text-end"></div>').append('<p><span class="option-price">' + option.price.toLocaleString() + '원</span></p>');
+            list.find('.option-discount-price-area').remove();
+            list.find('.option-price').text(option.price);
+        } else {
+            list.find('.option-price').remove();
+            list.find('.option-discount-price').text(option.discountPrice.toLocaleString() + "원");
+            list.find('.option-original-price').text(option.price.toLocaleString() + "원");
         }
 
+        const $minusButton = list.find('.minus-btn');
+        const $plusButton = list.find('.plus-btn');
+
         // - 버튼 클릭 시 동작 설정
-        $minusButton.on('click', function() {
-            var currentAmount = parseInt($amountInput.val());
+        $minusButton.on('click', function () {
+            const currentAmount = parseInt(list.find('.option-quantity').text());
             if (currentAmount > 1) {
-                $amountInput.val(currentAmount - 1);
+                list.find('.option-quantity').text(currentAmount - 1);
                 updateTotalPrice();
             }
         });
 
         // + 버튼 클릭 시 동작 설정
-        $plusButton.on('click', function() {
-            var currentAmount = parseInt($amountInput.val());
-            $amountInput.val(currentAmount + 1);
+        $plusButton.on('click', function () {
+            const currentAmount = parseInt(list.find('.option-quantity').text());
+            list.find('.option-quantity').text(currentAmount + 1);
             updateTotalPrice();
         });
 
-        // input 요소의 change 이벤트를 감지하여 총 가격을 업데이트하는 함수
-        $amountInput.on('change', function() {
-            updateTotalPrice();
-        });
-
-        // li에 요소들 추가
-        $btnGroup.append($minusButton, $amountInput, $plusButton);
-        $toolbar.append($btnGroup);
-        $col5.append($toolbar);
-        $row.append($col10, $col2, $col5, $col3Offset4);
-        $listItem.append($row);
-
-        $('.list-group').append($listItem);
+        $('.list-group').append(list);
     })
 }
 
 
 function updateTotalPrice() {
     var totalPrice = 0;
-    $('.list-group-item:not([hidden])').each(function() {
+    $('.list-group-item:not([hidden])').each(function () {
         var price = parseInt($(this).find('.option-price').text().replace('원', '').replace(',', ''));
         if ($(this).find('.option-discount-price').length) {
             price = parseInt($(this).find('.option-discount-price').text().replace('원', '').replace(',', ''));
         }
-        var quantity = parseInt($(this).find('.option-quantity').val());
+        var quantity = parseInt($(this).find('.option-quantity').text());
         totalPrice += price * quantity;
     });
     $('#total-price').text(totalPrice.toLocaleString());
@@ -197,7 +221,7 @@ function getGood() {
             addOptionList(data.goodOptions);
 
         },
-        error: function(xhr) {
+        error: function (xhr) {
             alert(xhr.responseText);
             window.history.back();
         }
@@ -207,16 +231,16 @@ function getGood() {
 function getImage(photo) {
     var imageUrl = "/images/" + photo;
 
-    $.get(imageUrl, function(data) {
+    $.get(imageUrl, function (data) {
         var imgElement = document.getElementById("good-main-photo");
         imgElement.src = "data:" + "image/jpeg" + ";base64," + data;
-    }).fail(function(xhr, status, error) {
+    }).fail(function (xhr, status, error) {
         console.error("이미지를 받아오는 중 에러 발생:", status, error);
     });
 }
 
 function closeBtnEvent() {
-    $(document).on('click', '.btn-close', function() {
+    $(document).on('click', '.btn-close', function () {
         $(this).closest('li').attr('hidden', true);
         $(this).closest('li').find('.option-quantity').val('0');
         updateTotalPrice();
@@ -257,9 +281,9 @@ function cart() {
 }
 
 function optionClickEvent() {
-    $('#option').on('change', function() {
+    $('#option').on('change', function () {
         var selectedOptionId = $(this).val();
-        $('.list-group-item').each(function() {
+        $('.list-group-item').each(function () {
             if ($(this).attr('id') === selectedOptionId) {
                 if (!$(this).is(':hidden')) {
                     alert('이미 추가된 옵션입니다.');
