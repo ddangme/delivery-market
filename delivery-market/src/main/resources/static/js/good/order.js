@@ -1,6 +1,38 @@
 $(document).ready(function () {
     addAddressInModal();
+    addInfo();
+    addOrderBtnEvent();
+});
 
+function addOrderBtnEvent() {
+    $('#order-btn').click(function () {
+        const cartIds = $('.row.align-items-center.my-3').map(function() {
+            return this.id;
+        }).get();
+        const addressId = $('.address-id').attr('id');
+
+        const requestData = {
+            cartIds: cartIds,
+            addressId: addressId
+        };
+
+        $.ajax({
+            url: "/api/order",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(requestData),
+            success: function() {
+                alert("주문이 완료되었습니다.");
+                location.href = "/";
+            },
+            error: function(xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    });
+}
+
+function addInfo() {
     $.get("/api/order/info", function (response) {
         addGood(response.good);
         addAddress(response.address);
@@ -12,7 +44,7 @@ $(document).ready(function () {
         $('.delivery-price').text(response.deliveryPrice.toLocaleString());
         $('.total-price').text(response.totalPrice.toLocaleString());
     });
-});
+}
 
 function addPay(response) {
     const total = response.point + response.cash;
@@ -111,6 +143,7 @@ function addAddress(response) {
 function addGood(response) {
     response.forEach(function (item) {
         const good = goodArea.clone();
+        good.attr('id', item.id);
         good.find('.option-name').text(item.optionName);
         good.find('.good-name').text(item.goodName);
         good.find('.option-count').text(item.optionCount);
