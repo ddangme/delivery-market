@@ -22,6 +22,11 @@ public class OrderCartProjection {
         this.goodName = goodName;
         this.optionCount = optionCount;
         this.price = price * optionCount;
-        this.discountPrice = discountPrice * optionCount;
+        if (discountPrice != null && discountPrice != 0) {
+            this.discountPrice = discountPrice * optionCount;
+        } else {
+            this.discountPrice = null;
+        }
+
     }
 }
