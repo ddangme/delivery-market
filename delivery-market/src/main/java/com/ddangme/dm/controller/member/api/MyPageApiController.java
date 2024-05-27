@@ -29,6 +29,11 @@ public class MyPageApiController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/cash/remain")
+    public ResponseEntity<Long> remainCash(@AuthenticationPrincipal MemberPrincipal principal) {
+        return ResponseEntity.ok(cashService.findRemainCash(principal.getId()));
+    }
+
     @GetMapping("/cash/list")
     public ResponseEntity<List<CashListResponse>> cashList(@AuthenticationPrincipal MemberPrincipal principal) {
         return ResponseEntity.ok(cashService.findCashListByMember(principal.getId()));
