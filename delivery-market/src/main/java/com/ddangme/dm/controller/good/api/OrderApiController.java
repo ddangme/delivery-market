@@ -1,10 +1,8 @@
 package com.ddangme.dm.controller.good.api;
 
 import com.ddangme.dm.dto.member.MemberPrincipal;
-import com.ddangme.dm.dto.order.OrderAddressProjection;
-import com.ddangme.dm.dto.order.OrderAddressResponse;
-import com.ddangme.dm.dto.order.OrderCartProjection;
-import com.ddangme.dm.dto.order.OrderResponse;
+import com.ddangme.dm.dto.order.response.OrderAddressResponse;
+import com.ddangme.dm.dto.order.response.OrderResponse;
 import com.ddangme.dm.dto.order.request.OrderRequest;
 import com.ddangme.dm.service.good.CartService;
 import com.ddangme.dm.service.good.OrderService;
@@ -15,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.Order;
 import java.util.List;
 
 @Slf4j

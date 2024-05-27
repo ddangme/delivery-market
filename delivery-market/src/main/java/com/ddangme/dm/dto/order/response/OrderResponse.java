@@ -1,5 +1,6 @@
-package com.ddangme.dm.dto.order;
+package com.ddangme.dm.dto.order.response;
 
+import com.ddangme.dm.dto.order.OrderCartProjection;
 import com.ddangme.dm.model.Address;
 import lombok.Data;
 
