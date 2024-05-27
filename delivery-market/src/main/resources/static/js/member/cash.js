@@ -1,8 +1,18 @@
 $(document).ready(function() {
+    getRemainCash();
     getChargingList();
     validateAmount();
     submit();
-});
+})
+
+function getRemainCash() {
+    $.get(
+        "/api/my-page/cash/remain",
+        function (response) {
+            $('#remain-cash').text(response.toLocaleString());
+        }
+    );
+}
 
 const trArea = $(`
 <tr>
