@@ -23,6 +23,11 @@ public class CashService {
     private final MemberRepository memberRepository;
     private final CashRepository cashRepository;
 
+    public Long findRemainCash(Long memberId) {
+        return findMember(memberId)
+                .getCash();
+    }
+
     public List<CashListResponse> findCashListByMember(Long memberId) {
         findMember(memberId);
         return cashRepository.findByMemberIdOrderByRequestAtDesc(memberId).stream()
