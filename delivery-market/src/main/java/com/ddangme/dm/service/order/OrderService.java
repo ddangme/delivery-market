@@ -1,4 +1,4 @@
-package com.ddangme.dm.service.good;
+package com.ddangme.dm.service.order;
 
 import com.ddangme.dm.dto.address.CartValidateProjection;
 import com.ddangme.dm.dto.order.request.OrderRequest;

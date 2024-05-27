@@ -2,10 +2,11 @@ package com.ddangme.dm.controller.good.api;
 
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.dto.order.response.OrderAddressResponse;
+import com.ddangme.dm.dto.order.response.OrderListResponse;
 import com.ddangme.dm.dto.order.response.OrderResponse;
 import com.ddangme.dm.dto.order.request.OrderRequest;
 import com.ddangme.dm.service.good.CartService;
-import com.ddangme.dm.service.good.OrderService;
+import com.ddangme.dm.service.order.OrderService;
 import com.ddangme.dm.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,14 @@ public class OrderApiController {
                                       @RequestBody OrderRequest request) {
         log.info("request={}", request);
         orderService.order(request, principal.getId());
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<OrderListResponse>> findOrderListResponse(
+            @AuthenticationPrincipal MemberPrincipal principal,
+            Long month) {
+
         return ResponseEntity.ok(null);
     }
 
