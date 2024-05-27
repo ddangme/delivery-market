@@ -6,15 +6,12 @@ import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.Address;
 import com.ddangme.dm.model.good.Cart;
-import com.ddangme.dm.model.good.GoodOption;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.model.order.Order;
 import com.ddangme.dm.model.order.OrderAddress;
 import com.ddangme.dm.model.order.OrderGood;
 import com.ddangme.dm.repository.AddressRepository;
 import com.ddangme.dm.repository.cart.CartRepository;
-import com.ddangme.dm.repository.good.GoodOptionRepository;
-import com.ddangme.dm.repository.good.GoodRepository;
 import com.ddangme.dm.repository.member.MemberRepository;
 import com.ddangme.dm.repository.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +31,6 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
     private final AddressRepository addressRepository;
-    private final GoodOptionRepository optionRepository;
     private final OrderRepository orderRepository;
 
     public void validateForOrder(Long memberId) {
