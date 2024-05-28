@@ -117,4 +117,9 @@ public class MyPageController {
     public String cashCharging() {
         return "/member/my-page/cash-charging";
     }
+
+    @GetMapping("/order")
+    public String orderList() {
+        return "/member/my-page/order-list";
+    }
 }

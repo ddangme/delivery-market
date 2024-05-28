@@ -1,4 +1,4 @@
-package com.ddangme.dm.dto.order;
+package com.ddangme.dm.dto.order.response;
 
 
 import com.ddangme.dm.model.member.Member;

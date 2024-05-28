@@ -1,21 +1,22 @@
 package com.ddangme.dm.controller.good.api;
 
+import com.ddangme.dm.constants.OrderHistory;
 import com.ddangme.dm.dto.member.MemberPrincipal;
-import com.ddangme.dm.dto.order.OrderAddressProjection;
-import com.ddangme.dm.dto.order.OrderAddressResponse;
-import com.ddangme.dm.dto.order.OrderCartProjection;
-import com.ddangme.dm.dto.order.OrderResponse;
+import com.ddangme.dm.dto.order.response.OrderAddressResponse;
+import com.ddangme.dm.dto.order.response.OrderListResponse;
+import com.ddangme.dm.dto.order.response.OrderResponse;
 import com.ddangme.dm.dto.order.request.OrderRequest;
 import com.ddangme.dm.service.good.CartService;
-import com.ddangme.dm.service.good.OrderService;
+import com.ddangme.dm.service.order.OrderSearchService;
+import com.ddangme.dm.service.order.OrderService;
 import com.ddangme.dm.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.Order;
 import java.util.List;
 
 @Slf4j
@@ -27,6 +28,7 @@ public class OrderApiController {
     private final CartService cartService;
     private final OrderService orderService;
     private final MemberService memberService;
+    private final OrderSearchService orderSearchService;
 
     @GetMapping("/address/list")
     public ResponseEntity<List<OrderAddressResponse>> addressList(@AuthenticationPrincipal MemberPrincipal principal) {
@@ -46,7 +48,14 @@ public class OrderApiController {
                                       @RequestBody OrderRequest request) {
         log.info("request={}", request);
         orderService.order(request, principal.getId());
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/list/{orderHistory}")
+    public ResponseEntity<List<OrderListResponse>> findOrderListResponse(
+            @AuthenticationPrincipal MemberPrincipal principal, @PathVariable OrderHistory orderHistory) {
+        List<OrderListResponse> orderList = orderSearchService.getOrderList(principal.getId(), orderHistory);
+        return ResponseEntity.ok(orderList);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.ddangme.dm.dto.good.response;
 
-import com.ddangme.dm.model.constants.SaleStatus;
+import com.ddangme.dm.constants.SaleStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;

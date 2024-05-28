@@ -1,4 +1,4 @@
-package com.ddangme.dm.model.constants;
+package com.ddangme.dm.constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

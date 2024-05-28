@@ -2,7 +2,7 @@ package com.ddangme.dm.model.cash;
 
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
-import com.ddangme.dm.model.constants.CashStatus;
+import com.ddangme.dm.constants.CashStatus;
 import com.ddangme.dm.model.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

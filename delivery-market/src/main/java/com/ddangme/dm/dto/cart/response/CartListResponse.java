@@ -2,8 +2,8 @@ package com.ddangme.dm.dto.cart.response;
 
 import com.ddangme.dm.dto.cart.CartDTO;
 import com.ddangme.dm.dto.cart.CartListProjection;
-import com.ddangme.dm.model.constants.PackagingType;
-import com.ddangme.dm.model.constants.SaleStatus;
+import com.ddangme.dm.constants.PackagingType;
+import com.ddangme.dm.constants.SaleStatus;
 import lombok.Data;
 
 import java.util.ArrayList;

@@ -9,7 +9,7 @@ import com.ddangme.dm.dto.cart.response.CartListResponse;
 import com.ddangme.dm.dto.cart.response.CartResponse;
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.service.good.CartService;
-import com.ddangme.dm.service.good.OrderService;
+import com.ddangme.dm.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

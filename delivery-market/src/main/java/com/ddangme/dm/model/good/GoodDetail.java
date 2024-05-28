@@ -1,6 +1,6 @@
 package com.ddangme.dm.model.good;
 
-import com.ddangme.dm.model.constants.PackagingType;
+import com.ddangme.dm.constants.PackagingType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

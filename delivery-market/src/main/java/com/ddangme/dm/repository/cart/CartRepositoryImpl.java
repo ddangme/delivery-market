@@ -8,7 +8,7 @@ import com.ddangme.dm.dto.cart.QCartChangeCountProjection;
 import com.ddangme.dm.dto.cart.QCartListProjection;
 import com.ddangme.dm.dto.order.OrderCartProjection;
 import com.ddangme.dm.dto.order.QOrderCartProjection;
-import com.ddangme.dm.model.constants.SaleStatus;
+import com.ddangme.dm.constants.SaleStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
