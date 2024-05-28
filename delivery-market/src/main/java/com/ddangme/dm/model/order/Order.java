@@ -1,6 +1,6 @@
 package com.ddangme.dm.model.order;
 
-import com.ddangme.dm.model.constants.DeliveryStatus;
+import com.ddangme.dm.constants.DeliveryStatus;
 import com.ddangme.dm.model.member.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Entity(name = "orders")
+@Entity(name = "Orders")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {

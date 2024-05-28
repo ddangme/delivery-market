@@ -3,7 +3,7 @@ package com.ddangme.dm.service.cash;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.cash.CashCharging;
-import com.ddangme.dm.model.constants.CashStatus;
+import com.ddangme.dm.constants.CashStatus;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.repository.MemberRepository;
 import com.ddangme.dm.repository.cash.CashRepository;

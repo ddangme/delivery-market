@@ -2,7 +2,7 @@ package com.ddangme.dm.model.good;
 
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
-import com.ddangme.dm.model.constants.SaleStatus;
+import com.ddangme.dm.constants.SaleStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.ddangme.dm.dto.cart;
 
-import com.ddangme.dm.model.constants.PackagingType;
-import com.ddangme.dm.model.constants.SaleStatus;
+import com.ddangme.dm.constants.PackagingType;
+import com.ddangme.dm.constants.SaleStatus;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 

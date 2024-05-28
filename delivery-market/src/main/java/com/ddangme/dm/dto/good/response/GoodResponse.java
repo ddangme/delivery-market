@@ -1,9 +1,7 @@
 package com.ddangme.dm.dto.good.response;
 
-import com.ddangme.dm.model.constants.SaleStatus;
-import com.ddangme.dm.model.good.Good;
+import com.ddangme.dm.constants.SaleStatus;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
