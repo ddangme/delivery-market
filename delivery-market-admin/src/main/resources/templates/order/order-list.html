@@ -24,7 +24,18 @@
             </button>
             <ul class="dropdown-menu mb-0">
                 <li>
-                    <input type="search" class="form-control" autocomplete="false" placeholder="주문자를 입력해주세요.">
+                    <div class="row mx-1">
+                        <div class="col-9">
+                            <input class="form-control" autocomplete="false" placeholder="이름/주문번호를 입력해주세요." id="search-keyword">
+                        </div>
+                        <div class="col-3">
+                            <a class="btn" id="search-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
                 </li>
                 <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="pending-filter">
                     <span class="d-inline-block bg-primary-subtle rounded-circle p-1"></span>
@@ -46,7 +57,7 @@
                     <span class="d-inline-block bg-warning-subtle rounded-circle p-1"></span>
                     반품 완료
                 </a></li>
-                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="return-processed-filter">
+                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="return_processed-filter">
                     <span class="d-inline-block bg-info rounded-circle p-1"></span>
                     반품 처리중
                 </a></li>
@@ -75,7 +86,6 @@
                             <input class="form-check-input all-check" type="checkbox">
                         </th>
                         <th scope="col">No.</th>
-                        <th scope="col">상품명</th>
                         <th scope="col">결제 금액</th>
                         <th scope="col">주문 상태</th>
                         <th scope="col">주문자</th>

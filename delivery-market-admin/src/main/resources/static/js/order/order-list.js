@@ -2,6 +2,7 @@ $(document).ready(function () {
     addAllCheckEvent();
     getOrderList();
     filter();
+    search();
 });
 
 const currentUrl = window.location.href;
@@ -23,7 +24,6 @@ function printList(response) {
     response.content.forEach(function (item) {
         const order = orderTr.clone();
         order.find('.id').text(item.id);
-        order.find('.name').text(item.name);
         order.find('.price').text(item.price.toLocaleString() + "원");
         order.find('.status').text(item.status);
         order.find('.member').text(item.member);
@@ -86,7 +86,6 @@ const orderTr =
 $(`<tr>
     <td><input class="form-check-input" type="checkbox"></td>
     <td class="id"></td>
-    <td class="name"></td>
     <td class="price"></td>
     <td class="status"></td>
     <td class="member"></td>
@@ -108,4 +107,24 @@ function filter() {
         }
     });
 
+}
+
+
+function search() {
+    $('#search-btn').click(function () {
+        const keyword = $('#search-keyword').val();
+        if (keyword === '') {
+            return alert("주문자의 성명 혹은 주문번호를 입력해주세요.");
+        }
+        if (currentUrl.includes('?')) {
+            if (currentUrl.includes('keyword')) {
+                location.href = currentUrl.replace(/(keyword=)[^&]*/, '$1' + keyword);
+            } else {
+                location.href = currentUrl + '&keyword=' + keyword;
+            }
+        } else {
+            location.href = currentUrl + '?keyword=' + keyword;
+        }
+
+    });
 }
