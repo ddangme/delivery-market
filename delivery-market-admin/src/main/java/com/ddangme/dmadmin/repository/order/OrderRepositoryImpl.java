@@ -47,7 +47,8 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                         order.id.as("id"),
                         order.totalDiscountPrice.as("price"),
                         order.deliveryStatus.as("deliveryStatus"),
-                        member.name.as("member")
+                        member.name.as("member"),
+                        order.createdAt.as("createdAt")
                 ))
                 .from(order)
                 .leftJoin(member).on(order.member.id.eq(member.id))

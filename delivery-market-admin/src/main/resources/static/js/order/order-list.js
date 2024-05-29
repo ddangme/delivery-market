@@ -27,6 +27,7 @@ function printList(response) {
         order.find('.price').text(item.price.toLocaleString() + "원");
         order.find('.status').text(item.status);
         order.find('.member').text(item.member);
+        order.find('.createdAt').text(getFormatDate(item.createdAt));
         order.find('.check').change(function() {
             const allChecked = $('.check').length === $('.check:checked').length;
             $('.all-check').prop('checked', allChecked);
@@ -93,6 +94,7 @@ $(`<tr>
     <td class="price"></td>
     <td class="status"></td>
     <td class="member"></td>
+    <td class="createdAt"></td>
 </tr>
 `);
 
@@ -131,4 +133,13 @@ function search() {
         }
 
     });
+}
+
+function getFormatDate(response) {
+    const date = new Date(response);
+    return date.getFullYear() + "." +
+        ('0' + (date.getMonth() + 1)).slice(-2) + "." +
+        ('0' + date.getDate()).slice(-2) + " (" +
+        ('0' + date.getHours()).slice(-2) + "시 " +
+        ('0' + date.getMinutes()).slice(-2) + "분)";
 }
