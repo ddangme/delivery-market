@@ -1,6 +1,7 @@
 $(document).ready(function () {
     addAllCheckEvent();
     getOrderList();
+    filter();
 });
 
 const currentUrl = window.location.href;
@@ -12,34 +13,38 @@ function addAllCheckEvent() {
 }
 
 function getOrderList() {
-    $.get('/api' + currentUrl.substring(currentUrl.lastIndexOf('/orders')), function (response) {
-        response.content.forEach(function (item) {
-            const order = orderTr.clone();
-            order.find('.id').text(item.id);
-            order.find('.name').text(item.name);
-            order.find('.price').text(item.price.toLocaleString() + "원");
-            order.find('.status').text(item.status);
-            order.find('.member').text(item.member);
-            $('#order-list').append(order);
-        });
-
-        const pageInfo = {
-            totalPages: response.totalPages,
-            totalElements: response.totalElements,
-            pageNumber: response.pageable.pageNumber,
-            pageSize: response.pageable.pageSize,
-            sort: response.pageable.sort
-        }
-        addPagination(pageInfo);
+    const apiUrl = currentUrl.replace('/orders', '/api/orders');
+    $.get(apiUrl, function (response) {
+        printList(response)
     })
 }
+
+function printList(response) {
+    response.content.forEach(function (item) {
+        const order = orderTr.clone();
+        order.find('.id').text(item.id);
+        order.find('.name').text(item.name);
+        order.find('.price').text(item.price.toLocaleString() + "원");
+        order.find('.status').text(item.status);
+        order.find('.member').text(item.member);
+        $('#order-list').append(order);
+    });
+
+    const pageInfo = {
+        totalPages: response.totalPages,
+        totalElements: response.totalElements,
+        pageNumber: response.pageable.pageNumber,
+        pageSize: response.pageable.pageSize,
+        sort: response.pageable.sort
+    }
+    addPagination(pageInfo);
+}
 function addPagination(pageInfo) {
-    // 이전 페이지 링크 설정
     var previousPageLink = $('#pagination .page-item:first-child .page-link');
     if (pageInfo.pageNumber <= 0) {
-        previousPageLink.addClass('disabled').attr('href', '#');
+        previousPageLink.addClass('disabled').attr('href', getPage(pageInfo.pageNumber - 1));
     } else {
-        previousPageLink.removeClass('disabled').attr('href', '/orders?page=' + (pageInfo.pageNumber - 1));
+        previousPageLink.removeClass('disabled').attr('href', getPage(pageInfo.pageNumber - 1));
     }
 
     // 페이지 번호 링크 설정
@@ -47,7 +52,7 @@ function addPagination(pageInfo) {
     for (var i = 0; i < pageInfo.totalPages; i++) {
         var pageNumber = i + 1;
         var pageItem = $('<li class="page-item"></li>');
-        var pageLink = $('<a class="page-link" href="/orders/?page=' + i + '">' + pageNumber + '</a>');
+        var pageLink = $('<a class="page-link" href="' + getPage(i) + '">' + pageNumber + '</a>');
         if (i === pageInfo.pageNumber) {
             pageLink.addClass('disabled');
         }
@@ -58,10 +63,26 @@ function addPagination(pageInfo) {
     // 다음 페이지 링크 설정
     var nextPageLink = $('#pagination .page-item:last-child .page-link');
     if (pageInfo.pageNumber >= pageInfo.totalPages - 1) {
-        nextPageLink.addClass('disabled').attr('href', '#');
+        nextPageLink.addClass('disabled').attr('href', getPage(pageInfo.pageNumber + 1));
     } else {
-        nextPageLink.removeClass('disabled').attr('href', '/orders?page=' + (pageInfo.pageNumber + 1));
+        nextPageLink.removeClass('disabled').attr('href', getPage(pageInfo.pageNumber + 1));
     }
+}
+
+function getPage(i) {
+    let apiUrl = currentUrl;
+    if (apiUrl.match(/page=\d+/)) {
+        // page= 뒤의 숫자를 변경
+        apiUrl = apiUrl.replace(/(page=)\d+/, '$1' + i);
+    } else if (apiUrl.indexOf('?') !== -1) {
+        // page=가 없고, ?가 있는 경우
+        apiUrl = apiUrl + '&page=' + i;
+    } else {
+        // page=가 없고, ?가 없는 경우
+        apiUrl = apiUrl + '?page=' + i;
+    }
+
+    return apiUrl;
 }
 
 const orderTr =
@@ -74,3 +95,16 @@ $(`<tr>
     <td class="member"></td>
 </tr>
 `);
+
+function filter() {
+    $("a[id$='-filter']").on("click", function(event) {
+        const id = $(this).attr('id');
+        const word = id.split('-filter')[0];
+        if (currentUrl.indexOf('?') !== -1) {
+            location.href = currentUrl + '&status=' + word;
+        } else {
+            location.href = currentUrl + '?status=' + word;
+        }
+    });
+
+}

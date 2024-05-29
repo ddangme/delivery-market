@@ -14,7 +14,45 @@
                 </ol>
             </nav>
         </div>
-        <div class="col-3 offset-9 mb-5">
+
+
+        <div class="col-3 mb-5">
+            <button class="btn btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"/>
+                </svg>
+            </button>
+            <ul class="dropdown-menu mb-0">
+                <li>
+                    <input type="search" class="form-control" autocomplete="false" placeholder="주문자를 입력해주세요.">
+                </li>
+                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="pending-filter">
+                    <span class="d-inline-block bg-primary-subtle rounded-circle p-1"></span>
+                    상품 준비중
+                </a></li>
+                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="shipped-filter">
+                    <span class="d-inline-block bg-secondary-subtle rounded-circle p-1"></span>
+                    배송 중
+                </a></li>
+                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="cancelled-filter">
+                    <span class="d-inline-block bg-danger rounded-circle p-1"></span>
+                    구매 취소
+                </a></li>
+                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="delivered-filter">
+                    <span class="d-inline-block bg-primary-subtle rounded-circle p-1"></span>
+                    배송 완료
+                </a></li>
+                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="returned-filter">
+                    <span class="d-inline-block bg-warning-subtle rounded-circle p-1"></span>
+                    반품 완료
+                </a></li>
+                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="return-processed-filter">
+                    <span class="d-inline-block bg-info rounded-circle p-1"></span>
+                    반품 처리중
+                </a></li>
+            </ul>
+        </div>
+        <div class="col-3 offset-6 mb-5">
             <div class="row">
                 <div class="col-6">
                     <a type="button" id="hold-btn" class="btn bg-warning-subtle text-warning-emphasis btn-sm w-100">
