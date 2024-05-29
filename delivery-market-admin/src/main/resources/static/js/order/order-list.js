@@ -27,6 +27,10 @@ function printList(response) {
         order.find('.price').text(item.price.toLocaleString() + "원");
         order.find('.status').text(item.status);
         order.find('.member').text(item.member);
+        order.find('.check').change(function() {
+            const allChecked = $('.check').length === $('.check:checked').length;
+            $('.all-check').prop('checked', allChecked);
+        });
         $('#order-list').append(order);
     });
 
@@ -84,7 +88,7 @@ function getPage(i) {
 
 const orderTr =
 $(`<tr>
-    <td><input class="form-check-input" type="checkbox"></td>
+    <td><input class="form-check-input check" type="checkbox"></td>
     <td class="id"></td>
     <td class="price"></td>
     <td class="status"></td>
