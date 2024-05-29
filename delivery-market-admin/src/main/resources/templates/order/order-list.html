@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/fragments/header :: header}"></div>
+<body>
+<div th:replace="~{/fragments/sidebar :: sidebar}"></div>
+<div class="content-area">
+    <div class="row">
+        <div class="col-12 border-bottom mb-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <p class="fs-5 fw-bold mb-0">주문 내역</p>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-3 offset-9 mb-5">
+            <div class="row">
+                <div class="col-6">
+                    <a type="button" id="hold-btn" class="btn bg-warning-subtle text-warning-emphasis btn-sm w-100">
+                        배송 상태 변경
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a type="button" id="no-btn" class="btn bg-danger-subtle text-danger-emphasis btn-sm w-100">
+                        주문 취소
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="table-responsive small">
+                <table class="table table-hover table-sm text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            <input class="form-check-input all-check" type="checkbox">
+                        </th>
+                        <th scope="col">No.</th>
+                        <th scope="col">상품명</th>
+                        <th scope="col">결제 금액</th>
+                        <th scope="col">주문 상태</th>
+                        <th scope="col">주문자</th>
+                    </tr>
+                    </thead>
+                    <tbody id="order-list">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-12">
+            <nav id="pagination" aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link previous-page" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link next-page" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script src="/js/order/order-list.js"></script>
