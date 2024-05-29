@@ -72,13 +72,10 @@ function addPagination(pageInfo) {
 function getPage(i) {
     let apiUrl = currentUrl;
     if (apiUrl.match(/page=\d+/)) {
-        // page= 뒤의 숫자를 변경
         apiUrl = apiUrl.replace(/(page=)\d+/, '$1' + i);
     } else if (apiUrl.indexOf('?') !== -1) {
-        // page=가 없고, ?가 있는 경우
         apiUrl = apiUrl + '&page=' + i;
     } else {
-        // page=가 없고, ?가 없는 경우
         apiUrl = apiUrl + '?page=' + i;
     }
 
@@ -100,8 +97,12 @@ function filter() {
     $("a[id$='-filter']").on("click", function(event) {
         const id = $(this).attr('id');
         const word = id.split('-filter')[0];
-        if (currentUrl.indexOf('?') !== -1) {
-            location.href = currentUrl + '&status=' + word;
+        if (currentUrl.includes('?')) {
+            if (currentUrl.includes('status')) {
+                location.href = currentUrl.replace(/(status=)[^&]*/, '$1' + word);
+            } else {
+                location.href = currentUrl + '&status=' + word;
+            }
         } else {
             location.href = currentUrl + '?status=' + word;
         }
