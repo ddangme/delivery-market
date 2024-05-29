@@ -21,8 +21,8 @@ public class OrderManageApiController {
     private final OrderManageService orderService;
 
     @GetMapping
-    public ResponseEntity<Page<OrderResponse>> getOrders(@PageableDefault(size = 5) Pageable pageable) {
-        Page<OrderResponse> orderList = orderService.getOrderList(pageable);
+    public ResponseEntity<Page<OrderResponse>> getOrders(@PageableDefault(size = 5) Pageable pageable, String status, String keyword) {
+        Page<OrderResponse> orderList = orderService.getOrderList(pageable, status, keyword);
         return ResponseEntity.ok(orderList);
     }
 }

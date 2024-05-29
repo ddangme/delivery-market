@@ -10,15 +10,13 @@ import lombok.ToString;
 public class OrderResponse {
 
     private Long id;
-    private String name;
     private Long price;
     private String status;
     private String member;
 
     @QueryProjection
-    public OrderResponse(Long id, String name, Long price, DeliveryStatus deliveryStatus, String member) {
+    public OrderResponse(Long id, Long price, DeliveryStatus deliveryStatus, String member) {
         this.id = id;
-        this.name = name;
         this.price = price;
         this.status = deliveryStatus.getStatus();
         this.member = member;

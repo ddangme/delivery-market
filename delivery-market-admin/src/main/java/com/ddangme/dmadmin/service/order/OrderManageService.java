@@ -1,6 +1,7 @@
 package com.ddangme.dmadmin.service.order;
 
 import com.ddangme.dmadmin.dto.order.OrderResponse;
+import com.ddangme.dmadmin.model.constants.DeliveryStatus;
 import com.ddangme.dmadmin.model.order.Order;
 import com.ddangme.dmadmin.repository.order.OrderDeliveryRepository;
 import com.ddangme.dmadmin.repository.order.OrderRepository;
@@ -23,8 +24,8 @@ public class OrderManageService {
 
     private final OrderRepository orderRepository;
 
-    public Page<OrderResponse> getOrderList(Pageable pageable) {
-        return orderRepository.search(pageable);
+    public Page<OrderResponse> getOrderList(Pageable pageable, String status, String keyword) {
+        return orderRepository.search(pageable, DeliveryStatus.findDeliveryStatus(status), keyword);
     }
 
 }

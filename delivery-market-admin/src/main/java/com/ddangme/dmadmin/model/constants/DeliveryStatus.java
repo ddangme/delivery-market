@@ -15,4 +15,19 @@ public enum DeliveryStatus {
     ;
 
     private final String status;
+
+    public static DeliveryStatus findDeliveryStatus(String status) {
+        if (status == null) {
+            return null;
+        }
+
+        DeliveryStatus[] values = DeliveryStatus.values();
+        for (DeliveryStatus value : values) {
+            if (value.name().equals(status.toUpperCase())) {
+                return value;
+            }
+        }
+
+        return null;
+    }
 }
