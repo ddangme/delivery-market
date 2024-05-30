@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum DeliveryStatus {
-    PENDING("상품 준비중"),
+    PENDING("배송 준비중"),
     SHIPPED("배송 중"),
     CANCELLED("구매 취소"),
     DELIVERED("배송 완료"),
