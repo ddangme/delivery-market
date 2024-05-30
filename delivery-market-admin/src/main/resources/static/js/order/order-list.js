@@ -3,15 +3,63 @@ $(document).ready(function () {
     getOrderList();
     filter();
     search();
+    openModalEvent();
+    addStatusChangeBtn();
 });
 
 const currentUrl = window.location.href;
+
+function addStatusChangeBtn() {
+    $('#status-change-btn').click(function () {
+        const status = $('#status').val();
+        const currentLocation = $('#currentLocation').val();
+        const checkedIds = getCheckedIds();
+        $.ajax({
+            url: '/api/orders/change-status',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+                orderIds: checkedIds,
+                status: status,
+                currentLocation: currentLocation
+            }),
+            success: function () {
+                location.reload();
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    });
+}
+
+function getCheckedIds() {
+    let checkedIds = [];
+
+    $('.check:checked').each(function() {
+        // 체크된 체크박스의 부모 행에서 클래스가 'id'인 요소의 텍스트를 가져옴
+        let id = $(this).closest('tr').find('.id').text();
+        checkedIds.push(id);
+    });
+
+    return checkedIds;
+}
 
 function addAllCheckEvent() {
     $('.all-check').on('click', function() {
         $('.form-check-input').prop('checked', $('.all-check').prop('checked'));
     });
 }
+
+function openModalEvent() {
+    $('#open-modal-btn').click(function (event) {
+        if ($('.check:checked').length === 0) {
+            return alert('선택된 주문이 없습니다.');
+        }
+        $('#open-modal').click();
+    });
+}
+
 
 function getOrderList() {
     const apiUrl = currentUrl.replace('/orders', '/api/orders');
@@ -27,6 +75,7 @@ function printList(response) {
         order.find('.price').text(item.price.toLocaleString() + "원");
         order.find('.status').text(item.status);
         order.find('.member').text(item.member);
+        order.find('.createdAt').text(getFormatDate(item.createdAt));
         order.find('.check').change(function() {
             const allChecked = $('.check').length === $('.check:checked').length;
             $('.all-check').prop('checked', allChecked);
@@ -93,6 +142,7 @@ $(`<tr>
     <td class="price"></td>
     <td class="status"></td>
     <td class="member"></td>
+    <td class="createdAt"></td>
 </tr>
 `);
 
@@ -131,4 +181,16 @@ function search() {
         }
 
     });
+}
+
+function getFormatDate(response) {
+    const date = new Date(response);
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const dd = String(date.getDate()).padStart(2, '0');
+    const hh = String(date.getHours()).padStart(2, '0');
+    const min = String(date.getMinutes()).padStart(2, '0');
+    const ss = String(date.getSeconds()).padStart(2, '0');
+
+    return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
 }

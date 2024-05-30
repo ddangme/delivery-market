@@ -44,7 +44,9 @@ public enum ErrorCode {
 
     NOT_EXIST_MEMBER_ACCOUNT(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
 
-
+    NOT_EXIST_ORDER(HttpStatus.NOT_FOUND, "존재하지 않는 주문입니다."),
+    IS_NON_MODIFIABLE_ORDER_DELIVERY_STATUS(HttpStatus.BAD_REQUEST, "배송 상태를 수정할 수 없는 주문입니다."),
+    CURRENT_LOCATION_IS_BLANK(HttpStatus.BAD_REQUEST, "현재 위치를 입력해주세요."),
     ;
 
 
