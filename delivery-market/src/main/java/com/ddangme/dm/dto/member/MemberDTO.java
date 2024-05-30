@@ -28,7 +28,7 @@ public class MemberDTO {
 
     private String phone;
 
-    private List<Address> address;
+    private List<Address> addresses;
 
     private BenefitLevel benefitLevel;
 
@@ -65,7 +65,7 @@ public class MemberDTO {
             entity.getName(),
             entity.getEmail(),
             entity.getPhone(),
-            entity.getAddress(),
+            entity.getAddresses(),
             entity.getBenefitLevel(),
             entity.getMemberRole(),
             entity.getBirthday(),

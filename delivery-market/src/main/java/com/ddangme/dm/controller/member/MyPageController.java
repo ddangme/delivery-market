@@ -16,10 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -121,5 +118,10 @@ public class MyPageController {
     @GetMapping("/order")
     public String orderList() {
         return "/member/my-page/order-list";
+    }
+
+    @GetMapping("/order/{orderId}")
+    public String orderDetail(@PathVariable Long orderId) {
+        return "/member/my-page/order-detail";
     }
 }

@@ -35,6 +35,8 @@ public enum ErrorCode {
 
     EXIST_NON_ORDER_OPTION(HttpStatus.BAD_REQUEST, "재고 부족으로 구매할 수 없는 상품이 존재합니다."),
     NOT_ENOUGH_CASH(HttpStatus.BAD_REQUEST, "잔액이 부족합니다. 충전 후 시도해 주세요."),
+
+    NOT_EXIST_ORDER(HttpStatus.NOT_FOUND, "존재하지 않는 주문입니다."),
     ;
 
 
