@@ -3,6 +3,32 @@
 <div th:replace="~{/fragments/header :: header}"></div>
 <body>
 <div th:replace="~{/fragments/sidebar :: sidebar}"></div>
+<div class="modal fade" id="status-change-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">배송 상태 변경</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="status" class="form-label">배송 상태</label>
+                <select id="status" class="form-select">
+                    <option value="">--선택--</option>
+                    <option value="SHIPPED">배송 중</option>
+                    <option value="DELIVERED">배송 완료</option>
+                    <option value="RETURN_PROCESSED">반품 처리중</option>
+                    <option value="RETURNED">반품 완료</option>
+                </select>
+                <label for="currentLocation" class="form-label mt-3">현재 위치</label>
+                <input class="form-control" id="currentLocation" placeholder="ex) 물류센터">
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="status-change-btn" class="btn btn-primary">변경</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="content-area">
     <div class="row">
         <div class="col-12 border-bottom mb-3">
@@ -53,25 +79,32 @@
                     <span class="d-inline-block bg-primary-subtle rounded-circle p-1"></span>
                     배송 완료
                 </a></li>
-                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="returned-filter">
-                    <span class="d-inline-block bg-warning-subtle rounded-circle p-1"></span>
-                    반품 완료
+                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="return_request-filter">
+                    <span class="d-inline-block bg-info rounded-circle p-1"></span>
+                    반품 신청
                 </a></li>
                 <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="return_processed-filter">
                     <span class="d-inline-block bg-info rounded-circle p-1"></span>
                     반품 처리중
+                </a></li>
+                <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" id="returned-filter">
+                    <span class="d-inline-block bg-warning-subtle rounded-circle p-1"></span>
+                    반품 완료
                 </a></li>
             </ul>
         </div>
         <div class="col-3 offset-6 mb-5">
             <div class="row">
                 <div class="col-6">
-                    <a type="button" id="hold-btn" class="btn bg-warning-subtle text-warning-emphasis btn-sm w-100">
+                    <button type="button" id="open-modal" class="btn bg-warning-subtle text-warning-emphasis btn-sm w-100" data-bs-toggle="modal" data-bs-target="#status-change-modal" hidden="hidden">
                         배송 상태 변경
-                    </a>
+                    </button>
+                    <button id="open-modal-btn" class="btn bg-warning-subtle text-warning-emphasis btn-sm w-100">
+                        배송 상태 변경
+                    </button>
                 </div>
                 <div class="col-6">
-                    <a type="button" id="no-btn" class="btn bg-danger-subtle text-danger-emphasis btn-sm w-100">
+                    <a type="button" class="btn bg-danger-subtle text-danger-emphasis btn-sm w-100">
                         주문 취소
                     </a>
                 </div>
