@@ -41,7 +41,7 @@ public class MyPageController {
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_MEMBER));
         model.addAttribute("member", modifyMemberRequest);
 
-        return "member/my-page/modify-info";
+        return "my-page/modify-info";
     }
 
     @PostMapping("/info/modify")
@@ -67,7 +67,7 @@ public class MyPageController {
 
         if (bindingResult.hasErrors()) {
             log.error(bindingResult.toString());
-            return "member/my-page/modify-info";
+            return "my-page/modify-info";
         }
 
         memberService.modifyMember(request, principal.getId());
@@ -80,7 +80,7 @@ public class MyPageController {
         List<AddressDTO> addresses = addressService.findAllByMemberId(principal.getId());
 
         model.addAttribute("addresses", addresses);
-        return "member/my-page/address-list";
+        return "my-page/address-list";
     }
 
     @PostMapping("/address")
@@ -102,26 +102,26 @@ public class MyPageController {
 
     @GetMapping("/pick/list")
     public String pickList() {
-        return "/member/my-page/pick-list";
+        return "/my-page/pick-list";
     }
 
     @GetMapping("/cart/list")
     public String cartList() {
-        return "/member/my-page/cart-list";
+        return "/my-page/cart-list";
     }
 
     @GetMapping("/cash/charging")
     public String cashCharging() {
-        return "/member/my-page/cash-charging";
+        return "/my-page/cash-charging";
     }
 
     @GetMapping("/order")
     public String orderList() {
-        return "/member/my-page/order-list";
+        return "/my-page/order-list";
     }
 
     @GetMapping("/order/{orderId}")
     public String orderDetail(@PathVariable Long orderId) {
-        return "/member/my-page/order-detail";
+        return "/my-page/order-detail";
     }
 }
