@@ -93,7 +93,7 @@ public class MemberService {
 
     public List<OrderAddressResponse> findAddressListByMemberId(Long memberId) {
         Member member = findMember(memberId);
-        return member.getAddress()
+        return member.getAddresses()
                 .stream().map(OrderAddressResponse::new)
                 .toList();
     }

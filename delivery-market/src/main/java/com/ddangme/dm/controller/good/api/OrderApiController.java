@@ -3,6 +3,7 @@ package com.ddangme.dm.controller.good.api;
 import com.ddangme.dm.constants.OrderHistory;
 import com.ddangme.dm.dto.member.MemberPrincipal;
 import com.ddangme.dm.dto.order.response.OrderAddressResponse;
+import com.ddangme.dm.dto.order.response.OrderDetailResponse;
 import com.ddangme.dm.dto.order.response.OrderListResponse;
 import com.ddangme.dm.dto.order.response.OrderResponse;
 import com.ddangme.dm.dto.order.request.OrderRequest;
@@ -56,6 +57,19 @@ public class OrderApiController {
             @AuthenticationPrincipal MemberPrincipal principal, @PathVariable OrderHistory orderHistory) {
         List<OrderListResponse> orderList = orderSearchService.getOrderList(principal.getId(), orderHistory);
         return ResponseEntity.ok(orderList);
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderDetailResponse> findOrderResponse(
+            @AuthenticationPrincipal MemberPrincipal principal, @PathVariable Long orderId) {
+        return ResponseEntity.ok(orderSearchService.getOrderDetailResponse(principal.getId(), orderId));
+    }
+
+    @PostMapping("/cancel/{orderId}")
+    public ResponseEntity<Void> cancelOrder(
+            @AuthenticationPrincipal MemberPrincipal principal, @PathVariable Long orderId) {
+        orderService.cancelOrder(principal.getId(), orderId);
+        return ResponseEntity.ok().build();
     }
 
 }

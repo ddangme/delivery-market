@@ -43,4 +43,8 @@ public class GoodOption {
             saleStatus = SaleStatus.SOLD_OUT;
         }
     }
+
+    public void plusQuantity(Integer cancelQuantity) {
+        this.quantity += cancelQuantity;
+    }
 }

@@ -56,6 +56,15 @@ public class OrderService {
         member.canBuy(totalPrice);
     }
 
+    @Transactional
+    public void cancelOrder(Long memberId, Long orderId) {
+        findMember(memberId);
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_EXIST_ORDER));
+
+        order.cancelOrder();
+    }
+
     private Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));

@@ -1,10 +1,12 @@
 package com.ddangme.dm.service.order;
 
 import com.ddangme.dm.constants.OrderHistory;
+import com.ddangme.dm.dto.order.response.OrderDetailResponse;
 import com.ddangme.dm.dto.order.response.OrderListResponse;
 import com.ddangme.dm.exception.DMException;
 import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.member.Member;
+import com.ddangme.dm.model.order.Order;
 import com.ddangme.dm.repository.member.MemberRepository;
 import com.ddangme.dm.repository.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +34,16 @@ public class OrderSearchService {
                 .toList();
     }
 
+    public OrderDetailResponse getOrderDetailResponse(Long memberId, Long orderId) {
+        findMember(memberId);
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new DMException(ErrorCode.NOT_EXIST_ORDER));
+        return new OrderDetailResponse(order);
+    }
+
     private Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
+
 }

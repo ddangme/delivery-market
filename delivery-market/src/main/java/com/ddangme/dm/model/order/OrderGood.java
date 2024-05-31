@@ -43,4 +43,8 @@ public class OrderGood {
         }
         this.quantity = quantity;
     }
+
+    public void cancelOrder() {
+        option.plusQuantity(quantity);
+    }
 }

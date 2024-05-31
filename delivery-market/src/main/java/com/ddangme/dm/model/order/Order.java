@@ -1,6 +1,8 @@
 package com.ddangme.dm.model.order;
 
 import com.ddangme.dm.constants.DeliveryStatus;
+import com.ddangme.dm.exception.DMException;
+import com.ddangme.dm.exception.ErrorCode;
 import com.ddangme.dm.model.member.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -63,6 +65,14 @@ public class Order {
         calculateMoney();
     }
 
+    public void cancelOrder() {
+        if (!deliveryStatus.equals(DeliveryStatus.PENDING)) {
+            throw new DMException(ErrorCode.IS_NON_CANCEL_ORDER);
+        }
+
+        goods.forEach(OrderGood::cancelOrder);
+        deliveryStatus = DeliveryStatus.CANCELLED;
+    }
     private void setOrderAddress(OrderAddress orderAddress) {
         orderAddress.setOrder(this);
         this.orderAddress = orderAddress;
