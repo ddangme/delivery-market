@@ -6,19 +6,13 @@ import com.ddangme.dmadmin.exception.DMAdminException;
 import com.ddangme.dmadmin.exception.ErrorCode;
 import com.ddangme.dmadmin.model.constants.DeliveryStatus;
 import com.ddangme.dmadmin.model.order.Order;
-import com.ddangme.dmadmin.model.order.OrderDelivery;
-import com.ddangme.dmadmin.repository.order.OrderDeliveryRepository;
 import com.ddangme.dmadmin.repository.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Slf4j
 @Service
