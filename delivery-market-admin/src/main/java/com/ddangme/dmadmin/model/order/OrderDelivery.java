@@ -1,6 +1,7 @@
 package com.ddangme.dmadmin.model.order;
 
 import com.ddangme.dmadmin.model.admin.Admin;
+import com.ddangme.dmadmin.model.constants.DeliveryStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,14 +34,17 @@ public class OrderDelivery {
 
     private String currentLocation;
 
+    private DeliveryStatus deliveryStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id")
     @ToString.Exclude
     @CreatedBy
     private Admin admin;
 
-    public OrderDelivery(Order order, String currentLocation) {
+    public OrderDelivery(Order order, String currentLocation, DeliveryStatus deliveryStatus) {
         this.order = order;
         this.currentLocation = currentLocation;
+        this.deliveryStatus = deliveryStatus;
     }
 }
