@@ -26,10 +26,12 @@ function getOrderDetail() {
         url: '/api/order/' + orderId,
         type: 'GET',
         success: function (response) {
+            console.log(response);
             displayOrderDetail(response.order);
             displayPay(response.order);
             displayGoodList(response.goods)
             displayAddress(response.address);
+            displayDeliveryDetail(response.deliveries);
         },
         error: function (xhr) {
             alert(xhr.responseText);
@@ -137,3 +139,19 @@ function getFormatDate(response) {
 function parsePhone(phone) {
     return phone.replace(/(\d{3})(\d{4})/, "$1-$2-****");
 }
+
+function displayDeliveryDetail(deliveries) {
+    deliveries.forEach(function (delivery) {
+        const tr = deliveryDetailTr.clone();
+        tr.find('.createdAt').text(getFormatDate(delivery.createdAt));
+        tr.find('.currentLocation').text(delivery.currentLocation);
+        tr.find('.deliveryStatus').text(delivery.deliveryStatus);
+        $('#delivery-list').append(tr);
+    });
+}
+
+const deliveryDetailTr = $(`<tr>
+                                <td class="createdAt"></td>
+                                <td class="currentLocation"></td>
+                                <td class="deliveryStatus"></td>
+                            </tr>`);

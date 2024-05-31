@@ -54,7 +54,7 @@ public class Order {
 
     public void setDeliveryStatus(DeliveryStatus deliveryStatus, String currentLocation) {
         validateDeliveryStatus(deliveryStatus);
-        deliveries.add(new OrderDelivery(this, currentLocation));
+        deliveries.add(new OrderDelivery(this, currentLocation, deliveryStatus));
         this.deliveryStatus = deliveryStatus;
     }
 
