@@ -66,10 +66,10 @@ public class OrderApiController {
     }
 
     @PostMapping("/cancel/{orderId}")
-    public ResponseEntity<String> cancelOrder(
+    public ResponseEntity<Void> cancelOrder(
             @AuthenticationPrincipal MemberPrincipal principal, @PathVariable Long orderId) {
-
-        return ResponseEntity.ok(null);
+        orderService.cancelOrder(principal.getId(), orderId);
+        return ResponseEntity.ok().build();
     }
 
 }

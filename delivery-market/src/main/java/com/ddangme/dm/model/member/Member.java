@@ -41,7 +41,7 @@ public class Member {
     private String phone;
 
     @OneToMany(mappedBy = "member")
-    private List<Address> address;
+    private List<Address> addresses;
 
     @Enumerated(EnumType.STRING)
     private BenefitLevel benefitLevel;
@@ -80,7 +80,7 @@ public class Member {
     }
 
     public Address getMainAddress() {
-        for (Address value : address) {
+        for (Address value : addresses) {
             if (value.isMain()) {
                 return value;
             }

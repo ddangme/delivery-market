@@ -10,8 +10,9 @@ function orderCancelBtnEvent() {
         $.ajax({
             url: '/api/order/cancel/' + orderId,
             type: 'POST',
-            success: function (response) {
-                alert(response);
+            success: function () {
+                alert("구매가 취소되었습니다.");
+                location.reload();
             },
             error: function (xhr) {
                 alert(xhr.responseText);
