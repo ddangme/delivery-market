@@ -38,7 +38,15 @@ public enum ErrorCode {
 
     NOT_EXIST_ORDER(HttpStatus.NOT_FOUND, "존재하지 않는 주문입니다."),
     IS_NON_CANCEL_ORDER(HttpStatus.BAD_REQUEST, "취소할 수 없는 주문입니다."),
+    UN_AUTHORIZED_ACCESS(HttpStatus.FORBIDDEN, "권한이 없는 요청입니다."),
+
+    SAVE_PHOTO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "사진 저장에 오류가 발생했습니다. 계속 발생할 경우 관리자에게 문의해 주세요."),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다. 계속 발생할 경우 관리자에게 문의해 주세요."),
+    TIME_OVER_REVIEW(HttpStatus.BAD_REQUEST, "후기를 작성할 수 있는 기간이 초과되었습니다."),
+    COUNT_ERROR_REVIEW_PHOTO(HttpStatus.BAD_REQUEST, "상품 후기 이미지는 최대 8개 까지 등록 가능합니다."),
+    REVIEW_LENGTH(HttpStatus.BAD_REQUEST, "상품 후기 최소 10자에서 최대 1000자 까지 입력 가능합니다.."),
     ;
+
 
 
     private HttpStatus status;

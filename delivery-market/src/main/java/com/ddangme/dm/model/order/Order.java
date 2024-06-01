@@ -120,4 +120,11 @@ public class Order {
             cash = remainMoney;
         }
     }
+
+    public void validateWriteReview() {
+        LocalDateTime now = LocalDateTime.now();
+        if (!createdAt.isAfter(now.minusMonths(1))) {
+            throw new DMException(ErrorCode.TIME_OVER_REVIEW);
+        }
+    }
 }

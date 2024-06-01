@@ -47,4 +47,8 @@ public class OrderGood {
     public void cancelOrder() {
         option.plusQuantity(quantity);
     }
+
+    public void validateReviewWrite() {
+        order.validateWriteReview();
+    }
 }

@@ -154,4 +154,8 @@ public class Member {
         cash = cash - remainMoney;
     }
 
+    public void addPoint(Integer point) {
+        this.point += point;
+    }
+
 }

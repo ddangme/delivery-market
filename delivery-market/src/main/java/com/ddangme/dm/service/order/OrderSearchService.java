@@ -35,9 +35,13 @@ public class OrderSearchService {
     }
 
     public OrderDetailResponse getOrderDetailResponse(Long memberId, Long orderId) {
-        findMember(memberId);
+        Member member = findMember(memberId);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new DMException(ErrorCode.NOT_EXIST_ORDER));
+
+        if (!order.getMember().equals(member)) {
+            throw new DMException(ErrorCode.UN_AUTHORIZED_ACCESS);
+        }
         return new OrderDetailResponse(order);
     }
 

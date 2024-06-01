@@ -6,7 +6,8 @@ import lombok.Data;
 @Data
 public class OrderGoodDTO {
 
-    private Long id;
+    private Long goodId;
+    private Long optionId;
     private String name;
     private String photo;
     private Long price;
@@ -16,7 +17,8 @@ public class OrderGoodDTO {
     private Long reviewId;
 
     public OrderGoodDTO(OrderGood entity) {
-        this.id = entity.getGood().getId();
+        this.goodId = entity.getGood().getId();
+        this.optionId = entity.getOption().getId();
         this.name = entity.getOption().getName();
         this.photo = entity.getGood().getPhotoStoreFileName();
         this.price = entity.getPrice();
@@ -25,3 +27,4 @@ public class OrderGoodDTO {
         this.status = entity.getOption().getSaleStatus().getStatus();
     }
 }
+
