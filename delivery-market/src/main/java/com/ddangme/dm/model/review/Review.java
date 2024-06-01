@@ -2,6 +2,7 @@ package com.ddangme.dm.model.review;
 
 import com.ddangme.dm.model.good.GoodOption;
 import com.ddangme.dm.model.member.Member;
+import com.ddangme.dm.model.order.OrderGood;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,10 +25,13 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreatedBy
     @JoinColumn(name = "option_id")
     @ManyToOne
     private GoodOption option;
+
+    @ManyToOne
+    @JoinColumn(name = "order_good_id")
+    private OrderGood orderGood;
 
     private BigDecimal rating;
 
@@ -58,4 +62,35 @@ public class Review {
 
     @OneToMany(mappedBy = "review")
     private List<ReviewLike> likes = new ArrayList<>();
+
+    public Review(GoodOption option, OrderGood orderGood, BigDecimal rating, String content, List<String> filenames) {
+        this.option = option;
+        this.orderGood = orderGood;
+        this.rating = rating;
+        this.content = content;
+        addPhotos(filenames);
+        calculatePoint();
+    }
+
+    private void calculatePoint() {
+        if (photos.isEmpty()) {
+            this.point = (int) (getPayPrice() * 0.01);
+        } else {
+            this.point = (int) (getPayPrice() * 0.02);
+        }
+    }
+
+    private Long getPayPrice() {
+        if (orderGood.getDiscountPrice() == null) {
+            return orderGood.getPrice();
+        }
+        return orderGood.getDiscountPrice();
+    }
+
+    private void addPhotos(List<String> filenames) {
+        filenames.forEach(filename -> {
+            ReviewPhoto reviewPhoto = new ReviewPhoto(this, filename);
+            photos.add(reviewPhoto);
+        });
+    }
 }
