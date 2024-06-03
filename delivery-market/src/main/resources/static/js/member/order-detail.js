@@ -26,7 +26,6 @@ function getOrderDetail() {
         url: '/api/order/' + orderId,
         type: 'GET',
         success: function (response) {
-            console.log(response);
             displayOrderDetail(response.order);
             displayPay(response.order);
             displayGoodList(response.goods)
@@ -60,7 +59,7 @@ function displayGoodList(goods) {
         const div = goodDiv.clone();
         div.find('.name').text(good.name);
         displayImage(good.photo, div.find('.photo'));
-        div.find('.good-photo-href').attr('href', '/goods/' + good.id);
+        div.find('.good-photo-href').attr('href', '/goods/' + good.goodId);
         if (good.discountPrice === null) {
             div.find('.original-price').remove();
             div.find('.price').text(good.price.toLocaleString() + "원");
@@ -71,8 +70,14 @@ function displayGoodList(goods) {
         div.find('.quantity').text(good.quantity + "개");
         if (good.reviewId === null) {
             div.find('.bg-success-subtle').remove();
+            div.find('.bg-primary-subtle').click(function () {
+                displayModal(good.optionId, good.id, div.find('.photo'));
+            });
         } else {
             div.find('.bg-primary-subtle').remove();
+            div.find('.bg-success-subtle').click(function () {
+                location.href = "/my-page/review/" + good.reviewId;
+            });
         }
 
         $('#good-list').append(div);
@@ -95,8 +100,8 @@ const goodDiv = $(`<div class="hstack">
                                 </small>
                             </div>
                             <div class="p-2 ms-auto">
-                                <a class="btn btn-sm bg-primary-subtle text-primary-emphasis">후기 작성</a>
-                                <a class="btn btn-sm bg-success-subtle text-success-emphasis">후기 보기</a>
+                                <a class="btn btn-sm bg-primary-subtle text-primary-emphasis" data-bs-toggle="modal" data-bs-target="#review-modal">후기 작성</a>
+                                <a class="btn btn-sm bg-success-subtle text-success-emphasis">후기 수정</a>
                             </div>
                         </div>`);
 
