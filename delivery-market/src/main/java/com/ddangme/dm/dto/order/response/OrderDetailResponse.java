@@ -5,7 +5,6 @@ import com.ddangme.dm.dto.order.dto.OrderDTO;
 import com.ddangme.dm.dto.order.dto.OrderDeliveryDTO;
 import com.ddangme.dm.dto.order.dto.OrderGoodDTO;
 import com.ddangme.dm.model.order.Order;
-import com.ddangme.dm.model.order.OrderGood;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -18,12 +17,14 @@ public class OrderDetailResponse {
     private OrderAddressDTO address;
     private List<OrderDeliveryDTO> deliveries = new ArrayList<>();
 
-    public OrderDetailResponse(Order order) {
-        this.order = new OrderDTO(order);
-        order.getGoods()
-                .forEach(good -> this.goods.add(new OrderGoodDTO(good)));
-        this.address = new OrderAddressDTO(order.getOrderAddress());
-        order.getDeliveries()
+    public OrderDetailResponse(Order entity) {
+        this.order = new OrderDTO(entity);
+        this.address = new OrderAddressDTO(entity.getOrderAddress());
+        entity.getDeliveries()
                 .forEach(delivery -> this.deliveries.add(new OrderDeliveryDTO(delivery)));
+    }
+
+    public void addOrderGoodDTO(OrderGoodDTO good) {
+        goods.add(good);
     }
 }

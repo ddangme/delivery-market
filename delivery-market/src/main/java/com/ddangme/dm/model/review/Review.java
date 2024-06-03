@@ -3,7 +3,9 @@ package com.ddangme.dm.model.review;
 import com.ddangme.dm.model.good.GoodOption;
 import com.ddangme.dm.model.member.Member;
 import com.ddangme.dm.model.order.OrderGood;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,6 +22,7 @@ import java.util.List;
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +32,7 @@ public class Review {
     @ManyToOne
     private GoodOption option;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "order_good_id")
     private OrderGood orderGood;
 
@@ -38,6 +41,8 @@ public class Review {
     private String content;
 
     private Integer point;
+
+    private Boolean secret;
 
     private Boolean isBest;
 
@@ -63,11 +68,13 @@ public class Review {
     @OneToMany(mappedBy = "review")
     private List<ReviewLike> likes = new ArrayList<>();
 
-    public Review(GoodOption option, OrderGood orderGood, BigDecimal rating, String content, List<String> filenames) {
+    public Review(GoodOption option, OrderGood orderGood, BigDecimal rating, Boolean secret, String content, List<String> filenames) {
         this.option = option;
         this.orderGood = orderGood;
         this.rating = rating;
+        this.secret = secret;
         this.content = content;
+        this.isBest = false;
         addPhotos(filenames);
         calculatePoint();
     }
