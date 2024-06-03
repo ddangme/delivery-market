@@ -124,4 +124,9 @@ public class MyPageController {
     public String orderDetail(@PathVariable Long orderId) {
         return "/my-page/order-detail";
     }
+
+    @GetMapping("/review")
+    public String review() {
+        return "/my-page/review";
+    }
 }

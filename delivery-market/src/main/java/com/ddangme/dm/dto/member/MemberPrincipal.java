@@ -80,4 +80,8 @@ public class MemberPrincipal implements UserDetails, OAuth2User {
     @Override public Map<String, Object> getAttributes() {
         return oAuth2Attributes;
     }
+
+    public Member toEntity() {
+        return new Member(id, loginId, name, benefitLevel, memberStatus);
+    }
 }

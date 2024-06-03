@@ -1,9 +1,40 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="/css/rating.css">
 <div th:replace="~{/fragments/header :: header}"></div>
 <body>
 <div th:replace="~{/fragments/navbar :: navbar}"></div>
 <div th:replace="~{/fragments/sidebar :: sidebar}"></div>
+<div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">후기 작성</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="hstack mb-2">
+                    <div class="p-2">
+                        <a class="good-photo-href">
+                            <img class="photo" style="width: 50px; height: 65px;">
+                        </a>
+                    </div>
+                    <div class="p-2">
+                        <p class="m-0 option-name"></p>
+                        <small class="m-0 text-secondary good-name">
+                        </small>
+                    </div>
+                </div>
+                <form id="review-form">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="review-submit-btn">등록</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="left-margin-content-area">
     <div class="row" style="margin-left: 200px; margin-right: 200px">
         <div class="border-bottom mb-3">
@@ -148,3 +179,4 @@
 </body>
 </html>
 <script src="/js/member/order-detail.js"></script>
+<script src="/js/member/review-modal.js"></script>

@@ -89,6 +89,14 @@ public class Member {
         throw new DMException(ErrorCode.NOT_EXIST_MAIN_ADDRESS);
     }
 
+    public Member(Long id, String loginId, String name, BenefitLevel benefitLevel, MemberStatus memberStatus) {
+        this.id = id;
+        this.loginId = loginId;
+        this.name = name;
+        this.benefitLevel = benefitLevel;
+        this.memberStatus = memberStatus;
+    }
+
     private Member(String loginId, String password, String name) {
         this.loginId = loginId;
         this.password = password;

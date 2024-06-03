@@ -2,6 +2,7 @@ package com.ddangme.dm.model.order;
 
 import com.ddangme.dm.model.good.Good;
 import com.ddangme.dm.model.good.GoodOption;
+import com.ddangme.dm.model.review.Review;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,10 @@ public class OrderGood {
     @JoinColumn(name = "option_id")
     private GoodOption option;
 
+    @OneToOne(mappedBy = "orderGood", cascade = CascadeType.ALL)
+    @Setter
+    private Review review;
+
     private Long price;
     private Long discountPrice;
     private Integer quantity;
@@ -51,4 +56,5 @@ public class OrderGood {
     public void validateReviewWrite() {
         order.validateWriteReview();
     }
+
 }

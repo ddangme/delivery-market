@@ -40,7 +40,7 @@ public class ReviewManageService {
         OrderGood orderGood = findOrderGood(request.getOrderGoodId());
         validateReview(request.getContent(), photos, orderGood);
 
-        Review review = new Review(option, orderGood, request.getRating(), request.getContent(), fileService.saveReviewPhotos(photos));
+        Review review = new Review(option, orderGood, request.getRating(), request.getSecret(), request.getContent(), fileService.saveReviewPhotos(photos));
         member.addPoint(review.getPoint());
 
         reviewRepository.save(review);

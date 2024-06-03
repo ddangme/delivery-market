@@ -27,7 +27,7 @@ public class ReviewApiController {
     @PostMapping
     public ResponseEntity<Void> saveReview(@AuthenticationPrincipal MemberPrincipal principal,
                                            ReviewRequest request, @RequestParam(required=false) List<MultipartFile> photos) throws IOException {
-
+        log.info("request={}", request);
         reviewService.save(request, photos, principal.getId());
         return ResponseEntity.ok().build();
     }

@@ -11,5 +11,6 @@ public class ReviewRequest {
     private Long orderGoodId;
     private BigDecimal rating;
     private String content;
+    private Boolean secret;
 
 }
